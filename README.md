@@ -4,10 +4,10 @@ The project description
 
 ## Team
 
-- teamMember
-- teamMember
-- teamMember
-- teamMember
+- Jae Hyun Lim
+- Jason Lee
+- Lee
+- Tyler
 
 ## Roadmap
 
