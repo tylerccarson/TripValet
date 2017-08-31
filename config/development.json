@@ -1,7 +1,7 @@
 {
   "knex": {
     "connection": {
-      "database": "thesis_devel",
+      "database": "tripvalet_devel",
       "user": "root",
       "host": "localhost",
       "port": 5432
