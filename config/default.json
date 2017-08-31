@@ -30,7 +30,7 @@
     "Facebook": {
       "clientID": "143885946214177",
       "clientSecret": "ea694735111ba55510d7e6852aa3d832",
-      "callbackURL": "http://l127.0.0.1:3000/auth/facebook/callback"
+      "callbackURL": "http://127.0.0.1:3000/auth/facebook/callback"
     },
     "Twitter": {
       "consumerKey": "FP8FGUGDycMOht6LWohgYLQDO",
