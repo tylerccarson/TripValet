@@ -1,4 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Dashboard from './components/DashBoard.jsx'
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
 
-ReactDOM.render(<h1>Hello World from React</h1>, document.getElementById('root'));
+    }
+  }
+
+render(){
+  return (
+    <div>
+      <h1>Hello World from React</h1>
+      <Dashboard />
+    </div>
+  )
+}
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
