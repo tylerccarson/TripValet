@@ -9,7 +9,6 @@ The purpose of this app is to help facilitate planning trips between friends. Tr
 - Lee
 - Tyler
 
->>>>>>> Add project description in readme
 
 ## Roadmap
 
