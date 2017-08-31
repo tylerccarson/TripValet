@@ -5,7 +5,7 @@
     "node": "8.1.4"
   },
   "scripts": {
-    "start": "nodemon server",
+    "start": "node server",
     "test":" grunt test",
     "build": "webpack --watch"
   },
