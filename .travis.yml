@@ -9,7 +9,7 @@ before_script:
   - grunt pgcreatedb:default
   - knex migrate:latest --env NODE_ENV
   - knex seed:run --env NODE_ENV
-  - psql -c 'create database thesis_test;' -U postgres
+
 
 cache: yarn
 
