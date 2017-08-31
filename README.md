@@ -3,10 +3,13 @@ The purpose of this app is to help facilitate planning trips between friends. Tr
 
 ## Team
 
-- Jay Lim
-- Wei Yi Lee
-- Tyler Carson
+
+- Jae Hyun Lim
 - Jason Lee
+- Lee
+- Tyler
+
+>>>>>>> Add project description in readme
 
 ## Roadmap
 
