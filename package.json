@@ -5,9 +5,10 @@
     "node": "8.1.4"
   },
   "scripts": {
-    "start": "node server",
+    "heroku-postbuild": "curl -s https://raw.githubusercontent.com/reactorcore/pomander/master/bin/install | bash",
+    "start": "nodemon server",
     "test":" grunt test",
-    "heroku-postbuild": "webpack --watch"
+    "build": "webpack --watch"
   },
   "author": "Hack Reactor",
   "license": "MIT",
