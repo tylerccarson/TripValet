@@ -6,6 +6,9 @@ node_js:
 before_script:
   - webpack -d
   - npm install grunt-cli -g
+  - grunt pgcreatedb:default
+  - knex migrate:latest --env NODE_ENV
+  - knex seed:run --env NODE_ENV
   - psql -c 'create database thesis_test;' -U postgres
 
 script:
