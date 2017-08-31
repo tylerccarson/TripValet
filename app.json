@@ -1,0 +1,17 @@
+{
+  "name": "TripValet",
+  "scripts": {
+    "postinstall": "webpack --watch",
+    "start": "node server"
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ]
+}
