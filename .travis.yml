@@ -1,0 +1,16 @@
+language: node_js
+
+node_js:
+  - 8.1.4
+
+before_script:
+  - webpack -d
+
+script:
+  - yarn test
+
+services:
+  - postgres
+
+env:
+  - NODE_ENV=test
