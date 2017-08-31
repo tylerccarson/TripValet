@@ -1,13 +1,12 @@
 # Project Name
-
-The project description
+The purpose of this app is to help facilitate planning trips between friends. Trip Valet allows initiators to set a date range on a calendar, set a destination, and invite friends to join their event. The invited friends will be able to confirm that they have availabilities in the date range, and then allows them to then specify the exact dates that they are available. Trip Valet makes planning trips for groups of friends easy, and removes the headaches associated with planning a trip for multiple people.
 
 ## Team
 
-- teamMember
-- teamMember
-- teamMember
-- teamMember
+- Jay Lim
+- Wei Yi Lee
+- Tyler Carson
+- Jason Lee
 
 ## Roadmap
 
@@ -56,7 +55,7 @@ yarn global add grunt-cli knex eslint
 
 ## App Configuration
 
-Override settings `config/default.json` in any environment by making a copy of `config/ENV.example.json` and naming it `config/ENV.json` and setting the appropriate variable. 
+Override settings `config/default.json` in any environment by making a copy of `config/ENV.example.json` and naming it `config/ENV.json` and setting the appropriate variable.
 
 For environments that require use of environment variables, you can supply variables as defined in `config/custom-environment-variables.json`.
 
@@ -102,5 +101,3 @@ To run server: `yarn run start`
 To run tests: `yarn run test`
 
 To run your redis server for the session store `redis-server`
-
-
