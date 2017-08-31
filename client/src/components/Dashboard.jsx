@@ -1,10 +1,9 @@
 import React from 'react';
 
-
-var DashBoard = (props) => (
+const DashBoard = (props) => (
   <div>
-    <p>test</p>
+    <p>This is the Dashboard</p>
   </div>
-)
+);
 
 export default DashBoard;
