@@ -1,8 +1,5 @@
 {
   "name": "TripValet",
-  "engines": {
-    "node": "8.1.4"
-  },
   "scripts": {
     "postinstall": "webpack --watch",
     "start": "nodemon server"

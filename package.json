@@ -1,6 +1,9 @@
 {
   "name": "course.thesis",
   "version": "1.0.0",
+  "engines": {
+    "node": "8.1.4"
+  },
   "scripts": {
     "postinstall": "curl -s https://raw.githubusercontent.com/reactorcore/pomander/master/bin/install | bash",
     "start": "nodemon server",
