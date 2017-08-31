@@ -2,7 +2,7 @@
   "name": "TripValet",
   "scripts": {
     "postinstall": "webpack --watch",
-    "start": "nodemon server"
+    "start": "nodem server"
   },
   "env": {
   },
