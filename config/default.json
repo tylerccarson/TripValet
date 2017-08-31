@@ -20,12 +20,12 @@
       "directory": "db/seeds"
     }
   },
-
+  
   "passport": {
     "Google": {
-      "clientID": "482270935504-coq0f1m45t8v5me9ulrrr4j3c7tiic97.apps.googleusercontent.com",
-      "clientSecret": "cS2E1sKW9jJ1vTsFJeSjZQ9u",
-      "callbackURL": "http://127.0.0.1:3000/auth/google/callback"
+      "clientID": "188574567487-on1i371i4kdridusdd7npiku6n56211t.apps.googleusercontent.com",
+      "clientSecret": "Yx1q3WgV52Z70-kGG1qHSn9L",
+      "callbackURL": "http://localhost:3000/auth/google/callback"
     },
     "Facebook": {
       "clientID": "143885946214177",
