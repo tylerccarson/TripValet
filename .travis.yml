@@ -6,12 +6,13 @@ node_js:
 before_script:
   - webpack -d
   - npm install grunt-cli -g
+  - psql -c 'create database thesis_test;' -U postgres
 
 script:
   - yarn test
 
 services:
-  - postgres
+  - postgresql
 
 env:
   - NODE_ENV=test
