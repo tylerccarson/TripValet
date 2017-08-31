@@ -2,7 +2,7 @@
   "knex": {
     "connection": {
       "database": "thesis_devel",
-      "user": "postgres",
+      "user": "root",
       "host": "localhost",
       "port": 5432
     }
