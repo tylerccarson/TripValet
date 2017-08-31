@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node server",
     "test":" grunt test",
-    "build": "webpack --watch"
+    "heroku-postbuild": "webpack --watch"
   },
   "author": "Hack Reactor",
   "license": "MIT",
