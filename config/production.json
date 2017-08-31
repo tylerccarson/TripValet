@@ -9,7 +9,6 @@
       "max": 10
     }
   },
-
   "passport": {
     "Google": {
       "clientID": "188574567487-on1i371i4kdridusdd7npiku6n56211t.apps.googleusercontent.com",
