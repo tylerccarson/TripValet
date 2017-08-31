@@ -11,6 +11,8 @@ before_script:
   - knex seed:run --env NODE_ENV
   - psql -c 'create database thesis_test;' -U postgres
 
+cache: yarn
+
 script:
   - yarn test
 
