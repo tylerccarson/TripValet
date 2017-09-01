@@ -13,17 +13,17 @@
     "Google": {
       "clientID": "188574567487-on1i371i4kdridusdd7npiku6n56211t.apps.googleusercontent.com",
       "clientSecret": "Yx1q3WgV52Z70-kGG1qHSn9L",
-      "callbackURL": "https://sleepy-wave-65413.herokuapp.com//auth/google/callback"
+      "callbackURL": "https://sleepy-wave-65413.herokuapp.com/auth/google/callback"
     },
     "Facebook": {
       "clientID": "143885946214177",
       "clientSecret": "ea694735111ba55510d7e6852aa3d832",
-      "callbackURL": "https://sleepy-wave-65413.herokuapp.com//auth/facebook/callback"
+      "callbackURL": "https://sleepy-wave-65413.herokuapp.com/auth/facebook/callback"
     },
     "Twitter": {
       "consumerKey": "FP8FGUGDycMOht6LWohgYLQDO",
       "consumerSecret": "A9wmZPdurnknnK9g7dfnxSRcGWvsHggc0IugYRsdZXa4LzuvPB",
-      "callbackURL": "https://sleepy-wave-65413.herokuapp.com//auth/twitter/callback"
+      "callbackURL": "https://sleepy-wave-65413.herokuapp.com/auth/twitter/callback"
     }
   }
 }
