@@ -1,5 +1,5 @@
 import React from 'react';
-import App from '../src/components/app.js';
+import App from '../src/app.js';
 import Dashboard from '../src/components/Dashboard.jsx';
 
 import chai from 'chai';
@@ -14,7 +14,5 @@ describe('<App /> component', () => {
       <Dashboard />
     ])).toEqual(true);
   });
-
-  //get coverage for false positives
 
 });	

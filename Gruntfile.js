@@ -45,5 +45,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-pg');
 
   grunt.registerTask('default', ['eslint']);
-  grunt.registerTask('test', ['mochaTest', 'run']);
+  grunt.registerTask('test', ['run', 'mochaTest']);
 };
