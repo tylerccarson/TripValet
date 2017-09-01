@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Trip = (props) => (
+const Event = (props) => (
   <div>
     <p>This is the Event</p>
   </div>
