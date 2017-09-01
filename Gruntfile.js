@@ -9,6 +9,12 @@ module.exports = function(grunt) {
       target: ['Gruntfile.js', 'client/**/*.js', 'db/**/*.js', 'server/**/*.js']
     },
 
+    run: {
+      jest: {
+        exec: 'node_modules/.bin/jest'
+      } 
+    },
+
     mochaTest: {
       test: {
         options: {
@@ -33,10 +39,11 @@ module.exports = function(grunt) {
 
   });
 
+  grunt.loadNpmTasks('grunt-run');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-pg');
 
   grunt.registerTask('default', ['eslint']);
-  grunt.registerTask('test', ['mochaTest']);
+  grunt.registerTask('test', ['mochaTest', 'run']);
 };
