@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Dashboard from './components/DashBoard.jsx';
+import DashBoard from './components/DashBoard.jsx';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -13,7 +13,7 @@ export default class App extends React.Component {
     return (
       <div>
         <h1>Hello World</h1>
-        <Dashboard />
+        <DasBboard />
       </div>
     );
   }
