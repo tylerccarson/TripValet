@@ -1,13 +1,12 @@
 {
   "knex": {
     "connection": {
-      "database": "thesis_devel",
-      "user": "postgres",
+      "database": "tripvalet_devel",
+      "user": "root",
       "host": "localhost",
       "port": 5432
     }
   },
-
   "passport": {
     "Google": {
       "clientID": "188574567487-on1i371i4kdridusdd7npiku6n56211t.apps.googleusercontent.com",
