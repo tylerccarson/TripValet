@@ -48,6 +48,7 @@
     "babel-preset-react": "^6.23.0",
     "chai": "^3.5.0",
     "chai-enzyme": "^0.8.0",
+    "cheerio": "^1.0.0-rc.2",
     "grunt": "~0.4.5",
     "grunt-eslint": "^19.0.0",
     "grunt-mocha": "^1.0.4",
