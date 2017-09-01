@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import DashBoard from './components/DashBoard.jsx';
+import DashBoard from './components/Dashboard.jsx';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
