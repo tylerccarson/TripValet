@@ -7,10 +7,10 @@ import Main from './components/Main.jsx';
 import Dashboard from './components/DashBoard.jsx';
 
 const App = () => (
-      <div>
-        <Header />
-        <Main />
-      </div>
+  <div>
+    <Header />
+    <Main />
+  </div>
 );
 
 
@@ -18,4 +18,4 @@ ReactDOM.render((
   <BrowserRouter>
     <App />
   </BrowserRouter>
-  ), document.getElementById('root'));
+), document.getElementById('root'));

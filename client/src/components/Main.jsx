@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Event from './Event.jsx'
+import Event from './Event.jsx';
 import Dashboard from './DashBoard.jsx';
 
 const Main = () => (
@@ -13,7 +13,7 @@ const Main = () => (
       <Dashboard />
     </Switch>
   </div>
-)
+);
 export default Main;
 
 
