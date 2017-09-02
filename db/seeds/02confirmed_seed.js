@@ -8,7 +8,7 @@ exports.seed = function (knex, Promise) {
         throw confirmed;
       }
       return models.Confirmed.forge({
-        user_id: null,
+        user_id: 1,
         email: 'example@example.com',
         trip_id: '1',
         confirmed: false
