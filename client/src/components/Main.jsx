@@ -10,7 +10,7 @@ const Main = () => (
 
       <Route path='/event' render={Trip}/>
 
-      <Dashboard />
+      <DashBoard />
     </Switch>
   </div>
 );
