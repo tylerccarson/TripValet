@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Event from '../src/components/Trip.jsx';
+import Trip from '../src/components/Trip.jsx';
 
 import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
