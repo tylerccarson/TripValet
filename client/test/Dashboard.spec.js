@@ -9,6 +9,12 @@ import { mount, shallow, } from 'enzyme';
 describe('<DashBoard /> component', () => {
   const wrapper = shallow(<DashBoard />);
   it('should placeholder text', () => {
-    expect(wrapper.contains(<h1>DashBoard is loaded</h1>)).toEqual(true);
+    expect(wrapper.contains(<Jumbotron>
+      <h1>Upcoming Trips</h1>
+      <p>Trip one</p>
+      <p>Trip two</p>
+
+      <p><Button bsStyle="primary">Create</Button></p>
+    </Jumbotron>)).toEqual(true);
   });
 });
