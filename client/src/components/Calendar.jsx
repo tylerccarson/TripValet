@@ -101,8 +101,6 @@ class Calendar extends React.Component {
         <BigCalendar
           events = {this.state.eventList}
           defaultDate={new Date(2015, 3)}
-          startAccessor = 'startDate'
-          endAccessor = 'endDate'
         />
       </div>
     );
