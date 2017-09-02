@@ -2,7 +2,7 @@
   "knex": {
     "connection": {
       "database": "tripvalet_prod",
-      "host": "DATABASE_URL"
+      "host": "postgres://sdljgciluqeiyj:546a381afd5c75e60c186378a57a7685ffe08b31e56a4789c074517cc355f634@ec2-184-72-245-58.compute-1.amazonaws.com:5432/d1put0cd2uonlb"
     },
     "debug": false,
     "pool": {

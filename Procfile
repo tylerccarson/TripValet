@@ -1,2 +1,2 @@
-release: knex migrate:latest
+release: knex migrate:latest 
 web: node server
