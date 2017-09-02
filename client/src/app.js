@@ -1,23 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DashBoard from './components/Dashboard.jsx';
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+import { BrowserRouter } from 'react-router-dom';
+import Header from './components/Header.jsx';
+import Main from './components/Main.jsx';
+import Dashboard from './components/DashBoard.jsx';
 
-    };
-  }
-
-  render() {
-    return (
+const App = () => (
       <div>
-        <h1>Hello World</h1>
-        <DashBoard />
+        <Header />
+        <Main />
       </div>
-    );
-  }
-}
+);
 
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render((
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+  ), document.getElementById('root'));
