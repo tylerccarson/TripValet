@@ -2,7 +2,7 @@
   "knex": {
     "connection": {
       "database": "tripvalet_devel",
-      "user": "root",
+      "user": "postgres",
       "host": "localhost",
       "port": 5432
     }

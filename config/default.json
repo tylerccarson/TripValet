@@ -3,7 +3,7 @@
     "client": "postgresql",
     "connection": {
       "database": "tripvalet",
-      "user": "root",
+      "user": "postgres",
       "host": "localhost",
       "port": 5432
     },
@@ -19,21 +19,10 @@
       "directory": "db/seeds"
     }
   },
+
   "passport": {
-    "Google": {
-      "clientID": "482270935504-coq0f1m45t8v5me9ulrrr4j3c7tiic97.apps.googleusercontent.com",
-      "clientSecret": "cS2E1sKW9jJ1vTsFJeSjZQ9u",
-      "callbackURL": "http://127.0.0.1:3000/auth/google/callback"
-    },
-    "Facebook": {
-      "clientID": "143885946214177",
-      "clientSecret": "ea694735111ba55510d7e6852aa3d832",
-      "callbackURL": "http://127.0.0.1:3000/auth/facebook/callback"
-    },
-    "Twitter": {
-      "consumerKey": "FP8FGUGDycMOht6LWohgYLQDO",
-      "consumerSecret": "A9wmZPdurnknnK9g7dfnxSRcGWvsHggc0IugYRsdZXa4LzuvPB",
-      "callbackURL": "http://127.0.0.1:3000/auth/twitter/callback"
-    }
+    "Google": {},
+    "Facebook": {},
+    "Twitter": {}
   }
 }

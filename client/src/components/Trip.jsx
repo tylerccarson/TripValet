@@ -2,8 +2,8 @@ import React from 'react';
 
 const Trip = (props) => (
   <div>
-    <p>This is the Event</p>
+    <p>This is the Trip</p>
   </div>
 );
 
-export default Event;
+export default Trip;
