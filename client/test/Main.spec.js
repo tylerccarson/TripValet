@@ -11,7 +11,7 @@ import chaiEnzyme from 'chai-enzyme';
 import { mount, shallow, } from 'enzyme';
 
 describe('<Main /> component', () => {
-  const wrapper = shallow(<MemoryRouter><Main /></MemoryRouter>);
+  const wrapper = shallow(<Main />);
   console.log(wrapper.debug());
   it('should have a <DashBoard /> component', () => {
     expect(wrapper.containsAllMatchingElements([
