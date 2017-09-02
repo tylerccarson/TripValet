@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Event from '../src/components/Event.jsx';
+import Event from '../src/components/Trip.jsx';
 
 import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
 import { mount, shallow, } from 'enzyme';
 
-describe('<Event /> component', () => {
-  const wrapper = shallow(<Event />);
+describe('<Trip /> component', () => {
+  const wrapper = shallow(<Trip />);
   it('should placeholder text', () => {
-    expect(wrapper.contains(<p>This is the Event</p>)).toEqual(true);
+    expect(wrapper.contains(<p>This is the Trip</p>)).toEqual(true);
   });
 });
