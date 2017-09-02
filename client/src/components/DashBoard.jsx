@@ -1,9 +1,15 @@
 import React from 'react';
+import { Jumbotron, Button } from 'react-bootstrap';
 
 const DashBoard = (props) => (
   <div>
-    <h1>DashBoard is loaded</h1>
-    <p></p>
+    <Jumbotron>
+      <h1>Upcoming Trips</h1>
+      <p>Trip one</p>
+      <p>Trip two</p>
+    
+      <p><Button bsStyle="primary">Create</Button></p>
+    </Jumbotron>
   </div>
 );
 
