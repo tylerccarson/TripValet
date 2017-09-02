@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Trip from './Trip.jsx';
-import Dashboard from './DashBoard.jsx';
+import DashBoard from './DashBoard.jsx';
 
 const Main = () => (
   <div>
     <Switch>
-      <Route path='/dashboard' render={Dashboard}/>
+      <Route path='/dashboard' render={DashBoard}/>
 
       <Route path='/event' render={Trip}/>
 
