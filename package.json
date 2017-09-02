@@ -7,7 +7,8 @@
   "scripts": {
     "start": "nodemon server",
     "test": " grunt test",
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "heroku-postbuild": "grunt pgcreatedb:default"
   },
   "author": "Hack Reactor",
   "license": "MIT",
