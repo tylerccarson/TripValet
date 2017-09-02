@@ -52,7 +52,6 @@
     "cheerio": "^1.0.0-rc.2",
     "grunt": "~0.4.5",
     "grunt-eslint": "^19.0.0",
-    "grunt-mocha": "^1.0.4",
     "grunt-mocha-test": "^0.13.2",
     "grunt-run": "^0.8.0",
     "jest": "^20.0.4",
