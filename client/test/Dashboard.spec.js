@@ -9,6 +9,6 @@ import { mount, shallow, } from 'enzyme';
 describe('<DashBoard /> component', () => {
   const wrapper = shallow(<DashBoard />);
   it('should placeholder text', () => {
-    expect(wrapper.contains(<p>This is the Dashboard</p>)).toEqual(true);
+    expect(wrapper.contains(<h1>Dashboard is loaded</h1>)).toEqual(true);
   });
 });

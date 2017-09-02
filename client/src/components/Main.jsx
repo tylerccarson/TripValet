@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Event from './Event.jsx';
+import Trip from './Trip.jsx';
 import Dashboard from './DashBoard.jsx';
 
 const Main = () => (
@@ -8,7 +8,7 @@ const Main = () => (
     <Switch>
       <Route path='/dashboard' render={Dashboard}/>
 
-      <Route path='/event' render={Event}/>
+      <Route path='/event' render={Trip}/>
 
       <Dashboard />
     </Switch>
