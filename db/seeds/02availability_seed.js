@@ -15,9 +15,12 @@ exports.seed = function (knex, Promise) {
         
       }).save();
     })
-    .catch((err) => {
-      console.error('ERROR: failed to create availability - ', err);
+    .error(err => {
+      console.error('ERROR: failed to create availability');
       throw err;
+    })
+    .catch((err) => {
+      console.log('Warning: this availability already exists');
     });
 
 };
