@@ -8,7 +8,6 @@ const Confirmed = db.Model.extend({
   user: function() {
     return this.belongsTo('User');
   }
-
 });
 
 module.exports = db.model('Confirmed', Confirmed);

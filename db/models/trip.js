@@ -6,10 +6,10 @@ const Trip = db.Model.extend({
     return this.belongsToMany('User');
   },
   confirmed: function() {
-  	return this.hasMany('Confirmed');
+    return this.hasMany('Confirmed');
   },
   availability: function() {
-  	return this.hasMany('Availability');
+    return this.hasMany('Availability');
   }
 });
 

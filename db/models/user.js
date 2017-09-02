@@ -6,12 +6,11 @@ const User = db.Model.extend({
     return this.hasMany('Trip');
   },
   confirmed: function() {
-  	return this.hasMany('Confirmed');
+    return this.hasMany('Confirmed');
   },
   availability: function() {
-  	return this.hasMany("Availability");
+    return this.hasMany('Availability');
   }
-
 });
 
 module.exports = db.model('User', User);
