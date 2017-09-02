@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DashBoard from '../src/components/DashBoard.jsx';
+import { Jumbotron, Button } from 'react-bootstrap';
 
 import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
