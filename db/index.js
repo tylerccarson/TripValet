@@ -5,3 +5,5 @@ db.plugin('registry');
 
 module.exports = db;
 
+knex.migrate.latest();
+
