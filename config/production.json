@@ -1,7 +1,8 @@
 {
   "knex": {
     "connection": {
-      "database": "tripvalet_prod"
+      "database": "tripvalet_prod",
+      "host": "DATABASE_URL"
     },
     "debug": false,
     "pool": {
