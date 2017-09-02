@@ -1,9 +1,12 @@
 import React from 'react';
 
+import Calendar from './Calendar.jsx';
+
+
 const DashBoard = (props) => (
   <div>
-    <h1>DashBoard is loaded</h1>
-    <p></p>
+    <p>This is the Dashboard</p>
+    <Calendar />
   </div>
 );
 
