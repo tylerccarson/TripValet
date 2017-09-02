@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
     knex.schema.table('confirmed', function (table) {
       table.string('email', 100).notNullable().unique();
       table.dropForeign('user_id');
-      able.integer('user_id').nullable().alter();
+      table.integer('user_id').nullable().alter();
     })
   ]);
 
