@@ -5,7 +5,6 @@
     "node": "8.1.4"
   },
   "scripts": {
-    "heroku-postbuild": "curl -s https://raw.githubusercontent.com/reactorcore/pomander/master/bin/install | bash",
     "start": "nodemon server",
     "test": " grunt test",
     "build": "webpack --watch"
