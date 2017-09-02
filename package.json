@@ -7,7 +7,7 @@
   "scripts": {
     "start": "nodemon server",
     "test": " grunt test",
-    "build": "webpack --watch",
+    "build": "webpack --watch"
   },
   "author": "Hack Reactor",
   "license": "MIT",
