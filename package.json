@@ -6,7 +6,8 @@
   },
   "scripts": {
     "start": "nodemon server",
-    "test": " grunt test",
+    "test": "grunt test",
+    "heroku-prebuild": "grunt pgcreatedb:default",
     "build": "webpack --watch"
   },
   "author": "Hack Reactor",
