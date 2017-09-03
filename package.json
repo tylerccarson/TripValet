@@ -8,7 +8,7 @@
     "start": "nodemon server",
     "test": "grunt test",
     "build": "webpack --watch",
-    "postinstall": "grunt pgcreatedb:default"
+    "heroku-postbuild": "grunt pgcreatedb:default"
   },
   "author": "Hack Reactor",
   "license": "MIT",
