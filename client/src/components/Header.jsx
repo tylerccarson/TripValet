@@ -2,11 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = () => (
-  <div>
-    <h1>Header is loaded</h1>
-    <Link to="/trip">Fake Trip 1</Link>
-
-  </div>
+  <header>
+  <nav>
+    <h1>"Header.jsx"</h1>
+    <ul>
+      <li><Link to='/'>Dashboard</Link></li>
+      <li><Link to='/Trip'>Trip</Link></li>
+    </ul>
+  </nav>
+</header>
 );
 
 
