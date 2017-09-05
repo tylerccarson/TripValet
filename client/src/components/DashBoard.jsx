@@ -1,5 +1,8 @@
 import React from 'react';
 import { Jumbotron, Button } from 'react-bootstrap';
+import GifsTemp from '../components/GifsTemp.jsx';
+import { connect } from 'react-redux';
+
 
 const DashBoard = (props) => (
   <div>
@@ -7,7 +10,7 @@ const DashBoard = (props) => (
       <h1>Upcoming Trips</h1>
       <p>Trip one</p>
       <p>Trip two</p>
-    
+
       <p><Button bsStyle="primary">Create</Button></p>
     </Jumbotron>
   </div>
