@@ -13,6 +13,7 @@ const DashBoard = (props) => (
     
       <p><Button bsStyle="primary">Create</Button></p>
     </Jumbotron>
+    <Calendar />
   </div>
 );
 
