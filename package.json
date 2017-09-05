@@ -5,10 +5,10 @@
     "node": "8.1.4"
   },
   "scripts": {
-    "heroku-postbuild": "curl -s https://raw.githubusercontent.com/reactorcore/pomander/master/bin/install | bash",
     "start": "nodemon server",
-    "test": " grunt test",
-    "build": "webpack --watch"
+    "test": "grunt test",
+    "build": "webpack --watch",
+    "heroku-postbuild": "webpack -p"
   },
   "author": "Hack Reactor",
   "license": "MIT",
@@ -55,6 +55,7 @@
     "cheerio": "^1.0.0-rc.2",
     "css-loader": "^0.28.7",
     "grunt": "~0.4.5",
+    "grunt-cli": "^1.2.0",
     "grunt-eslint": "^19.0.0",
     "grunt-mocha-test": "^0.13.2",
     "grunt-run": "^0.8.0",
@@ -62,6 +63,7 @@
     "jest-enzyme": "^3.8.1",
     "mocha": "^3.2.0",
     "node-mocks-http": "^1.6.1",
+    "nodemon": "^1.11.0",
     "prop-types": "^15.5.10",
     "react-addons-test-utils": "^15.6.0",
     "style-loader": "^0.18.2",

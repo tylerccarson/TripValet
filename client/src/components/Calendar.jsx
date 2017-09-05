@@ -19,7 +19,7 @@ class Calendar extends React.Component {
     super(props);
 
     this.state = {
-      userName: 'Lee',  // hard coded for now
+      userName: 'Lee', // hard coded for now
       eventList: [],
       startDateForRange: '',
       endDateForRange: ''
@@ -51,7 +51,7 @@ class Calendar extends React.Component {
 
         this.setState({
           eventList: eventListDuplicate
-        })
+        });
 
         break;
       }
@@ -60,9 +60,9 @@ class Calendar extends React.Component {
     if (!sameDateClickedTwice) {
 
       eventListDuplicate.push({
-        'title' : this.state.userName,
-        'start' : pickedSlot.start,
-        'end' : pickedSlot.end
+        'title': this.state.userName,
+        'start': pickedSlot.start,
+        'end': pickedSlot.end
       });
 
       this.setState({
@@ -75,13 +75,13 @@ class Calendar extends React.Component {
 
   startDateChange(e) {
     this.setState({
-      startDateForRange : e.target.value
+      startDateForRange: e.target.value
     });
   }
 
   endDateChange(e) {
     this.setState({
-      endDateForRange : e.target.value
+      endDateForRange: e.target.value
     });
   }
 
@@ -93,7 +93,7 @@ class Calendar extends React.Component {
     // the next month's first date would be selected
 
     // alert if user inputs invalid date, haven't try to prevent XSS yet
-      // should have two /s,  like 2017/09/01
+    // should have two /s,  like 2017/09/01
     if (startDateArray.length !== 3 || endDateArray.length !== 3  
         // year should be 4 digits
         || startDateArray[0].length !== 4 || endDateArray[0].length !== 4 
@@ -103,23 +103,23 @@ class Calendar extends React.Component {
         // date should be between 0 to 31
         || parseInt(startDateArray[2]) <= 0 || parseInt(startDateArray[2]) > 31
         || parseInt(endDateArray[2]) <= 0 || parseInt(endDateArray[2]) > 31
-        ) {
-          alert('Invalid date!');
-          return;
-        }
+    ) {
+      alert('Invalid date!');
+      return;
+    }
 
 
     var startDateObj = {
       year: parseInt(startDateArray[0]),
       month: parseInt(startDateArray[1]) - 1, // month is 0 based
       date: parseInt(startDateArray[2])
-    }
+    };
 
     var endDateObj = {
       year: parseInt(endDateArray[0]),
       month: parseInt(endDateArray[1]) - 1,
       date: parseInt(endDateArray[2]) + 1 // doesn't include end date so have to + 1 to include it
-    }
+    };
 
     console.log('start date obj: ', startDateObj);
     console.log('end date obj: ', endDateObj);
@@ -127,9 +127,9 @@ class Calendar extends React.Component {
     var eventListDuplicate = this.state.eventList.slice();
 
     eventListDuplicate.push({
-      'title' : this.state.userName,
-      'start' : new Date(startDateObj.year, startDateObj.month, startDateObj.date),
-      'end' : new Date(endDateObj.year, endDateObj.month, endDateObj.date)
+      'title': this.state.userName,
+      'start': new Date(startDateObj.year, startDateObj.month, startDateObj.date),
+      'end': new Date(endDateObj.year, endDateObj.month, endDateObj.date)
     });
 
     this.setState({
@@ -145,25 +145,23 @@ class Calendar extends React.Component {
 
     // should give an explicit height based on documentation
     var style = {
-      height: "400px"
-    }
+      height: '400px'
+    };
 
     return (
       <div style={style} {...this.props}>
         <BigCalendar
           selectable
           events = {this.state.eventList}
-          defaultDate={new Date()}  // set to current date
-          onSelectEvent={ (event) => 
-            {
-              // unpick for clicking on event cause it is more intuitive
-              this.pickDate(event);
-            }
+          defaultDate={new Date()} // set to current date
+          onSelectEvent={ (event) => {
+            // unpick for clicking on event cause it is more intuitive
+            this.pickDate(event);
           }
-          onSelectSlot={ (slotInfo) => 
-            {
-              this.pickDate(slotInfo);
-            }
+          }
+          onSelectSlot={ (slotInfo) => {
+            this.pickDate(slotInfo);
+          }
           }
         />
 
@@ -181,6 +179,6 @@ class Calendar extends React.Component {
       </div>
     );
   }
-};
+}
 
 export default Calendar;

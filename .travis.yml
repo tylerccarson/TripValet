@@ -10,7 +10,6 @@ before_script:
   - knex migrate:latest --env NODE_ENV
   - knex seed:run --env NODE_ENV
 
-
 cache: yarn
 
 script:
