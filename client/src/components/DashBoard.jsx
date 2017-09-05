@@ -1,9 +1,6 @@
 import React from 'react';
 import { Jumbotron, Button } from 'react-bootstrap';
 
-import Calendar from './Calendar.jsx';
-
-
 const DashBoard = (props) => (
   <div>
     <Jumbotron>
@@ -13,7 +10,6 @@ const DashBoard = (props) => (
     
       <p><Button bsStyle="primary">Create</Button></p>
     </Jumbotron>
-    <Calendar />
   </div>
 );
 
