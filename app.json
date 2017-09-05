@@ -5,6 +5,9 @@
     "start": "node server"
   },
   "env": {
+    "NPM_CONFIG_PRODUCTION": {
+      "required": true
+    }
   },
   "formation": {
   },
