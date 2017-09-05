@@ -2,7 +2,7 @@
   "knex": {
     "connection": {
       "host": "ec2-184-72-245-58.compute-1.amazonaws.com",
-      "database": "tripvalet_prod",
+      "database": "d1put0cd2uonlb",
       "user": "sdljgciluqeiyj",
       "port": 5432,
       "password": "546a381afd5c75e60c186378a57a7685ffe08b31e56a4789c074517cc355f634"
