@@ -8,11 +8,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 // to the correct localizer.
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
-// TODO: click again to unpick    done!
-// be able to set range for long dates
-// only put your name once per day  done!
-
-
 class Calendar extends React.Component {
 
   constructor(props) {
@@ -20,7 +15,7 @@ class Calendar extends React.Component {
 
     this.state = {
       userName: 'Lee', // hard coded for now
-      eventList: [],
+      availability: [],
       startDateForRange: '',
       endDateForRange: ''
     };
@@ -33,24 +28,24 @@ class Calendar extends React.Component {
 
   pickDate(pickedSlot) {
 
-    // if the event list array is empty, the for loop below won't run
-    if (!this.state.eventList.length) {
+    // if the availablity list array is empty, the for loop below won't run
+    if (!this.state.availability.length) {
       var sameDateClickedTwice = false;
     }
 
     // create duplicate cause Oleg said we shouldn't be altering state directly
-    var eventListDuplicate = this.state.eventList.slice();
+    var availabilityDuplicate = this.state.availability.slice();
 
-    for (var i = 0; i < eventListDuplicate.length; i++) {
+    for (var i = 0; i < availabilityDuplicate.length; i++) {
       var sameDateClickedTwice = false;
       // if the same user clicked the same date twice, 
       // compare string since the date seems to be unique
-      if (pickedSlot.start.toString() === eventListDuplicate[i]['start'].toString() && this.state.userName === eventListDuplicate[i]['title']) {
+      if (pickedSlot.start.toString() === availabilityDuplicate[i]['start'].toString() && this.state.userName === availabilityDuplicate[i]['title']) {
         sameDateClickedTwice = true;
-        eventListDuplicate.splice(i, 1);
+        availabilityDuplicate.splice(i, 1);
 
         this.setState({
-          eventList: eventListDuplicate
+          availability: availabilityDuplicate
         });
 
         break;
@@ -59,14 +54,14 @@ class Calendar extends React.Component {
     
     if (!sameDateClickedTwice) {
 
-      eventListDuplicate.push({
+      availabilityDuplicate.push({
         'title': this.state.userName,
         'start': pickedSlot.start,
         'end': pickedSlot.end
       });
 
       this.setState({
-        eventList: eventListDuplicate
+        availability: availabilityDuplicate
       });
 
     }
@@ -89,7 +84,7 @@ class Calendar extends React.Component {
     var startDateArray = this.state.startDateForRange.split('/');
     var endDateArray = this.state.endDateForRange.split('/');
 
-    // BUG: if the end date is at the most right left corner of the calendar,
+    // BUG: if the end date is at the most right bottom corner of the calendar,
     // the next month's first date would be selected
 
     // alert if user inputs invalid date, haven't try to prevent XSS yet
@@ -124,9 +119,9 @@ class Calendar extends React.Component {
     console.log('start date obj: ', startDateObj);
     console.log('end date obj: ', endDateObj);
 
-    var eventListDuplicate = this.state.eventList.slice();
+    var availabilityDuplicate = this.state.availability.slice();
 
-    eventListDuplicate.push({
+    availabilityDuplicate.push({
       'title': this.state.userName,
       'start': new Date(startDateObj.year, startDateObj.month, startDateObj.date),
       'end': new Date(endDateObj.year, endDateObj.month, endDateObj.date)
@@ -135,7 +130,7 @@ class Calendar extends React.Component {
     this.setState({
       startDateForRange: '',
       endDateForRange: '',
-      eventList: eventListDuplicate
+      availability: availabilityDuplicate
     });
 
   }
@@ -152,11 +147,11 @@ class Calendar extends React.Component {
       <div style={style} {...this.props}>
         <BigCalendar
           selectable
-          events = {this.state.eventList}
-          defaultDate={new Date()} // set to current date
-          onSelectEvent={ (event) => {
-            // unpick for clicking on event cause it is more intuitive
-            this.pickDate(event);
+          events = {this.state.availability}
+          defaultDate={ new Date() } // set to current date
+          onSelectEvent={ (name) => {
+            // unpick for clicking on name cause it is more intuitive
+            this.pickDate(name);
           }
           }
           onSelectSlot={ (slotInfo) => {
