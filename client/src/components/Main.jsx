@@ -7,8 +7,12 @@ const Main = () => (
 
   <div>
     <Switch>
-      <Route path= '/' render={(propz) =>(<DashBoard {...propz} />)}/>
-      <Route path='/trip' render={Trip} />
+      <Route exact path= '/' render={(propz) =>(
+        <DashBoard {...propz} />
+      )}/>
+      <Route exact path='/trip' render={(propz) =>(
+        <Trip {...propz} />
+      )}/>
     </Switch>
   </div>
 );
