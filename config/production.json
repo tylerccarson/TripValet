@@ -15,8 +15,8 @@
   },
   "passport": {
     "Google": {
-      "clientID": "205219588478-b7kbkv9ja4om8se5e6toisheieldvf3e.apps.googleusercontent.com",
-      "clientSecret": "CpdfATLNyiV47Km4uIDm6u-D",
+      "clientID": "188574567487-on1i371i4kdridusdd7npiku6n56211t.apps.googleusercontent.com",
+      "clientSecret": "Yx1q3WgV52Z70-kGG1qHSn9L",
       "callbackURL": "https://tripvalet.herokuapp.com/auth/google/callback"
     },
     "Facebook": {
