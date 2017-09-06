@@ -44,9 +44,11 @@
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "redis": "^2.7.1",
-    "sinon": "^3.2.1",
     "redux": "^3.7.2",
-    "redux-devtools": "^3.4.0"
+    "redux-devtools": "^3.4.0",
+    "sinon": "^3.2.1",
+    "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3"
   },
   "devDependencies": {
     "babel-jest": "^20.0.3",
