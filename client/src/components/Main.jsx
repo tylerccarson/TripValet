@@ -8,13 +8,13 @@ const Main = () => (
   <div>
     <Switch>
       <Route exact path= '/' render={(propz) =>(
-          <DashBoard {...propz} />
-        )}/>
+        <DashBoard {...propz} />
+      )}/>
       <Route exact path='/trip' render={(propz) =>(
-          <Trip {...propz} />
-        )}/>
+        <Trip {...propz} />
+      )}/>
     </Switch>
-  </main>
+  </div>
 );
 
 export default Main;
