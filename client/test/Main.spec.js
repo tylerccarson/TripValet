@@ -12,7 +12,6 @@ import { mount, shallow, } from 'enzyme';
 
 describe('<Main /> component', () => {
   const wrapper = shallow(<Main />);
-  console.log(wrapper.debug());
   it('should have a <DashBoard /> component', () => {
     expect(wrapper.containsAllMatchingElements([
       <DashBoard />

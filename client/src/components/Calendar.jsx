@@ -81,6 +81,7 @@ class Calendar extends React.Component {
   }
 
   pickDateByRange() {
+
     var startDateArray = this.state.startDateForRange.split('/');
     var endDateArray = this.state.endDateForRange.split('/');
 
@@ -115,9 +116,6 @@ class Calendar extends React.Component {
       month: parseInt(endDateArray[1]) - 1,
       date: parseInt(endDateArray[2]) + 1 // doesn't include end date so have to + 1 to include it
     };
-
-    console.log('start date obj: ', startDateObj);
-    console.log('end date obj: ', endDateObj);
 
     var availabilityDuplicate = this.state.availability.slice();
 
@@ -168,7 +166,7 @@ class Calendar extends React.Component {
           <input value={this.state.endDateForRange} placeholder="YYYY/MM/DD" onChange={this.endDateChange}/>
           
           <br/>
-          <button onClick={this.pickDateByRange}>Set Availability!</button>
+          <button className="pickDateRange" onClick={this.pickDateByRange}>Set Availability!</button>
         </div>
 
       </div>
