@@ -14,7 +14,7 @@ const Main = () => (
           <Trip {...propz} />
         )}/>
     </Switch>
-  </div>
+  </main>
 );
 
 export default Main;
