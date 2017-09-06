@@ -21,9 +21,12 @@ describe('<Calendar /> component', () => {
     });
     expect(wrapper.state('availability')).toEqual([]);
     wrapper.find('.pickDateRange').simulate('click');
-    expect(wrapper.state('availability')[0].start.getDay()).toEqual(5);
+    expect(wrapper.state('availability')[0].start.getDate()).toEqual(8);
     expect(wrapper.state('availability')[0].start.getMonth()).toEqual(8);
     expect(wrapper.state('availability')[0].start.getFullYear()).toEqual(2017);
+    expect(wrapper.state('availability')[0].end.getDate()).toEqual(14);
+    expect(wrapper.state('availability')[0].end.getMonth()).toEqual(8);
+    expect(wrapper.state('availability')[0].end.getFullYear()).toEqual(2017);
   });
 
   it('should be able to make a range across different months', () => {

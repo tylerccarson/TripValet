@@ -84,6 +84,8 @@ class Calendar extends React.Component {
 
     var startDateArray = this.state.startDateForRange.split('/');
     var endDateArray = this.state.endDateForRange.split('/');
+    console.log(startDateArray);
+    console.log(endDateArray);
 
     // BUG: if the end date is at the most right bottom corner of the calendar,
     // the next month's first date would be selected
