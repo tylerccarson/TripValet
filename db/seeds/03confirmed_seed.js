@@ -10,14 +10,18 @@ exports.seed = function (knex, Promise) {
       return models.Confirmed.forge({
         user_id: 1,
         email: 'example@example.com',
-        trip_id: '1',
+        trip_id: 1,
         confirmed: false
         
       }).save();
     })
-    .catch((err) => {
-      console.error('ERROR: failed to create confirmed - ', err);
+    .error((err)=>{
+      console.error('Failed to create new confirmation');
       throw err;
+    })
+    .catch((err) => {
+      console.error('Warning: this confirmation exists');
+      
     });
 
 };

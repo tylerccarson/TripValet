@@ -1,10 +1,7 @@
 {
   "knex": {
     "connection": {
-      "database": "tripvalet_devel",
-      "user": "postgres",
-      "host": "localhost",
-      "port": 5432
+      "database": "tripvalet_devel"
     }
   },
   "passport": {
