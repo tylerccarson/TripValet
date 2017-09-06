@@ -1,7 +1,8 @@
 import { createStore } from 'redux';
 import rootReducer from '../reducers';
 import createHistory from 'history/createBrowserHistory';
-expoet const history = createHistory();
+
+const middleware = []
 
 export default function configureStore(initialState) {
   const store = createStore(
