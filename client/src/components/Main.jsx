@@ -2,13 +2,15 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import DashBoard from '../components/DashBoard.jsx';
 import Trip from '../components/Trip.jsx';
+
 const Main = () => (
-  <main>
+
+  <div>
     <Switch>
       <Route path= '/' render={(propz) =>(<DashBoard {...propz} />)}/>
       <Route path='/trip' render={Trip} />
     </Switch>
-  </main>
+  </div>
 );
 
 export default Main;
