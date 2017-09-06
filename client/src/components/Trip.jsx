@@ -16,6 +16,5 @@ class Trip extends React.Component {
     )
   }
 }
->>>>>>> Change Trip.jsx to classical component
 
 export default Trip;
