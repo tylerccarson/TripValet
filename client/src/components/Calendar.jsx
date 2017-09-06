@@ -23,7 +23,8 @@ class Calendar extends React.Component {
     this.pickDate = this.pickDate.bind(this);
     this.startDateChange = this.startDateChange.bind(this);
     this.endDateChange = this.endDateChange.bind(this);
-    this.pickDateByRange = this.pickDateByRange.bind(this);  
+    this.pickDateByRange = this.pickDateByRange.bind(this); 
+    this.inputIsValid = this.inputIsValid.bind(this); 
   }
 
   pickDate(pickedSlot) {
@@ -33,9 +34,12 @@ class Calendar extends React.Component {
       var sameDateClickedTwice = false;
     }
 
-    // create duplicate cause Oleg said we shouldn't be altering state directly
+    // Following best practices to not mutate state, so create a duplicate, modify
+    // the duplicate, and set state to the duplicate
     var availabilityDuplicate = this.state.availability.slice();
 
+
+    // TODO: improve efficiency in the future if I have time.
     for (var i = 0; i < availabilityDuplicate.length; i++) {
       var sameDateClickedTwice = false;
       // if the same user clicked the same date twice, 
@@ -82,28 +86,12 @@ class Calendar extends React.Component {
 
   pickDateByRange() {
 
-    var startDateArray = this.state.startDateForRange.split('/');
-    var endDateArray = this.state.endDateForRange.split('/');
-
-    // BUG: if the end date is at the most right bottom corner of the calendar,
-    // the next month's first date would be selected
-
-    // alert if user inputs invalid date, haven't try to prevent XSS yet
-    // should have two /s,  like 2017/09/01
-    if (startDateArray.length !== 3 || endDateArray.length !== 3  
-        // year should be 4 digits
-        || startDateArray[0].length !== 4 || endDateArray[0].length !== 4 
-        // month should be between 0 to 11 (0 based)
-        || parseInt(startDateArray[1]) < 0 || parseInt(startDateArray[1]) > 12
-        || parseInt(endDateArray[1]) < 0 || parseInt(endDateArray[1]) > 12
-        // date should be between 0 to 31
-        || parseInt(startDateArray[2]) <= 0 || parseInt(startDateArray[2]) > 31
-        || parseInt(endDateArray[2]) <= 0 || parseInt(endDateArray[2]) > 31
-    ) {
-      alert('Invalid date!');
+    if( !this.inputIsValid() ) {
       return;
     }
 
+    var startDateArray = this.state.startDateForRange.split('/');
+    var endDateArray = this.state.endDateForRange.split('/');
 
     var startDateObj = {
       year: parseInt(startDateArray[0]),
@@ -131,6 +119,31 @@ class Calendar extends React.Component {
       availability: availabilityDuplicate
     });
 
+  }
+
+  inputIsValid() {
+    var startDateArray = this.state.startDateForRange.split('/');
+    var endDateArray = this.state.endDateForRange.split('/');
+
+    // BUG: if the end date is at the most right bottom corner of the calendar,
+    // the next month's first date would be selected, ex. 2017/09, 2016/12
+
+    // alert if user inputs invalid date, haven't try to prevent XSS yet
+
+    // should have two /s,  like 2017/09/01
+    if (startDateArray.length !== 3 || endDateArray.length !== 3  
+        // year should be 4 digits
+        || startDateArray[0].length !== 4 || endDateArray[0].length !== 4 
+        // month should be between 0 to 11 (0 based)
+        || parseInt(startDateArray[1]) < 0 || parseInt(startDateArray[1]) > 12
+        || parseInt(endDateArray[1]) < 0 || parseInt(endDateArray[1]) > 12
+        // date should be between 0 to 31
+        || parseInt(startDateArray[2]) <= 0 || parseInt(startDateArray[2]) > 31
+        || parseInt(endDateArray[2]) <= 0 || parseInt(endDateArray[2]) > 31
+    ) {
+      alert('Invalid date!');
+      return false;
+    }
   }
 
 
