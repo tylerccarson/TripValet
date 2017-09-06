@@ -14,7 +14,7 @@ class Trip extends React.Component {
         console.log("test");
         <h1>This is the Trip</h1>
       </div>
-    )
+    );
   }
 }
 

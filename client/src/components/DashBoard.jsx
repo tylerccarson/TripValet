@@ -28,24 +28,21 @@ class DashBoard extends React.Component {
     return (
       <div>
         <Modal show={this.state.lgShow}  bsSize="large" aria-labelledby="contained-modal-title-sm">
-	        <Modal.Header >
-	          <Modal.Title id="contained-modal-title-sm">Create New Trip</Modal.Title>
-	        </Modal.Header>
-	        <Modal.Body>
-	          <h4>Create a Listing!</h4>
-	          <p>Fill out the form below</p>
-
-	        </Modal.Body>
-	        <Modal.Footer>
-	          <Button bsStyle="danger" onClick={this.hideModal}>Cancel</Button>
-	        </Modal.Footer>
-	      </Modal>
+          <Modal.Header >
+            <Modal.Title id="contained-modal-title-sm">Create New Trip</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h4>Create a Listing!</h4>
+            <p>Fill out the form below</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle="danger" onClick={this.hideModal}>Cancel</Button>
+          </Modal.Footer>
+        </Modal>
         <Jumbotron>
           <h1>Upcoming Trips</h1>
-
         </Jumbotron>
         <p><Button bsStyle="primary" onClick={this.showModal}>Create</Button></p>
-
       </div>
     );
   }
