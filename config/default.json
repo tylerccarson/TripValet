@@ -3,7 +3,7 @@
     "client": "postgresql",
     "connection": {
       "database": "tripvalet",
-      "user": "postgres",
+      "user": "root",
       "host": "localhost",
       "port": 5432
     },

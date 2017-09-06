@@ -8,9 +8,12 @@ exports.seed = function (knex, Promise) {
         throw trip;
       }
       return models.Trip.forge({
-        tripname: 'Adam\'s bachelors party',
+        tripname: `Adam's bachelors party`,
         description: 'You know the drill. Anything happens in LV, stays in LV',
-        location: 'Las Vegas'
+        location: 'Las Vegas',
+        rangeStart: '20171001',
+        rangeEnd: '20171021',
+        user_id: 1
       }).save();
     })
     .error((err)=>{
@@ -18,7 +21,7 @@ exports.seed = function (knex, Promise) {
       throw err;
     })
     .catch((err) => {
-      console.log('Warnig: this trip exists' );
+      console.log('Warning: this trip exists' );
       
     });
 
