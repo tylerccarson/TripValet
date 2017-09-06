@@ -31,7 +31,7 @@ module.exports = function(grunt) {
           password: config.connection.password,
           host: config.connection.host,
           port: config.connection.port,
-          database: 'tripvalet_test'
+          database: 'template1'
         },
         name: config.connection.database
       }
