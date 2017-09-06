@@ -4,16 +4,35 @@ import GifsTemp from '../components/GifsTemp.jsx';
 import { connect } from 'react-redux';
 
 
-const DashBoard = (props) => (
-  <div>
-    <Jumbotron>
-      <h1>Upcoming Trips</h1>
-      <p>Trip one</p>
-      <p>Trip two</p>
 
-      <p><Button bsStyle="primary">Create</Button></p>
-    </Jumbotron>
-  </div>
-);
+class DashBoard extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {};
+  }
 
-export default DashBoard;
+  render() {
+    return (
+      <div>
+        <Jumbotron>
+          <h1>Upcoming Trips</h1>
+          <p>Trip one</p>
+          <p>Trip two</p>
+            <div>
+
+              <GifsTemp gifs={ this.props.gifs } />
+            </div>
+          <p><Button bsStyle="primary">Create</Button></p>
+        </Jumbotron>
+      </div>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    gifs: state.gifs
+  };
+}
+
+export default connect(mapStateToProps) (DashBoard);
