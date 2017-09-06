@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 
 const Header = () => (
   <header>
-  <nav>
-    <h1>"Header.jsx"</h1>
-    <ul>
-      <li><Link to='/'>Dashboard</Link></li>
-      <li><Link to='/Trip'>Trip</Link></li>
-    </ul>
-  </nav>
-</header>
+    <nav>
+      <h1>Header.jsx is connected</h1>
+      <ul>
+        <li><Link to='/'>Dashboard</Link></li>
+        <li><Link to='/trip'>Trip</Link></li>
+      </ul>
+    </nav>
+  </header>
 );
 
 
