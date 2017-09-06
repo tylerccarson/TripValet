@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import GifsTemp from '../components/GifsTemp.jsx';
-
 
 class Trip extends React.Component {
   constructor(props) {
