@@ -2,13 +2,19 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import DashBoard from '../components/DashBoard.jsx';
 import Trip from '../components/Trip.jsx';
+
 const Main = () => (
-  <main>
+
+  <div>
     <Switch>
-      <Route exact path='/' render={(props) =>(<DashBoard {...props} />)}/>
-      <Route exact path='/trip' component={Trip} />
+      <Route exact path= '/' render={(propz) =>(
+          <DashBoard {...propz} />
+        )}/>
+      <Route exact path='/trip' render={(propz) =>(
+          <Trip {...propz} />
+        )}/>
     </Switch>
-  </main>
+  </div>
 );
 
 export default Main;
