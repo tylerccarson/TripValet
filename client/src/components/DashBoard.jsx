@@ -2,34 +2,38 @@ import React from 'react';
 import { Jumbotron, Button, Modal } from 'react-bootstrap';
 import GifsTemp from '../components/GifsTemp.jsx';
 import { connect } from 'react-redux';
-
+import { bindActionCreators } from 'redux'
+import { push } from 'react-router-redux'
 import Calendar from '../components/Calendar.jsx';
-import Chatroom from './Chatroom.jsx';
+import { Link } from 'react-router-dom';
 
 class DashBoard extends React.Component {
-  constructor(props) {
+  constructor(props){
     super(props);
     this.state = {
       lgShow: false
     };
+    console.log('Dashboard Constructor says hello');
     this.hideModal = this.hideModal.bind(this);
     this.showModal = this.showModal.bind(this);
   }
-  hideModal(e) {
+  hideModal(e){
     this.setState({
       lgShow: false
     });
   }
 
-  showModal(e) {
+  showModal(e){
     this.setState({
       lgShow: true
     });
   }
+
+
   render() {
     return (
       <div>
-        <Modal show={this.state.lgShow} bsSize="large" aria-labelledby="contained-modal-title-sm">
+        <Modal show={this.state.lgShow}  bsSize="large" aria-labelledby="contained-modal-title-sm">
           <Modal.Header >
             <Modal.Title id="contained-modal-title-sm">Create New Trip</Modal.Title>
           </Modal.Header>
@@ -43,20 +47,21 @@ class DashBoard extends React.Component {
         </Modal>
         <Jumbotron>
           <h1>Upcoming Trips</h1>
+            <li><Link to='/trip'>Trip One</Link></li>
+            <li><Link to='/test'>Test</Link></li>
+            <li><Link to='/here'>Here</Link></li>
+
         </Jumbotron>
-        <Chatroom />
         <p><Button bsStyle="primary" onClick={this.showModal}>Create</Button></p>
       </div>
     );
   }
 }
 
-var mapStateToProps = (state) => {
-  return {
-    gifs: state.gifs
-  };
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  changePage: () => push('/about-us')
+}, dispatch)
 
-export default connect(mapStateToProps) (DashBoard);
+export default connect(null, mapDispatchToProps) (DashBoard);
 
 //<Calendar />

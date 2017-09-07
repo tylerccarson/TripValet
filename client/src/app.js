@@ -6,15 +6,19 @@ import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { ConnectedRouter } from 'react-router-redux';
+import { render } from 'react-dom'
+import store, { history } from './store'
 
-const store = configureStore();
 
-ReactDOM.render((
+const target = document.querySelector('#root')
+
+render(
   <Provider store={store}>
     <MuiThemeProvider>
-      <BrowserRouter>
+      <ConnectedRouter history={history}>
         <App />
-      </BrowserRouter>
+      </ConnectedRouter>
     </MuiThemeProvider>
-  </Provider>
-), document.getElementById('root'));
+  </Provider>,
+  target
+)

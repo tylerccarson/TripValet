@@ -3,6 +3,7 @@ import Header from '../components/Header.jsx';
 import Main from '../components/Main.jsx';
 import GifsTemp from '../components/GifsTemp.jsx';
 import { connect } from 'react-redux';
+import { withRouter} from 'react-router-dom'
 
 class App extends React.Component {
   render () {
@@ -15,10 +16,9 @@ class App extends React.Component {
   }
 }
 
-var mapStateToProps = (state) => {
-  return {
-    gifs: state.gifs
-  };
-};
+const mapStateToProps = (state) => ({
+  gifs: state.gifs
+})
 
-export default connect(mapStateToProps) (App);
+export default withRouter(connect(mapStateToProps)(App));
+// export default App

@@ -1,8 +1,6 @@
-import { combineReducers } from 'redux';
-import GifsReducer from './gifs';
+import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
 
-const rootReducer = combineReducers ({
-  gifs:GifsReducer
-});
-
-export default rootReducer;
+export default combineReducers({
+  router: routerReducer
+})
