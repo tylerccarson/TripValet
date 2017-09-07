@@ -98,7 +98,6 @@ class Chatroom extends React.Component {
         width: 350,
         height: 500,
         float: 'right'
-        //boxShadow: 10px 10px 5px #888888
       },
       scrollbar: {
         width: '100%',
