@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import Calendar from '../components/Calendar.jsx';
 import { Link } from 'react-router-dom';
-
+import TripForm from './TripForm.jsx';
 class DashBoard extends React.Component {
   constructor(props) {
     super(props);
@@ -40,6 +40,7 @@ class DashBoard extends React.Component {
           <Modal.Body>
             <h4>Create a Listing!</h4>
             <p>Fill out the form below</p>
+            <TripForm />
           </Modal.Body>
           <Modal.Footer>
             <Button bsStyle="danger" onClick={this.hideModal}>Cancel</Button>
