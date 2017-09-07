@@ -144,6 +144,8 @@ class Calendar extends React.Component {
       alert('Invalid date!');
       return false;
     }
+
+    return true;
   }
 
 
