@@ -15,6 +15,7 @@ class TripForm extends React.Component {
       <form>
         <FormGroup>
           <InputGroup>
+            <InputGroup.Addon>Location</InputGroup.Addon>
             <FormControl
               type="text"
               placeholder="Item Name"
@@ -22,7 +23,6 @@ class TripForm extends React.Component {
               value={this.state.name}
               onChange={this.onChange}
             />
-            <InputGroup.Addon></InputGroup.Addon>
           </InputGroup>
         </FormGroup>
       </form>
