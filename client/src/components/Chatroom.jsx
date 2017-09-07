@@ -77,7 +77,7 @@ class Chatroom extends React.Component {
   //not working yet
   scrollToBottom() {
     console.log('scrolling');
-    this.refs.Scrollbar.scrollToY('100%'); 
+    this.refs.Scrollbar.scrollToY('120%'); 
   }
 
   componentDidMount() {
@@ -86,8 +86,9 @@ class Chatroom extends React.Component {
       currentMessages.push(data);
       this.setState({
         messages: currentMessages
+      }, () => {
+        this.scrollToBottom();
       });
-      this.scrollToBottom();
     });
   }
 
