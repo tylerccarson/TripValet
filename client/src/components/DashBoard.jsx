@@ -7,13 +7,13 @@ import Chatroom from '../components/Chatroom.jsx';
 
 const DashBoard = (props) => (
   <div>
-    <Chatroom />
     <Jumbotron>
       <h1>Upcoming Trips</h1>
       <p>Trip one</p>
       <p>Trip two</p>
       <p><Button bsStyle="primary">Create</Button></p>
     </Jumbotron>
+    <Chatroom />
   </div>
 );
 

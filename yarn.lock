@@ -4188,6 +4188,10 @@ lodash.camelcase@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
 
+lodash.clone@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.clone/-/lodash.clone-4.5.0.tgz#195870450f5a13192478df4bc3d23d2dea1907b6"
+
 lodash.create@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/lodash.create/-/lodash.create-3.1.1.tgz#d7f2849f0dbda7e04682bb8cd72ab022461debe7"
@@ -5702,6 +5706,12 @@ react-bootstrap@^0.31.2:
     uncontrollable "^4.1.0"
     warning "^3.0.0"
 
+react-chatview@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/react-chatview/-/react-chatview-0.2.4.tgz#08f85c0cb03da2e0724b3714fc8c0e427d5027ff"
+  dependencies:
+    lodash.clone "^4.5.0"
+
 react-dom@^15.4.2:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.1.tgz#2cb0ed4191038e53c209eb3a79a23e2a4cf99470"
@@ -5780,6 +5790,10 @@ react-router@^4.2.0:
     path-to-regexp "^1.7.0"
     prop-types "^15.5.4"
     warning "^3.0.0"
+
+react-scrollbar-js@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-scrollbar-js/-/react-scrollbar-js-1.0.1.tgz#c13fd5d76c5bb858f94fb320f054f5db2b0eadce"
 
 react-transition-group@^1.1.2:
   version "1.2.0"
