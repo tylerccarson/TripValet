@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import DashBoard from './DashBoard.jsx';
 import Trip from './Trip.jsx';
-import Test from './Test.jsx';
 var Main = () => (
   <main>
     <Switch>

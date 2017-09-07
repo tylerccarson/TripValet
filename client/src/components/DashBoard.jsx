@@ -4,7 +4,6 @@ import GifsTemp from '../components/GifsTemp.jsx';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
-import Calendar from '../components/Calendar.jsx';
 import { Link } from 'react-router-dom';
 
 class DashBoard extends React.Component {
@@ -47,7 +46,9 @@ class DashBoard extends React.Component {
         </Modal>
         <Jumbotron>
           <h1>Upcoming Trips</h1>
-          <li><Link to='/trip'>Trip One</Link></li>
+          <ul>
+            <li><Link to='/trip'>Trip One</Link></li>
+          </ul>
         </Jumbotron>
         <p><Button bsStyle="primary" onClick={this.showModal}>Create</Button></p>
       </div>
