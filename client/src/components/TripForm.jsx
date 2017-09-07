@@ -3,12 +3,12 @@ import { FormGroup, InputGroup, FormControl, Button, DropdownButton, MenuItem, G
 
 
 class TripForm extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
 
-    }
-  };
+    };
+  }
 
   render () {
     return (
@@ -21,12 +21,12 @@ class TripForm extends React.Component {
               name="name"
               value={this.state.name}
               onChange={this.onChange}
-              />
+            />
             <InputGroup.Addon></InputGroup.Addon>
           </InputGroup>
         </FormGroup>
       </form>
-    )
+    );
   }
 }
 
