@@ -48,9 +48,6 @@ class DashBoard extends React.Component {
         <Jumbotron>
           <h1>Upcoming Trips</h1>
             <li><Link to='/trip'>Trip One</Link></li>
-            <li><Link to='/test'>Test</Link></li>
-            <li><Link to='/here'>Here</Link></li>
-
         </Jumbotron>
         <p><Button bsStyle="primary" onClick={this.showModal}>Create</Button></p>
       </div>
