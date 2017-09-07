@@ -52,8 +52,8 @@ describe('trip route', () => {
       tripname: 'Family Reunion',
       location: 'San Francisco',
       description: 'Friends and family gathering',
-      rangeStart: '20180709',
-      rangeEnd: '20180723',
+      rangeStart: '2018/07/09',
+      rangeEnd: '2018/07/23',
       user_id: 1
 
     };
@@ -84,8 +84,8 @@ describe('trip route', () => {
         expect(res.body[0].tripname).to.equal(`Adam's bachelors party`);
         expect(res.body[0].description).to.equal('You know the drill. Anything happens in LV, stays in LV');
         expect(res.body[0].location).to.equal('Las Vegas');
-        expect(res.body[0].rangeStart).to.equal('20171001');
-        expect(res.body[0].rangeEnd).to.equal('20171021');
+        expect(res.body[0].rangeStart).to.equal('2017/10/01');
+        expect(res.body[0].rangeEnd).to.equal('2017/10/30');
         expect(res.body[0].user_id).to.equal(1);
       })
       .end(done);
@@ -100,8 +100,8 @@ describe('trip route', () => {
         expect(res.body[0].tripname).to.equal(`Adam's bachelors party`);
         expect(res.body[0].description).to.equal('You know the drill. Anything happens in LV, stays in LV');
         expect(res.body[0].location).to.equal('Las Vegas');
-        expect(res.body[0].rangeStart).to.equal('20171001');
-        expect(res.body[0].rangeEnd).to.equal('20171021');
+        expect(res.body[0].rangeStart).to.equal('2017/10/01');
+        expect(res.body[0].rangeEnd).to.equal('2017/10/30');
         expect(res.body[0].user_id).to.equal(1);
       })
       .end(done);
