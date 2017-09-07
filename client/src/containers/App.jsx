@@ -14,10 +14,11 @@ class App extends React.Component {
     );
   }
 }
-function mapStateToProps(state) {
+
+var mapStateToProps = (state) => {
   return {
     gifs: state.gifs
   };
-}
+};
 
 export default connect(mapStateToProps) (App);
