@@ -2,7 +2,7 @@ const models = require('../models');
 
 exports.seed = function (knex, Promise) {
 
-  return models.Availability.where({ trip_id: '1' }).fetch()
+  return models.Availability.where({ trip_id: 1 }).fetch()
     .then((availability) => {
       if (availability) {
         throw availability;

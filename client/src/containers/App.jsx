@@ -10,18 +10,15 @@ class App extends React.Component {
       <div>
         <Header />
         <Main />
-        <div>
-
-          <GifsTemp gifs={ this.props.gifs } />
-        </div>
       </div>
     );
   }
 }
-function mapStateToProps(state) {
+
+var mapStateToProps = (state) => {
   return {
     gifs: state.gifs
   };
-}
+};
 
 export default connect(mapStateToProps) (App);

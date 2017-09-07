@@ -9,6 +9,6 @@ import { mount, shallow, } from 'enzyme';
 describe('<Header /> component', () => {
   const wrapper = shallow(<Header />);
   it('should placeholder text', () => {
-    expect(wrapper.contains(<h1>Header is loaded</h1>)).toEqual(true);
+    expect(wrapper.contains(<h1>Header.jsx is connected</h1>)).toEqual(true);
   });
 });

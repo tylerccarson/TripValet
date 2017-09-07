@@ -6,9 +6,9 @@
   },
   "scripts": {
     "start": "nodemon server",
-    "test": "grunt test",
     "build": "webpack --watch",
-    "heroku-postbuild": "webpack -p"
+    "heroku-postbuild": "webpack -p",
+    "test": "NODE_ENV=test grunt test"
   },
   "author": "Hack Reactor",
   "license": "MIT",
@@ -26,11 +26,14 @@
     "enzyme": "^2.9.1",
     "express": "^4.15.2",
     "express-session": "^1.15.1",
+    "grunt-env": "^0.4.4",
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
+    "history": "^4.7.2",
     "knex": "^0.12.9",
     "material-ui": "^0.19.0",
     "moment": "^2.18.1",
     "morgan": "^1.8.1",
+    "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth": "^1.0.0",
@@ -44,6 +47,7 @@
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
+<<<<<<< HEAD
     "react-scrollbar-js": "^1.0.1",
     "redis": "^2.7.1",
     "redux": "^3.7.2",
@@ -51,6 +55,14 @@
     "sinon": "^3.2.1",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3"
+=======
+    "react-router-redux": "next",
+    "redis": "^2.7.1",
+    "redux": "^3.7.2",
+    "redux-devtools": "^3.4.0",
+    "redux-thunk": "^2.2.0",
+    "sinon": "^3.2.1"
+>>>>>>> 047a1929f081c8548440fe9ddf7ad35717da0d96
   },
   "devDependencies": {
     "babel-jest": "^20.0.3",
