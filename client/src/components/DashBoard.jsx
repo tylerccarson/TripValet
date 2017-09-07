@@ -16,6 +16,7 @@ class DashBoard extends React.Component {
     console.log('Dashboard Constructor says hello');
     this.hideModal = this.hideModal.bind(this);
     this.showModal = this.showModal.bind(this);
+    this.close = this.close.bind(this);
   }
   hideModal(e) {
     this.setState({
@@ -29,11 +30,20 @@ class DashBoard extends React.Component {
     });
   }
 
+  close() {
+    this.setState({
+      lgShow:false
+    });
+  }
 
   render() {
     return (
       <div>
-        <Modal show={this.state.lgShow} bsSize="large" aria-labelledby="contained-modal-title-sm">
+        <Modal
+          show={this.state.lgShow}
+          onHide={this.close}
+          bsSize="large"
+          aria-labelledby="contained-modal-title-sm">
           <Modal.Header >
             <Modal.Title id="contained-modal-title-sm">Create New Trip</Modal.Title>
           </Modal.Header>
