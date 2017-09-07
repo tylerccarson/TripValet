@@ -35,6 +35,7 @@ class TripForm extends React.Component {
       console.log('curent invitees', this.state.invitees);
 
     });
+    };
   }
 
   render () {
@@ -63,6 +64,7 @@ class TripForm extends React.Component {
               value={this.state.location}
               onChange={this.onChange}
             />
+            <InputGroup.Addon></InputGroup.Addon>
           </InputGroup>
         </FormGroup>
 
