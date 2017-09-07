@@ -6,11 +6,11 @@ import Test from './Test.jsx';
 import Here from './Here.jsx';
 var Main = () => (
   <main>
-  <Switch>
-    <Route exact path='/' component={DashBoard}/>
-    <Route path='/trip' component={Trip}/>
-  </Switch>
-</main>
+    <Switch>
+      <Route exact path='/' component={DashBoard}/>
+      <Route path='/trip' component={Trip}/>
+    </Switch>
+  </main>
 );
 
 export default Main;
