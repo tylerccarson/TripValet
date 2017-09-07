@@ -44,6 +44,7 @@ class TripForm extends React.Component {
         <FormGroup>
           <InputGroup>
             <ControlLabel>Trip Name</ControlLabel>
+            <InputGroup.Addon>Location</InputGroup.Addon>
             <FormControl
               type="text"
               placeholder="Tim's Bachelor Party!"
