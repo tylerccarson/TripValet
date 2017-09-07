@@ -10,10 +10,6 @@ class App extends React.Component {
       <div>
         <Header />
         <Main />
-        <div>
-
-          <GifsTemp gifs={ this.props.gifs } />
-        </div>
       </div>
     );
   }
