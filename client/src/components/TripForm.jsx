@@ -118,8 +118,3 @@ class TripForm extends React.Component {
 }
 
 export default TripForm;
-
-
-// location
-// Description
-// Start and end date
