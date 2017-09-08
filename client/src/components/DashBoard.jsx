@@ -1,5 +1,5 @@
 import React from 'react';
-import { Jumbotron, Button, Modal } from 'react-bootstrap';
+import { Jumbotron, Button, Modal, ButtonToolbar } from 'react-bootstrap';
 import GifsTemp from '../components/GifsTemp.jsx';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -48,13 +48,13 @@ class DashBoard extends React.Component {
             <Modal.Title id="contained-modal-title-sm">Create New Trip</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h4>Create a Listing!</h4>
             <p>Fill out the form below</p>
             <TripForm />
+            <ButtonToolbar>
+              <Button bsStyle="primary" >Create</Button>
+              <Button bsStyle="danger" onClick={this.hideModal}>Cancel</Button>
+            </ButtonToolbar>
           </Modal.Body>
-          <Modal.Footer>
-            <Button bsStyle="danger" onClick={this.hideModal}>Cancel</Button>
-          </Modal.Footer>
         </Modal>
         <Jumbotron>
           <h1>Upcoming Trips</h1>
