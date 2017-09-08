@@ -139,7 +139,8 @@ class TripForm extends React.Component {
           value={this.state.endDate}
           placeholder="End"
         />
-
+        <h3>Invitees</h3>
+        
         {this.state.invitees.map((invitee, i) => {
           return <Invitees
             invitee={invitee}
