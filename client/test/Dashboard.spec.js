@@ -8,7 +8,7 @@ import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
 import { mount, shallow, } from 'enzyme';
 import configureStore from '../src/store/configureStore';
-const store = configureStore();
+//const store = configureStore();
 
 xdescribe('<DashBoard /> component', () => {
   const wrapper = shallow( <Provider store={store}><DashBoard /></Provider>);
