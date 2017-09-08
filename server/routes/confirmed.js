@@ -5,28 +5,11 @@ const ConfirmedController = require('../controllers').Confirmed;
 const db = require('../../db');
 
 
-// router.route('/create')
-//   .post(TripController.createTrip);
+// router.route('/someroute')
+//   .post(ConfirmedController.somefunction);
 
-// router.route('/allTrips')
-//   .get(TripController.getAll);
+// router.route('/someroute')
+//   .get(ConfirmedController.getAll);
 
-// router.route('/byEmail')
-//   .get(TripController.getTripsByUserEmail);
-
-// router.route('/byUser')
-//   .get(TripController.getTripsByUserSessionId);
 
 module.exports = router;
-
-/* AVAILABLE FUNCTIONS
-
-  POST
-  TripController.createTrip
-  
-  GET
-  TripController.getTripsByUserEmail
-  TripController.getAll
-  TripController.getTripsByUserSessionId
-
-*/
