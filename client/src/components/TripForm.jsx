@@ -119,7 +119,7 @@ class TripForm extends React.Component {
           return <Invitees
             invitee={invitee}
             key={i}/>;
-          })
+        })
         }
       </form>
     );
