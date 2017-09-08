@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormGroup, InputGroup, FormControl, DropdownButton, Button, ButtonToolbar, MenuItem, ControlLabel } from 'react-bootstrap';
 import DatePicker from 'material-ui/DatePicker';
-
 import Invitees from './Invitees.jsx';
 
 var inviteListStyle = {
@@ -11,6 +10,7 @@ var inviteListStyle = {
 var buttonAlign = {
   textAlign: 'center'
 };
+
 class TripForm extends React.Component {
   constructor(props) {
     super(props);
@@ -30,9 +30,7 @@ class TripForm extends React.Component {
 
   }
 
-
   onChange (e) {
-    e.preventDefault();
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -60,7 +58,6 @@ class TripForm extends React.Component {
 
     });
   }
-
 
 
   sendForm (e) {
@@ -112,12 +109,11 @@ class TripForm extends React.Component {
             <DropdownButton
               componentClass={InputGroup.Button}
               id="input-dropdown-addon"
-              title="Action"
-            >
+              title="Action">
               <MenuItem
                 key="submit"
-                onClick={this.addToList}
-              > Add to list</MenuItem>
+                onClick={this.addToList}>
+               Add to list</MenuItem>
             </DropdownButton>
           </InputGroup>
         </FormGroup>
@@ -133,8 +129,9 @@ class TripForm extends React.Component {
         </FormGroup>
 
         <ControlLabel>Dates</ControlLabel>
-        <DatePicker
-          onChange={this.setStartDate}
+
+        <DatePickers
+          onChange={this.onChange}
           name="startDate"
           value={this.state.startDate}
           placeholder="Start"
@@ -145,8 +142,15 @@ class TripForm extends React.Component {
           value={this.state.endDate}
           placeholder="End"
         />
-        <h3 style={inviteListStyle}>Invitees:</h3>
 
+        <h3 style={inviteListStyle}>Invitees:</h3>
+        <DatePickers
+          name="endDate"
+          onChange={this.onChange}
+          value={this.state.endDate}
+          placeholder="End"
+        />
+        <h3>Invitees</h3>
         {this.state.invitees.map((invitee, i) => {
           return <Invitees
             invitee={invitee}
@@ -166,13 +170,8 @@ class TripForm extends React.Component {
           </Button>
         </ButtonToolbar>
       </form>
-
-
     );
   }
 }
 
 export default TripForm;
-
-
-// <DatePicker  container="inline" floatingLabelText="Fecha desde" onChange={(x, event) => this.setFechaDesde(x,event)}    defaultDate={new Date()} />
