@@ -9,9 +9,9 @@ let env = window.location.hostname + ':' + window.location.port;
 let socket = io(env);
 
 //to-dos:
-//1 put timestamp and avatar on the message
-//3 match user and trip info to dynamic rather than hardcoded
-//4 get scroll box to go to bottom of chat on load
+//1 match user and trip info to dynamic rather than hardcoded
+//2 get scroll box to go to bottom of chat on load
+//3 put avatar on the message
 
 class Chatroom extends React.Component {
   constructor(props) {
