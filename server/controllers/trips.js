@@ -1,6 +1,7 @@
 const models = require('../../db/models');
 
 module.exports.getAll = (req, res) => {
+
   models.Trip.fetchAll()
     .then(trips =>{
       
@@ -32,22 +33,57 @@ module.exports.getTripsByUserEmail = (req, res ) => { // this is used when we wa
 };
 
 module.exports.createTrip = (req, res) => {
+  console.log('CREATE-------------------------');
+  console.log('BODY: ', req.body);
+  console.log(req.session.passport.user);
+
   models.Trip.forge({
     tripname: req.body.tripname,
     description: req.body.description,
     location: req.body.location,
     rangeStart: req.body.rangeStart,
     rangeEnd: req.body.rangeEnd,
-    user_id: req.body.user_id
+    user_id: req.session.passport.user
 
   }).save()
     .then(trip => {
-      res.status(201).send(trip.attributes);
+      var trip = trip.attributes;
+      console.log('CREATEDDDDDDDDDDDDDDDDD', trip);
+
+      models.Profile.where({id:trip.user_id}).fetch()
+        .then((user)=>{
+          if (!user) {
+            throw user;
+          }
+          console.log(user);
+          models.Confirmed.forge({
+            user_id: trip.user_id,
+            trip_id: trip.id,
+            email: user.attributes.email
+          }).save()
+            .then(confirm =>{
+              console.log('Confirmation created: ', confirm);
+              res.status(201).send(trip);
+            })
+            .catch(err => {
+              console.log('ERROR: ', err);
+              res.status(503).send(err);
+            });
+        });
     })
     .catch(err => {
+      console.log(err);
       res.status(503).send(err);
     });
 
+};
+
+module.exports.getTripsByUserSessionId = (req, res) => {
+
+  console.log('-------------------------',req.session);
+
+
+  res.status(200).send('ok');
 };
 
 /* Keys for trips contain
