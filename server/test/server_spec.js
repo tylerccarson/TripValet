@@ -64,6 +64,7 @@ describe('trip route', () => {
       .send(body)
       .expect(201)
       .expect((res)=>{
+        console.log(res);
         expect(res.body.id).to.equal(2);
         expect(res.body.tripname).to.equal(body.tripname);
         expect(res.body.description).to.equal(body.description);
@@ -72,14 +73,6 @@ describe('trip route', () => {
         expect(res.body.rangeEnd).to.equal(body.rangeEnd);
         expect(res.body.user_id).to.equal(body.user_id);
       })
-      // .then(()=>{
-      //   it ('should create confirm field with emails', (done)=>{
-      //     request(app)
-      //       .get('/')
-
-      //   })
-
-      // })
       .end(done);
     
   });

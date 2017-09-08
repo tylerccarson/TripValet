@@ -108,6 +108,21 @@ module.exports.getTripsByUserSessionId = (req, res) => {
   res.status(200).send('ok');
 };
 
+/* NOTE ON HOW TO SEND EMAIL FOR LEE
+  models.Confirmed.where({trip_id: 2})
+    .then(confirm=>{
+      var emails = confirm.map(confirm=>{return confirm.email;}); //[test@test.com, test1@test.com]
+
+      // {id: 1, trip_id:2, user_id:1, email: test@test.com, confirm: false}
+      
+
+    })
+
+*/
+
+
+
+
 /* Keys for trips contain
   id
   tripname

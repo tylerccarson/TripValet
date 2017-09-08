@@ -27,5 +27,6 @@ module.exports = router;
   GET
   TripController.getTripsByUserEmail
   TripController.getAll
+  TripController.getTripsByUserSessionId
 
 */

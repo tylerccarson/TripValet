@@ -70,7 +70,7 @@ class DashBoard extends React.Component {
         console.log(trips);
 
       });
-    
+    console.log(document);
 
   }
 
