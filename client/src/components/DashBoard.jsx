@@ -49,17 +49,17 @@ class DashBoard extends React.Component {
       description: 'fake trip description',
       location: 'Fake Location',
       rangeStart: '2017/09/02',
-      rangeEnd: '2017/09/23'
+      rangeEnd: '2017/09/23',
+      invited: ['fake1@fake.com', 'fake2@fake.com', 'fake3@fake.com']
       
     })
       .then((trips)=>{
         console.log(trips);
-
+        // setState?
       });
 
-
-
   }
+
 
 
   componentWillMount() {

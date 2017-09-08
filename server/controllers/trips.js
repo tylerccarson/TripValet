@@ -1,4 +1,6 @@
 const models = require('../../db/models');
+const Promise = require('bluebird');
+const db = require('../../db');
 
 module.exports.getAll = (req, res) => {
 
@@ -56,19 +58,39 @@ module.exports.createTrip = (req, res) => {
             throw user;
           }
           console.log(user);
-          models.Confirmed.forge({
+          console.log('INVITED PEOPLE LIST: ', req.body.invited);
+          console.log(db.Collection);
+          let Confirms = db.Collection.extend({
+            model: models.Confirmed
+          });
+
+          var invitations = req.body.invited.map((email)=>{
+            return {
+              trip_id: trip.id,
+              email: email
+            };
+          });
+
+          var creator = models.Confirmed.forge({
             user_id: trip.user_id,
             trip_id: trip.id,
             email: user.attributes.email
-          }).save()
-            .then(confirm =>{
-              console.log('Confirmation created: ', confirm);
+          });
+
+          var confirms = Confirms.forge([
+            ...invitations, creator
+          ]);
+          Promise.all(confirms.invokeMap('save'))
+            .then(confirms=>{
+              console.log('Confirmations created: ', confirms);
               res.status(201).send(trip);
+
             })
             .catch(err => {
               console.log('ERROR: ', err);
               res.status(503).send(err);
             });
+
         });
     })
     .catch(err => {

@@ -54,7 +54,8 @@ describe('trip route', () => {
       description: 'Friends and family gathering',
       rangeStart: '2018/07/09',
       rangeEnd: '2018/07/23',
-      user_id: 1
+      user_id: 1, 
+      invited: ['fake1@fake.com', 'fake2@fake.com', 'fake3@fake.com']
 
     };
     request(app)
