@@ -3,36 +3,17 @@ import io from 'socket.io-client';
 import ChatView from 'react-chatview';
 import {List, ListItem} from 'material-ui/List';
 import TextField from 'material-ui/TextField';
-import Divider from 'material-ui/Divider';
 import ReactScrollbar from 'react-scrollbar-js';
 import axios from 'axios';
 
 let env = window.location.hostname + ':' + window.location.port;
 let socket = io(env);
 
-
-const Message = (props) => {
-  return (
-    <div className='message-container'>
-      <ListItem>
-        { props.user }: {props.message}
-      </ListItem>
-      <Divider/>
-    </div>
-  );
-};
-
-const Messages = (props) => {
-  return (
-    <div className='messages-container'>
-      <List>
-        { props.messages.map((message, i) => {
-          return <Message user={message.user} message={message.text} key={i}/>;
-        })}
-      </List>
-    </div>
-  );
-};
+//to-dos:
+//1 put timestamp on the message
+//2 add a button to delete user's own messages => through to DB
+//3 match user and trip info to dynamic rather than hardcoded
+//4 get scroll box to go to bottom of chat on load
 
 class Chatroom extends React.Component {
   constructor(props) {
@@ -40,6 +21,7 @@ class Chatroom extends React.Component {
     this.state = {
       messages: [],
       chatInput: '',
+      //need to change this to match actual user and trip info
       user: 'Ty',
       userId: 1,
       trip: 'Galapagos',
@@ -50,8 +32,6 @@ class Chatroom extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  //component will mount
-  //fetch all messages associated with trip id
   componentWillMount() {
     axios.get('/messages/byTrip', {
       params: {
@@ -68,11 +48,6 @@ class Chatroom extends React.Component {
       .catch((error) => {
         console.log(error);
       });
-  }
-
-  //todo: ability to delete a message
-  deleteMessage() {
-
   }
 
   handleChatInput(event) {
@@ -148,7 +123,7 @@ class Chatroom extends React.Component {
       <div className='chatroom-container' style={styling.chatroom}>
         <h3 style={styling.header}>GroupChat</h3>
         <ReactScrollbar ref='Scrollbar' style={styling.scrollbar}>
-          <Messages messages={this.state.messages} user={this.state.user}/>
+          <Messages messages={this.state.messages} currentUser={this.state.user}/>
         </ReactScrollbar>
         <div className='chatinput-container' style={styling.textInput}>
           <form className='chat-input' onSubmit={this.handleSubmit}>
