@@ -12,13 +12,8 @@ const socket = require('socket.io');
 var io = socket(server, {secure: true});
 
 io.on('connection', (socket) => {
-  console.log('Make socket connection', socket.id);
-
+  //send new messages to all other sockets
   socket.on('clientMessage', (data) => {
-    //save message to database
-
-    //then emit to all client sockets
-    io.sockets.emit('serverMessage', data);
-
+    io.sockets.emit('serverMessage', data.data);
   });
 });

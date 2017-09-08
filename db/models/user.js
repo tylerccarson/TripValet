@@ -10,6 +10,9 @@ const User = db.Model.extend({
   },
   availability: function() {
     return this.hasMany('Availability');
+  },
+  messages: function() {
+    return this.hasMany('Messages');
   }
 });
 
