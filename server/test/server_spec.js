@@ -6,6 +6,7 @@ const assert = require('chai').assert;
 const app = require('../app.js');
 const dbUtils = require('../../db/lib/utils.js');
 const models = require('../../db/models');
+const Promise = require('bluebird');
 
 describe('server', function() {
   beforeEach(function (done) {
@@ -71,6 +72,14 @@ describe('trip route', () => {
         expect(res.body.rangeEnd).to.equal(body.rangeEnd);
         expect(res.body.user_id).to.equal(body.user_id);
       })
+      // .then(()=>{
+      //   it ('should create confirm field with emails', (done)=>{
+      //     request(app)
+      //       .get('/')
+
+      //   })
+
+      // })
       .end(done);
     
   });
