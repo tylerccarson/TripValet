@@ -13,6 +13,7 @@ class TripForm extends React.Component {
       description: '',
       startDate: '',
       endDate: ''
+<<<<<<< 2c9867f58ac932b5bb69838c9fe9089f87e58b1c
     };
     this.onChange = this.onChange.bind(this);
     this.addToList = this.addToList.bind(this);
@@ -35,7 +36,30 @@ class TripForm extends React.Component {
       console.log('curent invitees', this.state.invitees);
 
     });
+=======
+>>>>>>> add date picker to form
     };
+    this.onChange = this.onChange.bind(this);
+    this.addToList = this.addToList.bind(this);
+  }
+
+  onChange (e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  addToList (e) {
+    var joined = this.state.invitees.slice();
+    joined.push(this.state.email);
+
+    this.setState({
+      email: '',
+      invitees: joined
+    }, function() {
+      console.log('curent invitees', this.state.invitees);
+
+    });
   }
 
   render () {
