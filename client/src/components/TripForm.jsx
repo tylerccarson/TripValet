@@ -1,7 +1,16 @@
 import React from 'react';
-import { FormGroup, InputGroup, FormControl, DropdownButton, Button, MenuItem, ControlLabel } from 'react-bootstrap';
-import DatePickers from './DatePicker.jsx';
+import { FormGroup, InputGroup, FormControl, DropdownButton, Button, ButtonToolbar, MenuItem, ControlLabel } from 'react-bootstrap';
+import DatePicker from 'material-ui/DatePicker';
+
 import Invitees from './Invitees.jsx';
+
+var inviteListStyle = {
+  textDecoration: 'underline'
+};
+
+var buttonAlign = {
+  textAlign: 'center'
+};
 class TripForm extends React.Component {
   constructor(props) {
     super(props);
@@ -9,22 +18,36 @@ class TripForm extends React.Component {
       invitees: [],
       name: '',
       location: '',
-      email: '',
       description: '',
-      startDate: '',
-      endDate: ''
-<<<<<<< 2c9867f58ac932b5bb69838c9fe9089f87e58b1c
+      startDate: null,
+      endDate: null
     };
     this.onChange = this.onChange.bind(this);
     this.addToList = this.addToList.bind(this);
+    this.sendForm = this.sendForm.bind(this);
+    this.setStartDate = this.setStartDate.bind(this);
+    this.setEndDate = this.setEndDate.bind(this);
+
   }
 
+
   onChange (e) {
+    e.preventDefault();
     this.setState({
       [e.target.name]: e.target.value
     });
   }
 
+  setStartDate (e, date) {
+    this.setState({
+      startDate: date
+    });
+  }
+  setEndDate (e, date) {
+    this.setState({
+      endDate: date
+    });
+  }
   addToList (e) {
     var joined = this.state.invitees.slice();
     joined.push(this.state.email);
@@ -36,30 +59,12 @@ class TripForm extends React.Component {
       console.log('curent invitees', this.state.invitees);
 
     });
-=======
->>>>>>> add date picker to form
-    };
-    this.onChange = this.onChange.bind(this);
-    this.addToList = this.addToList.bind(this);
   }
 
-  onChange (e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  }
 
-  addToList (e) {
-    var joined = this.state.invitees.slice();
-    joined.push(this.state.email);
 
-    this.setState({
-      email: '',
-      invitees: joined
-    }, function() {
-      console.log('curent invitees', this.state.invitees);
-
-    });
+  sendForm (e) {
+    console.log(this.state);
   }
 
   render () {
@@ -126,27 +131,40 @@ class TripForm extends React.Component {
             componentClass="textarea"
             placeholder="Thoughts for the group" />
         </FormGroup>
+
         <ControlLabel>Dates</ControlLabel>
-        <DatePickers
-          onChange={this.onChange}
+        <DatePicker
+          onChange={this.setStartDate}
           name="startDate"
           value={this.state.startDate}
           placeholder="Start"
         />
-        <DatePickers
+        <DatePicker
           name="endDate"
-          onChange={this.onChange}
+          onChange={this.setEndDate}
           value={this.state.endDate}
           placeholder="End"
         />
-        <h3>Invitees</h3>
-        
+        <h3 style={inviteListStyle}>Invitees:</h3>
+
         {this.state.invitees.map((invitee, i) => {
           return <Invitees
             invitee={invitee}
             key={i}/>;
         })
         }
+        <ButtonToolbar style={buttonAlign}>
+          <Button
+            bsStyle="primary"
+            onClick={this.sendForm}>
+            Create
+          </Button>
+          <Button
+            bsStyle="danger"
+            onClick={this.hideModal}>
+            Cancel
+          </Button>
+        </ButtonToolbar>
       </form>
 
 
@@ -155,3 +173,6 @@ class TripForm extends React.Component {
 }
 
 export default TripForm;
+
+
+// <DatePicker  container="inline" floatingLabelText="Fecha desde" onChange={(x, event) => this.setFechaDesde(x,event)}    defaultDate={new Date()} />

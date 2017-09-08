@@ -49,10 +49,7 @@ class DashBoard extends React.Component {
           <Modal.Body>
             <p>Fill out the form below</p>
             <TripForm />
-            <ButtonToolbar>
-              <Button bsStyle="primary" >Create</Button>
-              <Button bsStyle="danger" onClick={this.hideModal}>Cancel</Button>
-            </ButtonToolbar>
+
           </Modal.Body>
         </Modal>
         <Jumbotron>
