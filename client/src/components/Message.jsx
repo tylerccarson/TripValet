@@ -7,25 +7,32 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import {ListItem} from 'material-ui/List';
 import axios from 'axios';
+import moment from 'moment';
 
 class Message extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       disabled: false,
-      secondaryText: ''
+      secondaryText: moment(this.props.createdAt).format('MMMM Do YYYY, h:mm:ss a')
     };
     this.deleteMessage = this.deleteMessage.bind(this);
   }
 
   deleteMessage() {
-    //axios post request to delete message from the database
-    console.log('deleting message');
-    //then
-    this.setState({
-      disabled: true,
-      secondaryText: 'message deleted'
-    });
+    let deleteMe = {
+      messageId: this.props.messageId
+    };
+    axios.post('/messages/delete', deleteMe)
+      .then((deleted) => {
+        this.setState({
+          disabled: true,
+          secondaryText: 'message deleted'
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -67,7 +74,7 @@ class Message extends React.Component {
       // don't show menu
       return (
         <div className='message-container'>
-          <ListItem>
+          <ListItem secondaryText={<p style={style.text}>{this.state.secondaryText}</p>}>
             { this.props.user }: {this.props.message}
           </ListItem>
           <Divider/>

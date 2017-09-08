@@ -9,8 +9,7 @@ let env = window.location.hostname + ':' + window.location.port;
 let socket = io(env);
 
 //to-dos:
-//1 put timestamp on the message
-//2 add a button to delete user's own messages => through to DB
+//1 put timestamp and avatar on the message
 //3 match user and trip info to dynamic rather than hardcoded
 //4 get scroll box to go to bottom of chat on load
 

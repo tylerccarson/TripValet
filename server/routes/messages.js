@@ -13,5 +13,8 @@ router.route('/byTrip')
 router.route('/create')
   .post(MessagesController.createMessage);
 //3 delete a message for a trip
+router.route('/delete')
+  .post(MessagesController.deleteMessage);
+
 
 module.exports = router;
