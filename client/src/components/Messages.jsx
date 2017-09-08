@@ -1,5 +1,6 @@
 import React from 'react';
 import Message from './Message.jsx';
+import {List} from 'material-ui/List';
 
 const Messages = (props) => {
   return (

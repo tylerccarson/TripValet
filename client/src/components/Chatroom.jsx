@@ -1,9 +1,8 @@
 import React from 'react';
 import io from 'socket.io-client';
-import ChatView from 'react-chatview';
-import {List, ListItem} from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import ReactScrollbar from 'react-scrollbar-js';
+import Messages from './Messages.jsx';
 import axios from 'axios';
 
 let env = window.location.hostname + ':' + window.location.port;

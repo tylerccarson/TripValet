@@ -5,23 +5,26 @@ import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
+import {ListItem} from 'material-ui/List';
 import axios from 'axios';
 
 class Message extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      disabled: false
+      disabled: false,
+      secondaryText: ''
     };
     this.deleteMessage = this.deleteMessage.bind(this);
   }
 
   deleteMessage() {
     //axios post request to delete message from the database
-
+    console.log('deleting message');
     //then
     this.setState({
-      disable: true
+      disabled: true,
+      secondaryText: 'message deleted'
     });
   }
 
@@ -43,11 +46,17 @@ class Message extends React.Component {
       </IconMenu>
     );
 
-    if (props.currentUser === props.user) {
+    const style = {
+      text: {
+        color: 'grey'
+      }
+    };
+
+    if (this.props.currentUser === this.props.user) {
       //show delete button
       return (
         <div className='message-container'>
-          <ListItem rightIconButton={rightIconMenu} disabled={this.state.disabled}>
+          <ListItem rightIconButton={rightIconMenu} disabled={this.state.disabled} secondaryText={<p style={style.text}>{this.state.secondaryText}</p>}>
             { this.props.user }: {this.props.message}
           </ListItem>
           <Divider/>
