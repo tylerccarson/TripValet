@@ -10,7 +10,7 @@ import { mount, shallow, } from 'enzyme';
 import configureStore from '../src/store/configureStore';
 const store = configureStore();
 
-describe('<DashBoard /> component', () => {
+xdescribe('<DashBoard /> component', () => {
   const wrapper = shallow( <Provider store={store}><DashBoard /></Provider>);
   it('should placeholder text', () => {
     // expect(wrapper.contains(<Jumbotron>
