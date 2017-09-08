@@ -2,9 +2,9 @@ import React from 'react';
 import { Jumbotron, Button, Modal } from 'react-bootstrap';
 import GifsTemp from '../components/GifsTemp.jsx';
 import { connect } from 'react-redux';
-
-import Calendar from '../components/Calendar.jsx';
-import Chatroom from './Chatroom.jsx';
+import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux';
+import { Link } from 'react-router-dom';
 
 class DashBoard extends React.Component {
   constructor(props) {
@@ -12,6 +12,7 @@ class DashBoard extends React.Component {
     this.state = {
       lgShow: false
     };
+    console.log('Dashboard Constructor says hello');
     this.hideModal = this.hideModal.bind(this);
     this.showModal = this.showModal.bind(this);
   }
@@ -26,6 +27,8 @@ class DashBoard extends React.Component {
       lgShow: true
     });
   }
+
+
   render() {
     return (
       <div>
@@ -43,20 +46,18 @@ class DashBoard extends React.Component {
         </Modal>
         <Jumbotron>
           <h1>Upcoming Trips</h1>
+          <ul>
+            <li><Link to='/trip'>Trip One</Link></li>
+          </ul>
         </Jumbotron>
-        <Chatroom />
         <p><Button bsStyle="primary" onClick={this.showModal}>Create</Button></p>
       </div>
     );
   }
 }
 
-var mapStateToProps = (state) => {
-  return {
-    gifs: state.gifs
-  };
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  changePage: () => push('/about-us')
+}, dispatch);
 
-export default connect(mapStateToProps) (DashBoard);
-
-//<Calendar />
+export default connect(null, mapDispatchToProps) (DashBoard);

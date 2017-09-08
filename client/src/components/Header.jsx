@@ -4,10 +4,9 @@ import { Link, Route } from 'react-router-dom';
 const Header = () => (
   <header>
     <nav>
-      <h1>Header.jsx is connected</h1>
       <ul>
-        <li><Link to='/'>Dashboard</Link></li>
         <li><Link to='/trip'>Trip</Link></li>
+        <li><Link to='/'>Dashboard</Link></li>
       </ul>
     </nav>
   </header>
