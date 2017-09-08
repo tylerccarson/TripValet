@@ -7,12 +7,8 @@ const Main = () => (
 
   <div>
     <Switch>
-      <Route exact path= '/' render={(propz) =>(
-        <DashBoard {...propz} />
-      )}/>
-      <Route exact path='/trip' render={(propz) =>(
-        <Trip {...propz} />
-      )}/>
+      <Route exact path= '/' component={ DashBoard } />
+      <Route path='/trip' conponent={ Trip }/>
     </Switch>
   </div>
 );

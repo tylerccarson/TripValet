@@ -5,9 +5,11 @@ import {List, ListItem} from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 import ReactScrollbar from 'react-scrollbar-js';
+import axios from 'axios';
 
 let env = window.location.hostname + ':' + window.location.port;
 let socket = io(env);
+
 
 const Message = (props) => {
   return (
@@ -25,7 +27,7 @@ const Messages = (props) => {
     <div className='messages-container'>
       <List>
         { props.messages.map((message, i) => {
-          return <Message user={message.user} message={message.message} key={i}/>;
+          return <Message user={message.user} message={message.text} key={i}/>;
         })}
       </List>
     </div>
@@ -39,7 +41,9 @@ class Chatroom extends React.Component {
       messages: [],
       chatInput: '',
       user: 'Ty',
-      trip: 'Galapagos'
+      userId: 1,
+      trip: 'Galapagos',
+      tripId: 1
     };
 
     this.handleChatInput = this.handleChatInput.bind(this);
@@ -48,7 +52,28 @@ class Chatroom extends React.Component {
 
   //component will mount
   //fetch all messages associated with trip id
+  componentWillMount() {
+    axios.get('/messages/byTrip', {
+      params: {
+        tripId: this.state.tripId
+      }
+    })
+      .then((messages) => {
+        let currentMessages = this.state.messages;
+        currentMessages = currentMessages.concat(messages.data);
+        this.setState({
+          messages: currentMessages
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
+  //todo: ability to delete a message
+  deleteMessage() {
+
+  }
 
   handleChatInput(event) {
     this.setState({
@@ -58,12 +83,20 @@ class Chatroom extends React.Component {
 
   sendMessage() {
     let message = {
-      //trip, user, message
       trip: this.state.trip,
+      tripId: this.state.tripId,
       user: this.state.user,
-      message: this.state.chatInput
+      userId: this.state.userId,
+      text: this.state.chatInput
     };
-    socket.emit('clientMessage', message);
+
+    axios.post('/messages/create', message)
+      .then((res) => {
+        socket.emit('clientMessage', res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   handleSubmit(event) {
@@ -74,14 +107,14 @@ class Chatroom extends React.Component {
     });
   }
 
-  //not working yet
+  //to-do: goes most of the down, not to the complete end of the chat window
   scrollToBottom() {
-    console.log('scrolling');
     this.refs.Scrollbar.scrollToY('120%'); 
   }
 
   componentDidMount() {
     socket.on('serverMessage', (data) => {
+      //data needs user property
       let currentMessages = this.state.messages;
       currentMessages.push(data);
       this.setState({

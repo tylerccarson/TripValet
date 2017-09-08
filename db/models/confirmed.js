@@ -5,8 +5,8 @@ const Confirmed = db.Model.extend({
   trip: function() {
     return this.belongsTo('Trip');
   },
-  user: function() {
-    return this.belongsTo('User');
+  profile: function() {
+    return this.belongsTo('Profile');
   }
 });
 
