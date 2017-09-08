@@ -2,6 +2,7 @@ import React from 'react';
 import { FormGroup, InputGroup, FormControl, DropdownButton, Button, MenuItem, ControlLabel } from 'react-bootstrap';
 import DatePickers from './DatePicker.jsx';
 import Invitees from './Invitees.jsx';
+
 class TripForm extends React.Component {
   constructor(props) {
     super(props);
@@ -84,8 +85,9 @@ class TripForm extends React.Component {
             >
               <MenuItem
                 key="submit"
-                onClick={this.addToList}
-              > Add to list</MenuItem>
+                onClick={this.addToList}>
+                Add to list
+              </MenuItem>
             </DropdownButton>
           </InputGroup>
         </FormGroup>
@@ -113,22 +115,14 @@ class TripForm extends React.Component {
           placeholder="End"
         />
         <h3>Invitees</h3>
-        
         {this.state.invitees.map((invitee, i) => {
           return <Invitees
             invitee={invitee}
             key={i}/>;
         })}
       </form>
-
-
     );
   }
 }
 
 export default TripForm;
-
-
-// location
-// Description
-// Start and end date
