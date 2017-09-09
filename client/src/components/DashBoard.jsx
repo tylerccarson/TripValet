@@ -1,10 +1,11 @@
 import React from 'react';
-import { Jumbotron, Button, Modal } from 'react-bootstrap';
+import { Jumbotron, Button, Modal, ButtonToolbar } from 'react-bootstrap';
 import GifsTemp from '../components/GifsTemp.jsx';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { Link } from 'react-router-dom';
+import TripForm from './TripForm.jsx';
 import axios from 'axios';
 
 class DashBoard extends React.Component {
@@ -17,6 +18,7 @@ class DashBoard extends React.Component {
     console.log('Dashboard Constructor says hello');
     this.hideModal = this.hideModal.bind(this);
     this.showModal = this.showModal.bind(this);
+    this.close = this.close.bind(this);
     this.createTrip = this.createTrip.bind(this);
   }
 
@@ -74,21 +76,27 @@ class DashBoard extends React.Component {
 
   }
 
+  close() {
+    this.setState({
+      lgShow:false
+    });
+  }
 
   render() {
     return (
       <div>
-        <Modal show={this.state.lgShow} bsSize="large" aria-labelledby="contained-modal-title-sm">
+        <Modal
+          show={this.state.lgShow}
+          onHide={this.close}
+          bsSize="large"
+          aria-labelledby="contained-modal-title-sm">
           <Modal.Header >
             <Modal.Title id="contained-modal-title-sm">Create New Trip</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h4>Create a Listing!</h4>
             <p>Fill out the form below</p>
+            <TripForm />
           </Modal.Body>
-          <Modal.Footer>
-            <Button bsStyle="danger" onClick={this.hideModal}>Cancel</Button>
-          </Modal.Footer>
         </Modal>
         <Jumbotron>
           <h1>Upcoming Trips</h1>
