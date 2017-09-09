@@ -9,11 +9,20 @@ class Trip extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
+<<<<<<< c661942d9e7017e8090bbebca4e67e53bd225fdc
       trip: {},
       confirms: {},
       currentUser: {},
       usersWithAccount: {}
     };
+=======
+
+    };
+    this.getTripData = this.getTripData.bind(this);
+    this.getConfirmation = this.getConfirmation.bind(this);
+    this.getUserInformation = this.getUserInformation.bind(this);
+    console.log('test');
+>>>>>>> add state to trip.jsx
   }
 
   componentWillMount() {
@@ -23,6 +32,7 @@ class Trip extends React.Component {
           trip: trip.data.trip,
         });
       })
+<<<<<<< c661942d9e7017e8090bbebca4e67e53bd225fdc
       .then(() => {
         axios.get('/confirmed/byTrip')
           .then((confirms)=>{
@@ -46,18 +56,44 @@ class Trip extends React.Component {
                 });
               });
           });
+=======
+      .then(()=>{
+        console.log(this.state);
+      });
+  }
+
+  getConfirmation() {
+
+    axios.get('/confirmed/byTrip')
+      .then((confirms)=>{
+
+        this.setState({confirms});
+>>>>>>> add state to trip.jsx
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
+<<<<<<< c661942d9e7017e8090bbebca4e67e53bd225fdc
   render( ) {
     var style = {
       confirms: {
         textAlign: 'center'
       },
       calendar: {
+=======
+  getUserInformation() {
+    axios.get('/user/byUserId')
+      .then((user)=>{
+        this.setState({currentUser: user.data});
+      })
+      .then(()=>{
+        console.log(this.state);
+
+      });
+  }
+>>>>>>> add state to trip.jsx
 
       },
       chatroom: {
