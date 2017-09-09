@@ -109,6 +109,24 @@ module.exports.getTripsByUserSessionId = (req, res) => {
   
 };
 
+module.exports.getTripInfoById = (req, res) =>{
+
+  var incomingUrl = req.headers.referer;
+  incomingUrl = incomingUrl.split('/');
+  var tripId = incomingUrl[incomingUrl.length-1];
+
+  models.Trip.where({id: tripId}).fetch()
+    .then((trip)=>{
+      res.status(200).send(trip);
+    })
+    .catch((err)=>{
+      console.log('ERROR fetching Trip');
+      res.status(503).send(err);
+    });
+
+  
+};
+
 /* NOTE ON HOW TO SEND EMAIL FOR LEE
   models.Confirmed.where({trip_id: 2})
     .then(confirm=>{
