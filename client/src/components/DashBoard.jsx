@@ -45,7 +45,7 @@ class DashBoard extends React.Component {
   */
 
   componentWillMount() {
-    axios.get('/trips/byUser')
+    axios.get('/trips/byEmail')
       .then((trips)=>{
         this.setState({
           trips: trips.data

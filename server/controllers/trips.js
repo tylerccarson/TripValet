@@ -7,7 +7,7 @@ module.exports.getAll = (req, res) => {
   models.Trip.fetchAll()
     .then(trips =>{
       
-      trips = trips.models.map(trip=>{return trip.attributes;});
+      trips = trips.models.map(trip=>{ return trip.attributes; });
       res.status(200).send(trips);
     })
     .catch(err => {
@@ -17,8 +17,14 @@ module.exports.getAll = (req, res) => {
 };
 
 module.exports.getTripsByUserEmail = (req, res ) => { // this is used when we want to fetch all trips by a user on dashboard.
-  var email = { email: req.body.email }; // this may change depending on actual request form.
-  models.Confirmed.where(email).fetchAll()
+  models.Profile.where({id: req.session.passport.user}).fetch()
+    .then((user) => {
+      if (!user) {
+        throw user;
+      }
+      var email = user.attributes.email;
+      return models.Confirmed.where({email: email}).fetchAll();
+    })
     .then((confirms)=>{
       var tripIds = confirms.models.map((confirm)=>{
         return confirm.attributes.trip_id;
@@ -48,7 +54,7 @@ module.exports.createTrip = (req, res) => {
     .then(trip => {
       var trip = trip.attributes;
 
-      models.Profile.where({id:trip.user_id}).fetch()
+      models.Profile.where({id: trip.user_id}).fetch()
         .then((user)=>{
           if (!user) {
             throw user;
@@ -95,10 +101,11 @@ module.exports.createTrip = (req, res) => {
 };
 
 module.exports.getTripsByUserSessionId = (req, res) => {
+  console.log(req.session);
   //why is there only one user associated with each trip? Don't we want anybody who has been invited to also be there?
   models.Trip.where({user_id: req.session.passport.user}).fetchAll()
     .then((trips)=>{
-      trips = trips.models.map(trip=>{return trip.attributes;});
+      trips = trips.models.map(trip=>{ return trip.attributes; });
       res.status(200).send(trips);
     })
     .catch((err)=>{
