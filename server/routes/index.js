@@ -3,3 +3,4 @@ module.exports.auth = require('./auth');
 module.exports.profiles = require('./profiles');
 module.exports.trips = require('./trips');
 module.exports.messages = require('./messages');
+module.exports.confirmed = require('./confirmed');
