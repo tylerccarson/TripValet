@@ -127,14 +127,21 @@ module.exports.getTripsByUserSessionId = (req, res) => {
 
 
 module.exports.getTripInfoById = (req, res) =>{
-
+  
   var incomingUrl = req.headers.referer;
   incomingUrl = incomingUrl.split('/');
   var tripId = incomingUrl[incomingUrl.length-1];
+  var userId = req.user.id;
+  //first name or fullname? req.user.first
+  var user = req.user.display;
 
   models.Trip.where({id: tripId}).fetch()
     .then((trip)=>{
-      res.status(200).send(trip);
+      res.status(200).send({
+        trip: trip,
+        user: user,
+        userId: userId
+      });
     })
     .catch((err)=>{
       console.log('ERROR fetching Trip');

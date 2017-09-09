@@ -9,7 +9,7 @@ let env = window.location.hostname + ':' + window.location.port;
 let socket = io(env);
 
 //to-dos:
-//1 match user and trip info to dynamic rather than hardcoded
+//1 styling
 //2 get scroll box to go to bottom of chat on load
 //3 put avatar on the message
 
@@ -19,33 +19,30 @@ class Chatroom extends React.Component {
     this.state = {
       messages: [],
       chatInput: '',
-      //need to change this to match actual user and trip info
-      user: 'Ty',
-      userId: 1,
-      trip: 'Galapagos',
-      tripId: 1
     };
 
     this.handleChatInput = this.handleChatInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentWillMount() {
-    axios.get('/messages/byTrip', {
-      params: {
-        tripId: this.state.tripId
-      }
-    })
-      .then((messages) => {
-        let currentMessages = this.state.messages;
-        currentMessages = currentMessages.concat(messages.data);
-        this.setState({
-          messages: currentMessages
-        });
+  componentDidMount() {
+    if (this.props.tripId) {
+      axios.get('/messages/byTrip', {
+        params: {
+          tripId: this.props.tripId
+        }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((messages) => {
+          let currentMessages = this.state.messages;
+          currentMessages = currentMessages.concat(messages.data);
+          this.setState({
+            messages: currentMessages
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }
 
   handleChatInput(event) {
@@ -56,10 +53,9 @@ class Chatroom extends React.Component {
 
   sendMessage() {
     let message = {
-      trip: this.state.trip,
-      tripId: this.state.tripId,
-      user: this.state.user,
-      userId: this.state.userId,
+      tripId: this.props.tripId,
+      user: this.props.user,
+      userId: this.props.userId,
       text: this.state.chatInput
       //avatar: avatar URL for user
     };
@@ -122,7 +118,7 @@ class Chatroom extends React.Component {
       <div className='chatroom-container' style={styling.chatroom}>
         <h3 style={styling.header}>GroupChat</h3>
         <ReactScrollbar ref='Scrollbar' style={styling.scrollbar}>
-          <Messages messages={this.state.messages} currentUser={this.state.user}/>
+          <Messages messages={this.state.messages} currentUser={this.props.user}/>
         </ReactScrollbar>
         <div className='chatinput-container' style={styling.textInput}>
           <form className='chat-input' onSubmit={this.handleSubmit}>

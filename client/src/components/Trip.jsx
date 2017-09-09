@@ -7,9 +7,15 @@ import Promise from 'bluebird';
 class Trip extends React.Component {
   constructor (props) {
     super(props);
+    this.state = {
+      trip: {},
+      tripId: null,
+      user: '',
+      userId: null
+    };
+
     this.getTripData = this.getTripData.bind(this);
     this.getConfirmation = this.getConfirmation.bind(this);
-    console.log('test');
   }
 
   getAllStateData() {
@@ -20,13 +26,16 @@ class Trip extends React.Component {
 
   getTripData() {
     axios.get('/trips')
-      .then((trip)=>{
-        this.setState({trip: trip.data});
-        console.log(this);
-        console.log(trip);
+      .then((data)=>{
+        this.setState({
+          trip: data.data.trip,
+          tripId: data.data.trip.id,
+          user: data.data.user,
+          userId: data.data.userId
+        });
       })
-      .then(()=>{
-        console.log(this.state);
+      .catch((error) => {
+        console.log(error);
       });
   }
 
@@ -40,9 +49,8 @@ class Trip extends React.Component {
       });
   }
 
-  componentDidMount () {
+  componentWillMount () {
     this.getTripData();
-
   }
 
   render( ) {
@@ -50,11 +58,13 @@ class Trip extends React.Component {
 
     return (
       <div>
-
-        <h1>This is the Trip</h1>
+        <h1>{this.state.trip.tripname}</h1>
+        <h3>Description: {this.state.trip.description}</h3>
         <Calendar />
-        <h2 style={style} onClick={()=>{this.getAllStateData();}}>Click</h2>
-        <Chatroom />
+        <Chatroom 
+          tripId={this.state.tripId}
+          user={this.state.user}
+          userId={this.state.userId}/>
       </div>
     );
   }
