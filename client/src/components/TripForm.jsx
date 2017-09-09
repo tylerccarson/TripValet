@@ -4,6 +4,7 @@ import DatePicker from 'material-ui/DatePicker';
 import Invitees from './Invitees.jsx';
 import axios from 'axios';
 import FlatButton from 'material-ui/FlatButton';
+import { Route, Switch } from 'react-router-dom';
 
 const inviteListStyle = {
   textDecoration: 'underline'
@@ -43,11 +44,20 @@ class TripForm extends React.Component {
       invited: this.state.invited
     })
       .then((trips)=>{
-        console.log(trips);
-        // setState?
+        console.log(trips.data);
+        this.props.hideModal();
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log('error', error);
       });
 
   }
+  // renderThis () {
+  //   return (
+  //     <Route path='/trip/' + {this.trips.data.id} component={Trip}/>
+  //   )
+  // }
   onChange (e) {
     this.setState({
       [e.target.name]: e.target.value
