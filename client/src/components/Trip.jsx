@@ -16,6 +16,8 @@ class Trip extends React.Component {
 
     this.getTripData = this.getTripData.bind(this);
     this.getConfirmation = this.getConfirmation.bind(this);
+    this.getUserInformation = this.getUserInformation.bind(this);
+    console.log('test');
   }
 
   getAllStateData() {
@@ -26,13 +28,9 @@ class Trip extends React.Component {
 
   getTripData() {
     axios.get('/trips')
-      .then((data)=>{
-        this.setState({
-          trip: data.data.trip,
-          tripId: data.data.trip.id,
-          user: data.data.user,
-          userId: data.data.userId
-        });
+
+      .then((trip)=>{
+        this.setState({trip: trip.data});
       })
       .catch((error) => {
         console.log(error);
@@ -40,17 +38,32 @@ class Trip extends React.Component {
   }
 
   getConfirmation() {
+
     axios.get('/confirmed/byTrip')
-      .then((confirm)=>{
-        console.log(confirm);
+      .then((confirms)=>{
+        
+        this.setState({confirms});
       })
       .then(()=>{
         console.log(this.state);
       });
   }
 
-  componentWillMount () {
+  getUserInformation() {
+    axios.get('/user/byUserId')
+      .then((user)=>{
+        this.setState({currentUser: user.data});
+      })
+      .then(()=>{
+        console.log(this.state);
+        
+      });
+  }
+
+  componentDidMount () {
     this.getTripData();
+    this.getConfirmation();
+    this.getUserInformation();
   }
 
   render( ) {

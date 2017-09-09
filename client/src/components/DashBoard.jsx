@@ -21,6 +21,7 @@ class DashBoard extends React.Component {
     this.hideModal = this.hideModal.bind(this);
     this.showModal = this.showModal.bind(this);
     this.close = this.close.bind(this);
+    
   }
   
   hideModal(e) {
@@ -62,6 +63,7 @@ class DashBoard extends React.Component {
     });
   }
 
+
   render() {
     return (
       <div>
@@ -86,6 +88,7 @@ class DashBoard extends React.Component {
           </List>
         </Jumbotron>
 
+
         <p>
           <Button
             bsStyle="primary"
@@ -93,6 +96,7 @@ class DashBoard extends React.Component {
           Create
           </Button>
         </p>
+
 
       </div>
     );
