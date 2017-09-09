@@ -7,6 +7,9 @@ import Promise from 'bluebird';
 class Trip extends React.Component {
   constructor (props) {
     super(props);
+    this.state = {
+
+    };
     this.getTripData = this.getTripData.bind(this);
     this.getConfirmation = this.getConfirmation.bind(this);
     this.getUserInformation = this.getUserInformation.bind(this);
@@ -34,7 +37,7 @@ class Trip extends React.Component {
 
     axios.get('/confirmed/byTrip')
       .then((confirms)=>{
-        
+
         this.setState({confirms});
       })
       .then(()=>{
@@ -49,7 +52,7 @@ class Trip extends React.Component {
       })
       .then(()=>{
         console.log(this.state);
-        
+
       });
   }
 
