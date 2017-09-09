@@ -74,7 +74,6 @@ class DashBoard extends React.Component {
             <Modal.Title id="contained-modal-title-sm">Create New Trip</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>Fill out the form below</p>
             <TripForm
               hideModal={this.hideModal}
             />
@@ -86,9 +85,13 @@ class DashBoard extends React.Component {
             <Trips trips={this.state.trips}/>
           </List>
         </Jumbotron>
-        <p><Button bsStyle="primary" onClick={this.showModal}>Create</Button></p>
-
-        <h2 onClick={()=>{ this.createTrip(); }}>CLICK</h2>
+        <p>
+          <Button
+            bsStyle="primary"
+            onClick={this.showModal}>
+          Create
+          </Button>
+        </p>
       </div>
     );
   }
