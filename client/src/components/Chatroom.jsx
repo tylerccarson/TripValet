@@ -21,7 +21,7 @@ class Chatroom extends React.Component {
       chatInput: '',
       //need to change this to match actual user and trip info
       user: 'Ty',
-      userId: 1,
+      userId: 8,
       trip: 'Galapagos',
       tripId: 1
     };
@@ -101,7 +101,7 @@ class Chatroom extends React.Component {
   render() {
     let styling = {
       chatroom: {
-        width: 350,
+        width: 400,
         height: 500,
         float: 'right'
       },
