@@ -88,7 +88,7 @@ module.exports.createTrip = (req, res) => {
               }
               console.log('email array: ', invitees);
 
-              // sendInviteEmail(user.display, trip.tripName, invitees);
+              sendInviteEmail(user.display, trip.tripName, invitees);
 
               res.status(201).send(trip);
 
@@ -160,11 +160,11 @@ function sendInviteEmail(inviterName, tripName, invitees) {
   mailgun.messages().send(mailOptions, function(error, response) {
     if (error) {
       console.log('error happened sending mail: ', error);
-      res.end('error');
+      // res.end('error');
     } else {
       console.log('message sent ' + response);
       console.log(response);
-      res.end('sent');
+      // res.end('sent');
     }
   });
 }
