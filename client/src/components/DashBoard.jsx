@@ -22,7 +22,7 @@ class DashBoard extends React.Component {
     this.showModal = this.showModal.bind(this);
     this.close = this.close.bind(this);
   }
-
+  
   hideModal(e) {
     this.setState({
       lgShow: false
@@ -85,6 +85,7 @@ class DashBoard extends React.Component {
             <Trips trips={this.state.trips}/>
           </List>
         </Jumbotron>
+
         <p>
           <Button
             bsStyle="primary"
@@ -92,6 +93,7 @@ class DashBoard extends React.Component {
           Create
           </Button>
         </p>
+
       </div>
     );
   }

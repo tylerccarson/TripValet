@@ -125,11 +125,22 @@ module.exports.getTripsByUserSessionId = (req, res) => {
   
 };
 
-/* Keys for trips contain
-  id
-  tripname
-  description
-  location
-  creator mail
-*/
+
+module.exports.getTripInfoById = (req, res) =>{
+
+  var incomingUrl = req.headers.referer;
+  incomingUrl = incomingUrl.split('/');
+  var tripId = incomingUrl[incomingUrl.length-1];
+
+  models.Trip.where({id: tripId}).fetch()
+    .then((trip)=>{
+      res.status(200).send(trip);
+    })
+    .catch((err)=>{
+      console.log('ERROR fetching Trip');
+      res.status(503).send(err);
+    });
+
+  
+};
 
