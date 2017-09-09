@@ -4,6 +4,7 @@ import { Navbar, NavItem, Nav, NavDropdown} from 'react-bootstrap';
 const Header = (props) => (
   <header>
     <nav>
+
       <Navbar inverse collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
@@ -20,6 +21,7 @@ const Header = (props) => (
           </Navbar.Brand>
         </Navbar.Collapse>
       </Navbar>
+
     </nav>
   </header>
 );
