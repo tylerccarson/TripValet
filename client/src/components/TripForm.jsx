@@ -44,7 +44,7 @@ class TripForm extends React.Component {
       .then((trips)=>{
         console.log(trips);
         // setState?
-      });
+      })
 
   }
   onChange (e) {
