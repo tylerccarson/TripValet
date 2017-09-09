@@ -26,7 +26,7 @@ app.use('/api/profiles', routes.profiles);
 app.use('/trips', routes.trips);
 app.use('/messages', routes.messages);
 app.use('/confirmed', routes.confirmed);
-
+app.use('/user', routes.user);
 
 
 

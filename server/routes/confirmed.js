@@ -8,8 +8,8 @@ const db = require('../../db');
 // router.route('/someroute')
 //   .post(ConfirmedController.somefunction);
 
-// router.route('/someroute')
-//   .get(ConfirmedController.getAll);
+router.route('/byTrip')
+  .get(ConfirmedController.getConfirmsByTripId);
 
 
 module.exports = router;
