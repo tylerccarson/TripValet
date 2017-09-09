@@ -61,7 +61,7 @@ describe('Profile model tests', function () {
       });
   });
 
-  it('Should be able to delete a record', function (done) {
+  xit('Should be able to delete a record', function (done) {
     // Inserts a user
     Profile.where({ id: 1 }).destroy()
       // verifies that the user has been inserted

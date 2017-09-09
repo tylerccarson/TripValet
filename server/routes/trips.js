@@ -14,6 +14,9 @@ router.route('/allTrips')
 router.route('/byEmail')
   .get(TripController.getTripsByUserEmail);
 
+router.route('/byUser')
+  .get(TripController.getTripsByUserSessionId);
+
 module.exports = router;
 
 /* AVAILABLE FUNCTIONS
@@ -24,5 +27,6 @@ module.exports = router;
   GET
   TripController.getTripsByUserEmail
   TripController.getAll
+  TripController.getTripsByUserSessionId
 
 */
