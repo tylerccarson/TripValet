@@ -16,7 +16,7 @@ class TripForm extends React.Component {
     super(props);
     this.state = {
       invitees: [],
-      name: '',
+      tripname: '',
       location: '',
       description: '',
       startDate: null,
@@ -130,12 +130,6 @@ class TripForm extends React.Component {
 
         <ControlLabel>Dates</ControlLabel>
 
-        <DatePickers
-          onChange={this.onChange}
-          name="startDate"
-          value={this.state.startDate}
-          placeholder="Start"
-        />
         <DatePicker
           name="endDate"
           onChange={this.setEndDate}
@@ -144,7 +138,7 @@ class TripForm extends React.Component {
         />
 
         <h3 style={inviteListStyle}>Invitees:</h3>
-        <DatePickers
+        <DatePicker
           name="endDate"
           onChange={this.onChange}
           value={this.state.endDate}
