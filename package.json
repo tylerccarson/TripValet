@@ -31,6 +31,7 @@
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
     "history": "^4.7.2",
     "knex": "^0.12.9",
+    "mailgun-js": "^0.13.1",
     "material-ui": "^0.19.0",
     "moment": "^2.18.1",
     "morgan": "^1.8.1",
