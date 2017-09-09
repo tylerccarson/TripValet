@@ -11,8 +11,8 @@ exports.seed = function (knex, Promise) {
         tripname: 'Adam\'s bachelors party',
         description: 'You know the drill. Anything happens in LV, stays in LV',
         location: 'Las Vegas',
-        rangeStart: '20171001',
-        rangeEnd: '20171030',
+        rangeStart: '2017/10/01',
+        rangeEnd: '2017/10/30'
         user_id: 1
       }).save();
     })
