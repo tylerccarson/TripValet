@@ -35,9 +35,6 @@ module.exports.getTripsByUserEmail = (req, res ) => { // this is used when we wa
 };
 
 module.exports.createTrip = (req, res) => {
-  console.log('CREATE-------------------------');
-  console.log('BODY: ', req.body);
-  console.log(req.session.passport.user);
 
   models.Trip.forge({
     tripname: req.body.tripname,
@@ -50,16 +47,13 @@ module.exports.createTrip = (req, res) => {
   }).save()
     .then(trip => {
       var trip = trip.attributes;
-      console.log('CREATEDDDDDDDDDDDDDDDDD', trip);
 
       models.Profile.where({id:trip.user_id}).fetch()
         .then((user)=>{
           if (!user) {
             throw user;
           }
-          console.log(user);
-          console.log('INVITED PEOPLE LIST: ', req.body.invited);
-          console.log(db.Collection);
+
           let Confirms = db.Collection.extend({
             model: models.Confirmed
           });
@@ -102,10 +96,17 @@ module.exports.createTrip = (req, res) => {
 
 module.exports.getTripsByUserSessionId = (req, res) => {
 
-  console.log('-------------------------',req.session);
+  models.Trip.where({user_id: req.session.passport.user}).fetchAll()
+    .then((trips)=>{
+      trips = trips.models.map(trip=>{return trip.attributes;});
+      res.status(200).send(trips);
+    })
+    .catch((err)=>{
+      console.log('ERROR fetching Trips for current user');
+      res.status(503).send(err);
+    });
 
-
-  res.status(200).send('ok');
+  
 };
 
 /* NOTE ON HOW TO SEND EMAIL FOR LEE

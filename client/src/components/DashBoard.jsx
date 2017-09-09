@@ -72,7 +72,7 @@ class DashBoard extends React.Component {
         console.log(trips);
 
       });
-    console.log(document);
+
 
   }
 
@@ -106,7 +106,7 @@ class DashBoard extends React.Component {
         </Jumbotron>
         <p><Button bsStyle="primary" onClick={this.showModal}>Create</Button></p>
 
-        <h2 onClick={()=>{this.createTrip()}}>CLICK</h2>
+        <h2 onClick={()=>{this.createTrip();}}>CLICK</h2>
       </div>
     );
   }
