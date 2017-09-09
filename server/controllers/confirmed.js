@@ -9,7 +9,6 @@ module.exports.getConfirmsByTripId = (req, res) => {
   models.Confirmed.where('trip_id', tripId).fetchAll()
     .then((confirms) => {
       confirms = confirms.models.map(cf=>{ return cf.attributes; });
-      console.log(confirms);
       res.status(200).send(confirms);
     })
     .catch((err) => {

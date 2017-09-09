@@ -12,7 +12,7 @@ module.exports.getUsersByTripId = (req, res) => {
   var incomingUrl = req.headers.referer;
   incomingUrl = incomingUrl.split('/');
   var tripId = incomingUrl[incomingUrl.length - 1];
-  console.log('TRIP ID FOR ALL USERS', tripId);
+
 
   models.Confirmed.where('trip_id', tripId).fetchAll()
     .then((confirms) => {
@@ -20,7 +20,7 @@ module.exports.getUsersByTripId = (req, res) => {
       var emails = confirms.map((cf)=>{
         return cf.email;
       });
-      console.log('-----------------', emails);
+
       models.Profile.where('email', 'IN', emails).fetchAll()
         .then(users => {
           users = users.models.map(user=>{ return user.attributes; });
