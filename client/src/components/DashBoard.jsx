@@ -46,14 +46,14 @@ class DashBoard extends React.Component {
   createTrip() {
     console.log('CLICK TO CREATE TRIP');
     axios.post('/trips/create', {
-      
+
       tripname: 'fake trip name',
       description: 'fake trip description',
       location: 'Fake Location',
       rangeStart: '2017/09/02',
       rangeEnd: '2017/09/23',
       invited: ['fake1@fake.com', 'fake2@fake.com', 'fake3@fake.com']
-      
+
     })
       .then((trips)=>{
         console.log(trips);
@@ -66,7 +66,7 @@ class DashBoard extends React.Component {
 
   componentWillMount() {
     axios.get('/trips/byUser', {
-      
+
     })
       .then((trips)=>{
         console.log(trips);
