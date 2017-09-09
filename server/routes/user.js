@@ -6,5 +6,8 @@ const UserController = require('../controllers').Users;
 
 router.route('/byUserId')
   .get(UserController.getUserById);
+
+router.route('/usersByTripId')
+  .get(UserController.getUsersByTripId);
   
 module.exports = router;

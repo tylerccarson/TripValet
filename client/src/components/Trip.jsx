@@ -10,6 +10,7 @@ class Trip extends React.Component {
     this.getTripData = this.getTripData.bind(this);
     this.getConfirmation = this.getConfirmation.bind(this);
     this.getUserInformation = this.getUserInformation.bind(this);
+    this.getAllInvitedUsers = this.getAllInvitedUsers.bind(this);
     console.log('test');
   }
 
@@ -53,10 +54,21 @@ class Trip extends React.Component {
       });
   }
 
+  getAllInvitedUsers() {
+    axios.get('/user/usersByTripId')
+      .then((users)=>{
+        this.setState({usersWithAccount: users.data});
+      })
+      .then(()=>{
+        console.log(this.state);
+      });
+  }
+
   componentDidMount () {
     this.getTripData();
     this.getConfirmation();
     this.getUserInformation();
+    this.getAllInvitedUsers();
   }
 
   render( ) {
