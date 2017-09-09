@@ -6,10 +6,22 @@ import { connect } from 'react-redux';
 import { withRouter} from 'react-router-dom';
 
 class App extends React.Component {
+  constructor(){
+    super();
+
+
+  }
+
+  logout () {
+    window.location.reload();
+
+  }
   render () {
     return (
       <div>
-        <Header />
+        <Header
+          logout={this.logout.bind(this)}
+        />
         <Main />
       </div>
     );

@@ -53,11 +53,8 @@ class TripForm extends React.Component {
       });
 
   }
-  // renderThis () {
-  //   return (
-  //     <Route path='/trip/' + {this.trips.data.id} component={Trip}/>
-  //   )
-  // }
+  // this.props.router.push('/trips'+{trips.data.});
+
   onChange (e) {
     this.setState({
       [e.target.name]: e.target.value
