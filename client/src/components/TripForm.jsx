@@ -81,14 +81,14 @@ class TripForm extends React.Component {
   render () {
     return (
       <form>
+
         <FormGroup>
           <InputGroup>
             <ControlLabel>Trip Name</ControlLabel>
-            <InputGroup.Addon>Location</InputGroup.Addon>
             <FormControl
               type="text"
               placeholder="Tim's Bachelor Party!"
-              name="name"
+              name="tripname"
               value={this.state.tripname}
               onChange={this.onChange}
             />
