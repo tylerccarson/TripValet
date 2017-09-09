@@ -45,7 +45,7 @@ class DashBoard extends React.Component {
   */
 
   componentWillMount() {
-    axios.get('/trips/byUser')
+    axios.get('/trips/byEmail')
       .then((trips)=>{
         this.setState({
           trips: trips.data
@@ -74,7 +74,6 @@ class DashBoard extends React.Component {
             <Modal.Title id="contained-modal-title-sm">Create New Trip</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>Fill out the form below</p>
             <TripForm
               hideModal={this.hideModal}
             />
@@ -86,7 +85,14 @@ class DashBoard extends React.Component {
             <Trips trips={this.state.trips}/>
           </List>
         </Jumbotron>
-        <p><Button bsStyle="primary" onClick={this.showModal}>Create</Button></p>
+
+        <p>
+          <Button
+            bsStyle="primary"
+            onClick={this.showModal}>
+          Create
+          </Button>
+        </p>
 
       </div>
     );
