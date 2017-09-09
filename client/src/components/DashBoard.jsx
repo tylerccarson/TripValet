@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { Link } from 'react-router-dom';
 import TripForm from './TripForm.jsx';
-import Trips from './Trips.jsx';
+import TripLinks from './TripLinks.jsx';
 import {List} from 'material-ui/List';
 import axios from 'axios';
 
@@ -21,9 +21,9 @@ class DashBoard extends React.Component {
     this.hideModal = this.hideModal.bind(this);
     this.showModal = this.showModal.bind(this);
     this.close = this.close.bind(this);
-    
+
   }
-  
+
   hideModal(e) {
     this.setState({
       lgShow: false
@@ -84,7 +84,7 @@ class DashBoard extends React.Component {
         <Jumbotron>
           <h1>Upcoming Trips</h1>
           <List>
-            <Trips trips={this.state.trips}/>
+            <TripLinks trips={this.state.trips}/>
           </List>
         </Jumbotron>
 
