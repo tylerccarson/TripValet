@@ -29,7 +29,6 @@ class TripForm extends React.Component {
     this.setStartDate = this.setStartDate.bind(this);
     this.setEndDate = this.setEndDate.bind(this);
     this.createTrip = this.createTrip.bind(this);
-    this.hideModal = this.hideModal.bind(this);
 
   }
 
@@ -63,11 +62,7 @@ class TripForm extends React.Component {
       rangeEnd: date
     });
   }
-  hideModal(e) {
-    this.setState({
-      lgShow: false
-    });
-  }
+
   addToList (e) {
     var joined = this.state.invited.slice();
     joined.push(this.state.email);
@@ -86,14 +81,14 @@ class TripForm extends React.Component {
   render () {
     return (
       <form>
+
         <FormGroup>
           <InputGroup>
             <ControlLabel>Trip Name</ControlLabel>
-            <InputGroup.Addon>Location</InputGroup.Addon>
             <FormControl
               type="text"
               placeholder="Tim's Bachelor Party!"
-              name="name"
+              name="tripname"
               value={this.state.tripname}
               onChange={this.onChange}
             />
