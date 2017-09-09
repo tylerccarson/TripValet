@@ -110,7 +110,7 @@ module.exports.createTrip = (req, res) => {
 };
 
 module.exports.getTripsByUserSessionId = (req, res) => {
-  console.log(req.session);
+
   //why is there only one user associated with each trip? Don't we want anybody who has been invited to also be there?
   models.Trip.where({user_id: req.session.passport.user}).fetchAll()
     .then((trips)=>{
@@ -130,7 +130,7 @@ module.exports.getTripInfoById = (req, res) =>{
 
   var incomingUrl = req.headers.referer;
   incomingUrl = incomingUrl.split('/');
-  var tripId = incomingUrl[incomingUrl.length-1];
+  var tripId = incomingUrl[incomingUrl.length - 1];
 
   models.Trip.where({id: tripId}).fetch()
     .then((trip)=>{

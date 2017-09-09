@@ -79,20 +79,6 @@ module.exports.update = (req, res) => {
 //     });
 // };
 
-module.exports.getUserById = (req, res) =>{
-  console.log('SESSION---------1o23801298301298120398123',req.session);
-  // models.user.where({user_id: req.session.passport.user}).fetchAll()
-  //   .then((trips)=>{
-  //     trips = trips.models.map(trip=>{return trip.attributes;});
-  //     res.status(200).send(trips);
-  //   })
-  //   .catch((err)=>{
-  //     console.log('ERROR fetching Trips for current user');
-  //     res.status(503).send(err);
-  //   });
-
-};
-
 
 
 

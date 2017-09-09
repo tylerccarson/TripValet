@@ -13,7 +13,5 @@ router.route('/:id')
   .put(ProfileController.update)
   // .delete(ProfileController.deleteOne)
 ;
-router.route('/byUserId')
-  .get(ProfileController.getUserById);
-  
+
 module.exports = router;
