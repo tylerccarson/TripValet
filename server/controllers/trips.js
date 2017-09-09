@@ -76,19 +76,14 @@ module.exports.createTrip = (req, res) => {
           ]);
           Promise.all(confirms.invokeMap('save'))
             .then(confirms=>{
-              console.log('Confirmations created: ', confirms);
-              console.log('----------------------',user);
-              console.log('----invite ', invitations);
-              console.log('trip name :', trip.tripname);
 
               var invitees = [];
 
               for (var i = 0; i < invitations.length; i++) {
                 invitees.push(invitations[i].email);
               }
-              console.log('email array: ', invitees);
 
-              sendInviteEmail(user.display, trip.tripName, invitees);
+              sendInviteEmail(user.attributes.display, trip.tripname, invitees);
 
               res.status(201).send(trip);
 
@@ -122,18 +117,6 @@ module.exports.getTripsByUserSessionId = (req, res) => {
   
 };
 
-/* NOTE ON HOW TO SEND EMAIL FOR LEE
-  models.Confirmed.where({trip_id: 2})
-    .then(confirm=>{
-      var emails = confirm.map(confirm=>{return confirm.email;}); //[test@test.com, test1@test.com]
-
-      // {id: 1, trip_id:2, user_id:1, email: test@test.com, confirm: false}
-      
-
-    })
-
-*/
-
 function sendInviteEmail(inviterName, tripName, invitees) {
   
   var api_key = 'key-ed15d9b7166f3bbab71cec2127e6b019';
@@ -160,7 +143,7 @@ function sendInviteEmail(inviterName, tripName, invitees) {
   mailgun.messages().send(mailOptions, function(error, response) {
     if (error) {
       console.log('error happened sending mail: ', error);
-      // res.end('error');
+      res.end('error');
     } else {
       console.log('message sent ' + response);
       console.log(response);
