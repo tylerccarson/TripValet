@@ -19,8 +19,8 @@ class TripForm extends React.Component {
       tripname: '',
       location: '',
       description: '',
-      startDate: null,
-      endDate: null
+      rangeStart: null,
+      rangeEnd: null
     };
     this.onChange = this.onChange.bind(this);
     this.addToList = this.addToList.bind(this);
@@ -38,12 +38,12 @@ class TripForm extends React.Component {
 
   setStartDate (e, date) {
     this.setState({
-      startDate: date
+      rangeStart: date
     });
   }
   setEndDate (e, date) {
     this.setState({
-      endDate: date
+      rangeEnd: date
     });
   }
   addToList (e) {
@@ -130,21 +130,22 @@ class TripForm extends React.Component {
 
         <ControlLabel>Dates</ControlLabel>
 
+
         <DatePicker
-          name="endDate"
+          name="rangeStart"
+          onChange={this.setStartDate}
+          value={this.state.rangeStart}
+          placeholder="Start"
+        />
+
+        <DatePicker
+          name="rangeEnd"
           onChange={this.setEndDate}
-          value={this.state.endDate}
+          value={this.state.rangeEnd}
           placeholder="End"
         />
 
         <h3 style={inviteListStyle}>Invitees:</h3>
-        <DatePicker
-          name="endDate"
-          onChange={this.onChange}
-          value={this.state.endDate}
-          placeholder="End"
-        />
-        <h3>Invitees</h3>
         {this.state.invitees.map((invitee, i) => {
           return <Invitees
             invitee={invitee}
