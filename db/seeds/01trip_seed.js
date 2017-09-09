@@ -12,7 +12,7 @@ exports.seed = function (knex, Promise) {
         description: 'You know the drill. Anything happens in LV, stays in LV',
         location: 'Las Vegas',
         rangeStart: '2017/10/01',
-        rangeEnd: '2017/10/30'
+        rangeEnd: '2017/10/30',
         user_id: 1
       }).save();
     })

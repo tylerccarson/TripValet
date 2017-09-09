@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { Link } from 'react-router-dom';
 import TripForm from './TripForm.jsx';
+import Trips from './Trips.jsx';
+import {List} from 'material-ui/List';
 import axios from 'axios';
 
 class DashBoard extends React.Component {
@@ -13,9 +15,9 @@ class DashBoard extends React.Component {
     super(props);
     this.state = {
       lgShow: false,
-      user: {}
+      user: {},
+      trips: []
     };
-    console.log('Dashboard Constructor says hello');
     this.hideModal = this.hideModal.bind(this);
     this.showModal = this.showModal.bind(this);
     this.close = this.close.bind(this);
@@ -32,6 +34,7 @@ class DashBoard extends React.Component {
       lgShow: true
     });
   }
+
   /*
       tripname: req.body.tripname,
       description: req.body.description,
@@ -39,25 +42,23 @@ class DashBoard extends React.Component {
       rangeStart: req.body.rangeStart,
       rangeEnd: req.body.rangeEnd,
       user_id: req.session.passport.user
-
-
   */
 
   componentWillMount() {
-    axios.get('/trips/byUser', {
-
-    })
+    axios.get('/trips/byUser')
       .then((trips)=>{
-        console.log(trips);
-
+        this.setState({
+          trips: trips.data
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
-
-
   }
 
   close() {
     this.setState({
-      lgShow:false
+      lgShow: false
     });
   }
 
@@ -81,13 +82,13 @@ class DashBoard extends React.Component {
         </Modal>
         <Jumbotron>
           <h1>Upcoming Trips</h1>
-          <ul>
-            <li><Link to={`/trip`}>Trip One</Link></li>
-          </ul>
+          <List>
+            <Trips trips={this.state.trips}/>
+          </List>
         </Jumbotron>
         <p><Button bsStyle="primary" onClick={this.showModal}>Create</Button></p>
 
-        <h2 onClick={()=>{this.createTrip();}}>CLICK</h2>
+        <h2 onClick={()=>{ this.createTrip(); }}>CLICK</h2>
       </div>
     );
   }
