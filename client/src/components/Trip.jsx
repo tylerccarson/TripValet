@@ -21,7 +21,7 @@ class Trip extends React.Component {
   }
 
   render( ) {
-    var style = {'padding-top': '200px'};
+    var style = {'paddingTop': '200px'};
 
     return (
       <div>
