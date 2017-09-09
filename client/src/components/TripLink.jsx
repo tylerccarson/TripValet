@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {ListItem} from 'material-ui/List';
 
 const TripLink = (props) => {
   return (
-    <li><Link to={`/trip/${props.id}`}>Trip {props.number + 1}</Link></li>
+    <ListItem><Link to={`/trip/${props.id}`}>{props.tripName}</Link></ListItem>
   );
 };
 

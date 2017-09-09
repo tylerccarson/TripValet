@@ -7,6 +7,7 @@ import { push } from 'react-router-redux';
 import { Link } from 'react-router-dom';
 import TripForm from './TripForm.jsx';
 import Trips from './Trips.jsx';
+import {List} from 'material-ui/List';
 import axios from 'axios';
 
 class DashBoard extends React.Component {
@@ -81,9 +82,9 @@ class DashBoard extends React.Component {
         </Modal>
         <Jumbotron>
           <h1>Upcoming Trips</h1>
-          <ul>
+          <List>
             <Trips trips={this.state.trips}/>
-          </ul>
+          </List>
         </Jumbotron>
         <p><Button bsStyle="primary" onClick={this.showModal}>Create</Button></p>
 
