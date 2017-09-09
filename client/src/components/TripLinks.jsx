@@ -1,7 +1,7 @@
 import React from 'react';
 import TripLink from './TripLink.jsx';
 
-const Trips = (props) => {
+const TripLinks = (props) => {
   return (
     <div className='trips-container'>
       {props.trips.map((trip, i) => {
@@ -11,4 +11,4 @@ const Trips = (props) => {
   );
 };
 
-export default Trips;
+export default TripLinks;
