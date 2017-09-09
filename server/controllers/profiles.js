@@ -80,7 +80,7 @@ module.exports.update = (req, res) => {
 // };
 
 module.exports.getUserById = (req, res) =>{
-  console.log('SESSION---------1o23801298301298120398123',req.session);
+  console.log('SESSION---------1o23801298301298120398123', req.session);
   // models.user.where({user_id: req.session.passport.user}).fetchAll()
   //   .then((trips)=>{
   //     trips = trips.models.map(trip=>{return trip.attributes;});

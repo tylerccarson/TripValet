@@ -130,7 +130,7 @@ module.exports.getTripInfoById = (req, res) =>{
 
   var incomingUrl = req.headers.referer;
   incomingUrl = incomingUrl.split('/');
-  var tripId = incomingUrl[incomingUrl.length-1];
+  var tripId = incomingUrl[incomingUrl.length - 1];
 
   models.Trip.where({id: tripId}).fetch()
     .then((trip)=>{
