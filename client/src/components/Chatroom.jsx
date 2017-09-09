@@ -21,7 +21,7 @@ class Chatroom extends React.Component {
       chatInput: '',
       //need to change this to match actual user and trip info
       user: 'Ty',
-      userId: 8,
+      userId: 1,
       trip: 'Galapagos',
       tripId: 1
     };
@@ -61,6 +61,7 @@ class Chatroom extends React.Component {
       user: this.state.user,
       userId: this.state.userId,
       text: this.state.chatInput
+      //avatar: avatar URL for user
     };
 
     axios.post('/messages/create', message)
