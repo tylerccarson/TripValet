@@ -2,6 +2,7 @@ import React from 'react';
 import { FormGroup, InputGroup, FormControl, DropdownButton, Button, ButtonToolbar, MenuItem, ControlLabel } from 'react-bootstrap';
 import DatePicker from 'material-ui/DatePicker';
 import Invitees from './Invitees.jsx';
+import axios from 'axios';
 
 var inviteListStyle = {
   textDecoration: 'underline'
@@ -15,7 +16,7 @@ class TripForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      invitees: [],
+      invited: [],
       tripname: '',
       location: '',
       description: '',
@@ -27,15 +28,31 @@ class TripForm extends React.Component {
     this.sendForm = this.sendForm.bind(this);
     this.setStartDate = this.setStartDate.bind(this);
     this.setEndDate = this.setEndDate.bind(this);
+    this.createTrip = this.createTrip.bind(this);
+    this.hideModal = this.hideModal.bind(this);
 
   }
 
+  createTrip() {
+    axios.post('/trips/create', {
+      tripname: this.state.tripname,
+      description: this.state.description,
+      location: this.state.location,
+      rangeStart: this.state.rangeStart,
+      rangeEnd: this.state.rangeEnd,
+      invited: this.state.invited
+    })
+      .then((trips)=>{
+        console.log(trips);
+        // setState?
+      });
+
+  }
   onChange (e) {
     this.setState({
       [e.target.name]: e.target.value
     });
   }
-
   setStartDate (e, date) {
     this.setState({
       rangeStart: date
@@ -46,24 +63,26 @@ class TripForm extends React.Component {
       rangeEnd: date
     });
   }
+  hideModal(e) {
+    this.setState({
+      lgShow: false
+    });
+  }
   addToList (e) {
-    var joined = this.state.invitees.slice();
+    var joined = this.state.invited.slice();
     joined.push(this.state.email);
 
     this.setState({
       email: '',
-      invitees: joined
+      invited: joined
     }, function() {
-      console.log('curent invitees', this.state.invitees);
+      console.log('curent invited', this.state.invited);
 
     });
   }
-
-
   sendForm (e) {
     console.log(this.state);
   }
-
   render () {
     return (
       <form>
@@ -75,7 +94,7 @@ class TripForm extends React.Component {
               type="text"
               placeholder="Tim's Bachelor Party!"
               name="name"
-              value={this.state.name}
+              value={this.state.tripname}
               onChange={this.onChange}
             />
           </InputGroup>
@@ -146,7 +165,7 @@ class TripForm extends React.Component {
         />
 
         <h3 style={inviteListStyle}>Invitees:</h3>
-        {this.state.invitees.map((invitee, i) => {
+        {this.state.invited.map((invitee, i) => {
           return <Invitees
             invitee={invitee}
             key={i}/>;
@@ -155,12 +174,12 @@ class TripForm extends React.Component {
         <ButtonToolbar style={buttonAlign}>
           <Button
             bsStyle="primary"
-            onClick={this.sendForm}>
+            onClick={this.createTrip}>
             Create
           </Button>
           <Button
             bsStyle="danger"
-            onClick={this.hideModal}>
+            onClick={this.props.hideModal}>
             Cancel
           </Button>
         </ButtonToolbar>
