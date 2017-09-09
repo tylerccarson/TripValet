@@ -1,27 +1,52 @@
 import React from 'react';
 import Calendar from './Calendar.jsx';
 import Chatroom from './Chatroom.jsx';
+import axios from 'axios';
+import Promise from 'bluebird';
+
 class Trip extends React.Component {
   constructor (props) {
     super(props);
-    this.state = {
-
-
-
-    };
+    this.getTripData = this.getTripData.bind(this);
+    this.getConfirmation = this.getConfirmation.bind(this);
     console.log('test');
   }
 
   getAllStateData() {
-    console.log('clicked!');
+
+    // probably get states in promise.
+
+  }
+
+  getTripData() {
+    axios.get('/trips')
+      .then((trip)=>{
+        this.setState({trip: trip.data});
+        console.log(this);
+        console.log(trip);
+      })
+      .then(()=>{
+        console.log(this.state);
+      });
+  }
+
+  getConfirmation() {
+    axios.get('/confirmed/byTrip')
+      .then((confirm)=>{
+        console.log(confirm);
+      })
+      .then(()=>{
+        console.log(this.state);
+      });
   }
 
   componentDidMount () {
+    this.getTripData();
 
   }
 
   render( ) {
-    var style = {'padding-top': '200px'};
+    var style = {'paddingTop': '200px'};
 
     return (
       <div>

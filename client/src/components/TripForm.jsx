@@ -3,12 +3,14 @@ import { FormGroup, InputGroup, FormControl, DropdownButton, Button, ButtonToolb
 import DatePicker from 'material-ui/DatePicker';
 import Invitees from './Invitees.jsx';
 import axios from 'axios';
+import FlatButton from 'material-ui/FlatButton';
+import { Route, Switch } from 'react-router-dom';
 
-var inviteListStyle = {
+const inviteListStyle = {
   textDecoration: 'underline'
 };
 
-var buttonAlign = {
+const buttonAlign = {
   textAlign: 'center'
 };
 
@@ -42,11 +44,20 @@ class TripForm extends React.Component {
       invited: this.state.invited
     })
       .then((trips)=>{
-        console.log(trips);
-        // setState?
+        console.log(trips.data);
+        this.props.hideModal();
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log('error', error);
       });
 
   }
+  // renderThis () {
+  //   return (
+  //     <Route path='/trip/' + {this.trips.data.id} component={Trip}/>
+  //   )
+  // }
   onChange (e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -105,7 +116,6 @@ class TripForm extends React.Component {
               value={this.state.location}
               onChange={this.onChange}
             />
-            <InputGroup.Addon></InputGroup.Addon>
           </InputGroup>
         </FormGroup>
 
@@ -119,16 +129,13 @@ class TripForm extends React.Component {
               onChange={this.onChange}
               placeholder="Who's coming with?"
             />
+            <FlatButton
+              primary={true}
+              label="Add invite"
+              fullWidth={true}
+              key="submit"
+              onClick={this.addToList} />
 
-            <DropdownButton
-              componentClass={InputGroup.Button}
-              id="input-dropdown-addon"
-              title="Action">
-              <MenuItem
-                key="submit"
-                onClick={this.addToList}>
-               Add to list</MenuItem>
-            </DropdownButton>
           </InputGroup>
         </FormGroup>
 
