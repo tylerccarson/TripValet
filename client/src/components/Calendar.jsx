@@ -30,12 +30,21 @@ class Calendar extends React.Component {
   }
 
   componentWillMount() {
-    //get all availability for current trip and push into the availability array
     let currentAvailability = this.state.availability;
     axios.get('/availability/byTripId')
       .then((availabilities)=>{
-        console.log('AVAIL---------', availabilities.data);
-        currentAvailability = currentAvailability.concat(availabilities.data);
+        //I need to change the property of rangeStart to start and rangeEnd to end
+
+        let storedAvailability = availabilities.data.map((avail) => {
+          return {
+            'id': avail.id,
+            'title': avail.user_id,
+            'start': avail.rangeStart,
+            'end': avail.rangeEnd
+          };
+        });
+        console.log(storedAvailability);
+        currentAvailability = currentAvailability.concat(storedAvailability);
         this.setState({
           availability: currentAvailability
         });
@@ -67,41 +76,57 @@ class Calendar extends React.Component {
       var sameDateClickedTwice = false;
       // if the same user clicked the same date twice, 
       // compare string since the date seems to be unique
-      if (pickedSlot.start.toString() === availabilityDuplicate[i]['start'].toString() && this.state.user.first === availabilityDuplicate[i]['title']) {
+      if (pickedSlot.start.toString() === availabilityDuplicate[i]['start'].toString() && (this.state.user.first === availabilityDuplicate[i]['title'] || this.state.user.id === availabilityDuplicate[i]['title'])) {
+        let deleteMe = availabilityDuplicate[i].id;
+        console.log(availabilityDuplicate[i]);
         sameDateClickedTwice = true;
         availabilityDuplicate.splice(i, 1);
-        //delete entry from the DB
-        //
 
         this.setState({
           availability: availabilityDuplicate
         });
+        //delete entry from the DB
+        axios.post('/availability/delete', {
+          'id': deleteMe 
+        })
+          .then((res) => {
+            console.log('availabilty deleted');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+          
+
+
 
         break;
       }
     }
     
     if (!sameDateClickedTwice) {
+      
       let newAvailability = {
+        'id': null,
         'title': this.state.user.first,
         'start': pickedSlot.start,
         'end': pickedSlot.end
       };
-      availabilityDuplicate.push(newAvailability);
 
-      //1 reset state with new availabiliyt
-      this.setState({
-        availability: availabilityDuplicate
-      });
-      
-      //2 put new availability into DB w/ trip id as well
+      //1 put new availability into DB w/ trip id as well
       axios.post('/availability/byTripId', newAvailability)
         .then((posted) => {
-          console.log('successfully added to DB');
+          newAvailability.id = posted.data.id;
         })
         .catch((error) => {
           console.log(error);
         });
+        
+      availabilityDuplicate.push(newAvailability);
+
+      //2 reset state with new availability
+      this.setState({
+        availability: availabilityDuplicate
+      });
     }
 
   }
@@ -141,11 +166,12 @@ class Calendar extends React.Component {
 
     var availabilityDuplicate = this.state.availability.slice();
 
-    availabilityDuplicate.push({
+    let newAvailability = {
       'title': this.state.user.first,
       'start': new Date(startDateObj.year, startDateObj.month, startDateObj.date),
       'end': new Date(endDateObj.year, endDateObj.month, endDateObj.date)
-    });
+    };
+    availabilityDuplicate.push(newAvailability);
 
     this.setState({
       startDateForRange: '',
@@ -153,7 +179,15 @@ class Calendar extends React.Component {
       availability: availabilityDuplicate
     });
 
-    //put into DB
+    //put into DB test: {rangeStart: '2017/09/08', rangeEnd: '2017/09/30'}
+    //maybe switch this out for sockets?
+    axios.post('/availability/byTripId', newAvailability)
+      .then((posted) => {
+        console.log('successfully added to DB');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
   }
 
@@ -183,18 +217,6 @@ class Calendar extends React.Component {
 
     return true;
   }
-
-  componentDidMount() {
-    axios.get('/availability/byTripId')
-      .then((availabilities)=>{
-        console.log('AVAIL---------', availabilities);
-      });
-    axios.post('/availability/byTripId', {rangeStart: '2017/09/08', rangeEnd: '2017/09/30'})
-      .then((avail)=>{
-        console.log('1238917239128731298371293', avail);
-      });
-  }
-
 
   render() {
 

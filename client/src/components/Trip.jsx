@@ -58,7 +58,7 @@ class Trip extends React.Component {
       <div>
         <h1>{this.state.trip.tripname}</h1>
         <h3>Description: {this.state.description}</h3>
-        {Object.keys(this.state.currentUser).length !==0 ? <Calendar 
+        {Object.keys(this.state.currentUser).length !== 0 ? <Calendar 
           currentUser={this.state.currentUser}
           trip={this.state.trip}/>
           : <div>loading...</div>
@@ -66,7 +66,8 @@ class Trip extends React.Component {
         {Object.keys(this.state.trip).length !== 0 ? <Chatroom 
           tripId={this.state.trip.id}
           user={this.state.currentUser.display}
-          userId={this.state.currentUser.id}/> : <div>loading...</div> }
+          userId={this.state.currentUser.id}/> 
+          : <div>loading...</div> }
       </div>
     );
   }

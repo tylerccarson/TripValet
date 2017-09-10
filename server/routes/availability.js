@@ -11,4 +11,7 @@ router.route('/byTripId')
   .get(AvailabilityController.getAvailabilityByTripId)
   .post(AvailabilityController.createAvailabilityByTripId);
 
+router.route('/delete')
+  .post(AvailabilityController.deleteAvailabilityById);
+
 module.exports = router;
