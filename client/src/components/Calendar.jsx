@@ -30,6 +30,23 @@ class Calendar extends React.Component {
 
   componentWillMount() {
     //get all availability for current trip and push into the availability array
+    let currentAvailability = this.state.availability;
+    axios.get('/availability/byTripId')
+      .then((availabilities)=>{
+        console.log('AVAIL---------', availabilities.data);
+        currentAvailability = currentAvailability.concat(availabilities.data);
+        this.setState({
+          availability: currentAvailability
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  componentDidMount() {
+    //set up to receive socket info for new availability
+    //how to do this based on trip id?
   }
 
   pickDate(pickedSlot) {
@@ -52,6 +69,8 @@ class Calendar extends React.Component {
       if (pickedSlot.start.toString() === availabilityDuplicate[i]['start'].toString() && this.state.user.first === availabilityDuplicate[i]['title']) {
         sameDateClickedTwice = true;
         availabilityDuplicate.splice(i, 1);
+        //delete entry from the DB
+        //
 
         this.setState({
           availability: availabilityDuplicate
@@ -62,19 +81,25 @@ class Calendar extends React.Component {
     }
     
     if (!sameDateClickedTwice) {
-
-      availabilityDuplicate.push({
+      let newAvailability = {
         'title': this.state.user.first,
         'start': pickedSlot.start,
         'end': pickedSlot.end
-      });
+      };
+      availabilityDuplicate.push(newAvailability);
 
       this.setState({
         availability: availabilityDuplicate
       });
-
+      
       //put into DB w/ trip id as well
-
+      axios.post('/availability/byTripId', newAvailability)
+        .then((posted) => {
+          console.log('successfully added to DB');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
   }
@@ -93,7 +118,7 @@ class Calendar extends React.Component {
 
   pickDateByRange() {
 
-    if( !this.inputIsValid() ) {
+    if ( !this.inputIsValid() ) {
       return;
     }
 
