@@ -13,7 +13,6 @@ class Trip extends React.Component {
       currentUser: {},
       usersWithAccount: {}
     };
-    this.getAllInvitedUsers = this.getAllInvitedUsers.bind(this);
   }
 
   componentWillMount() {
