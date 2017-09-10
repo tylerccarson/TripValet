@@ -10,8 +10,10 @@ class Trip extends React.Component {
     this.state = {
       trip: {},
       confirms: {},
-      currentUser: {}
+      currentUser: {},
+      usersWithAccount: {}
     };
+    this.getAllInvitedUsers = this.getAllInvitedUsers.bind(this);
   }
 
   componentWillMount() {
@@ -24,7 +26,6 @@ class Trip extends React.Component {
       .then(() => {
         axios.get('/confirmed/byTrip')
           .then((confirms)=>{
-            console.log(confirms.data);
             this.setState({
               confirms: confirms.data
             });
@@ -34,6 +35,14 @@ class Trip extends React.Component {
               .then((user)=>{
                 this.setState({
                   currentUser: user.data
+                });
+              });
+          })
+          .then(() => {
+            axios.get('/user/usersByTripId')
+              .then((users)=>{
+                this.setState({
+                  usersWithAccount: users.data
                 });
               });
           });

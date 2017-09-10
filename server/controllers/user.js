@@ -7,3 +7,33 @@ module.exports.getUserById = (req, res) =>{
 
 
 };
+
+module.exports.getUsersByTripId = (req, res) => {
+  var incomingUrl = req.headers.referer;
+  incomingUrl = incomingUrl.split('/');
+  var tripId = incomingUrl[incomingUrl.length - 1];
+
+
+  models.Confirmed.where('trip_id', tripId).fetchAll()
+    .then((confirms) => {
+      confirms = confirms.models.map(cf=>{ return cf.attributes; });
+      var emails = confirms.map((cf)=>{
+        return cf.email;
+      });
+
+      models.Profile.where('email', 'IN', emails).fetchAll()
+        .then(users => {
+          users = users.models.map(user=>{ return user.attributes; });
+          res.status(200).send(users);
+        })
+        .catch((err) => {
+          res.status(503).send(err);
+        });
+    })
+    .catch((err) => {
+      res.status(503).send(err);
+    });
+
+
+  
+};

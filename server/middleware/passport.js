@@ -156,8 +156,7 @@ const getOrCreateOAuthProfile = (type, oauthProfile, done) => {
         first: oauthProfile.name.givenName,
         last: oauthProfile.name.familyName,
         display: oauthProfile.displayName || `${oauthProfile.name.givenName} ${oauthProfile.name.familyName}`,
-        email: oauthProfile.emails[0].value,
-        avatar: oauthProfile.photos ? oauthProfile.photos[0].value : 'https://68.media.tumblr.com/avatar_15088fad1a13_128.png'
+        email: oauthProfile.emails[0].value
       };
 
       if (profile) {
