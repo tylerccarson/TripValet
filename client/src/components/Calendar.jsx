@@ -14,7 +14,8 @@ class Calendar extends React.Component {
     super(props);
 
     this.state = {
-      userName: 'Lee', // hard coded for now
+      user: this.props.currentUser,
+      trip: this.props.trip,
       availability: [],
       startDateForRange: '',
       endDateForRange: ''
@@ -25,6 +26,10 @@ class Calendar extends React.Component {
     this.endDateChange = this.endDateChange.bind(this);
     this.pickDateByRange = this.pickDateByRange.bind(this); 
     this.inputIsValid = this.inputIsValid.bind(this); 
+  }
+
+  componentWillMount() {
+    //get all availability for current trip and push into the availability array
   }
 
   pickDate(pickedSlot) {
@@ -44,7 +49,7 @@ class Calendar extends React.Component {
       var sameDateClickedTwice = false;
       // if the same user clicked the same date twice, 
       // compare string since the date seems to be unique
-      if (pickedSlot.start.toString() === availabilityDuplicate[i]['start'].toString() && this.state.userName === availabilityDuplicate[i]['title']) {
+      if (pickedSlot.start.toString() === availabilityDuplicate[i]['start'].toString() && this.state.user.first === availabilityDuplicate[i]['title']) {
         sameDateClickedTwice = true;
         availabilityDuplicate.splice(i, 1);
 
@@ -59,7 +64,7 @@ class Calendar extends React.Component {
     if (!sameDateClickedTwice) {
 
       availabilityDuplicate.push({
-        'title': this.state.userName,
+        'title': this.state.user.first,
         'start': pickedSlot.start,
         'end': pickedSlot.end
       });
@@ -67,6 +72,8 @@ class Calendar extends React.Component {
       this.setState({
         availability: availabilityDuplicate
       });
+
+      //put into DB w/ trip id as well
 
     }
 
@@ -108,7 +115,7 @@ class Calendar extends React.Component {
     var availabilityDuplicate = this.state.availability.slice();
 
     availabilityDuplicate.push({
-      'title': this.state.userName,
+      'title': this.state.user.first,
       'start': new Date(startDateObj.year, startDateObj.month, startDateObj.date),
       'end': new Date(endDateObj.year, endDateObj.month, endDateObj.date)
     });
@@ -118,6 +125,8 @@ class Calendar extends React.Component {
       endDateForRange: '',
       availability: availabilityDuplicate
     });
+
+    //put into DB
 
   }
 

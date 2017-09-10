@@ -2,7 +2,6 @@ const models = require('../../db/models');
 
 module.exports.getMessagesByTripId = (req, res) => {
   var tripId = req.query.tripId;
-  console.log(req);
   models.Messages.where({'trip_id': tripId}).fetchAll()
     .then((messages) => {
       res.status(200).send(messages);
