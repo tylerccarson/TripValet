@@ -1,6 +1,7 @@
 import React from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
+import axios from 'axios';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
@@ -181,6 +182,17 @@ class Calendar extends React.Component {
     }
 
     return true;
+  }
+
+  componentDidMount() {
+    axios.get('/availability/byTripId')
+      .then((availabilities)=>{
+        console.log('AVAIL---------', availabilities);
+      });
+    axios.post('/availability/byTripId', {rangeStart: '2017/09/08', rangeEnd:'2017/09/30'})
+      .then((avail)=>{
+        console.log('1238917239128731298371293', avail);
+      });
   }
 
 
