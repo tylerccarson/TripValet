@@ -88,11 +88,12 @@ class Calendar extends React.Component {
       };
       availabilityDuplicate.push(newAvailability);
 
+      //1 reset state with new availabiliyt
       this.setState({
         availability: availabilityDuplicate
       });
       
-      //put into DB w/ trip id as well
+      //2 put new availability into DB w/ trip id as well
       axios.post('/availability/byTripId', newAvailability)
         .then((posted) => {
           console.log('successfully added to DB');
