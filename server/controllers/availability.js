@@ -30,7 +30,7 @@ module.exports.createAvailabilityByTripId = (req, res) => {
   var incomingUrl = req.headers.referer;
   incomingUrl = incomingUrl.split('/');
   var tripId = incomingUrl[incomingUrl.length - 1];
-  console.log("Availability received!");
+  console.log('Availability received!');
 
   return models.Availability.forge({
     user_id: req.session.passport.user,

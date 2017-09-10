@@ -189,7 +189,7 @@ class Calendar extends React.Component {
       .then((availabilities)=>{
         console.log('AVAIL---------', availabilities);
       });
-    axios.post('/availability/byTripId', {rangeStart: '2017/09/08', rangeEnd:'2017/09/30'})
+    axios.post('/availability/byTripId', {rangeStart: '2017/09/08', rangeEnd: '2017/09/30'})
       .then((avail)=>{
         console.log('1238917239128731298371293', avail);
       });
