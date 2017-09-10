@@ -7,68 +7,48 @@ import Promise from 'bluebird';
 class Trip extends React.Component {
   constructor (props) {
     super(props);
-    this.getTripData = this.getTripData.bind(this);
-    this.getConfirmation = this.getConfirmation.bind(this);
-    this.getUserInformation = this.getUserInformation.bind(this);
-    this.getAllInvitedUsers = this.getAllInvitedUsers.bind(this);
-    console.log('test');
+    this.state = {
+      trip: {},
+      confirms: {},
+      currentUser: {},
+      usersWithAccount: {}
+    };
   }
 
-  getAllStateData() {
-
-    // probably get states in promise.
-
-  }
-
-  getTripData() {
+  componentWillMount() {
     axios.get('/trips')
       .then((trip)=>{
-        this.setState({trip: trip.data});
-
+        this.setState({
+          trip: trip.data.trip,
+        });
       })
-      .then(()=>{
-        console.log(this.state);
-      });
-  }
-
-  getConfirmation() {
-
-    axios.get('/confirmed/byTrip')
-      .then((confirms)=>{
-        
-        this.setState({confirms});
+      .then(() => {
+        axios.get('/confirmed/byTrip')
+          .then((confirms)=>{
+            this.setState({
+              confirms: confirms.data
+            });
+          })
+          .then(() => {
+            axios.get('/user/byUserId')
+              .then((user)=>{
+                this.setState({
+                  currentUser: user.data
+                });
+              });
+          })
+          .then(() => {
+            axios.get('/user/usersByTripId')
+              .then((users)=>{
+                this.setState({
+                  usersWithAccount: users.data
+                });
+              });
+          });
       })
-      .then(()=>{
-        console.log(this.state);
+      .catch((error) => {
+        console.log(error);
       });
-  }
-
-  getUserInformation() {
-    axios.get('/user/byUserId')
-      .then((user)=>{
-        this.setState({currentUser: user.data});
-      })
-      .then(()=>{
-        console.log(this.state);
-        
-      });
-  }
-
-  getAllInvitedUsers() {
-    axios.get('/user/usersByTripId')
-      .then((users)=>{
-        this.setState({usersWithAccount: users.data});
-      })
-      .then(()=>{
-        console.log(this.state);
-      });
-  }
-
-  componentDidMount () {
-    this.getTripData();
-    this.getConfirmation();
-    this.getUserInformation();
-    this.getAllInvitedUsers();
   }
 
   render( ) {
@@ -76,11 +56,13 @@ class Trip extends React.Component {
 
     return (
       <div>
-
-        <h1>This is the Trip</h1>
+        <h1>{this.state.trip.tripname}</h1>
+        <h3>Description: {this.state.description}</h3>
         <Calendar />
-        <h2 style={style} onClick={()=>{this.getAllStateData();}}>Click</h2>
-        <Chatroom />
+        {Object.keys(this.state.trip).length !== 0 ? <Chatroom 
+          tripId={this.state.trip.id}
+          user={this.state.currentUser.display}
+          userId={this.state.currentUser.id}/> : <div>LOADING</div> }
       </div>
     );
   }

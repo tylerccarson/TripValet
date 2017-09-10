@@ -1,4 +1,4 @@
-function sendInviteEmail(inviterName, tripName, invitees) {
+var sendInviteEmail = function(inviterName, tripName, invitees) {
   
   var api_key = 'key-ed15d9b7166f3bbab71cec2127e6b019';
   var domain = 'mg.tripvalet.me';
@@ -31,6 +31,6 @@ function sendInviteEmail(inviterName, tripName, invitees) {
       // res.end('sent');
     }
   });
-}
+};
 
 module.exports.sendInviteEmail = sendInviteEmail;

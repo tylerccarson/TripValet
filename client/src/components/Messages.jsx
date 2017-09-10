@@ -7,7 +7,14 @@ const Messages = (props) => {
     <div className='messages-container'>
       <List>
         { props.messages.map((message, i) => {
-          return <Message createdAt={message.created_at} messageId={message.id} currentUser={props.currentUser} user={message.user} message={message.text} key={i}/>;
+          return <Message
+            avatar={message.avatar}
+            createdAt={message.created_at} 
+            messageId={message.id} 
+            currentUser={props.currentUser} 
+            user={message.user} 
+            message={message.text} 
+            key={i}/>;
         })}
       </List>
     </div>
