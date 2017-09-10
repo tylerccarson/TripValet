@@ -9,15 +9,14 @@ module.exports.getAvailabilityByTripId = (req, res) => {
   //how to attach username in here from profile page as well?
   models.Availability.where('trip_id', tripId).fetchAll()
     .then(availabilities => {
-      
       availabilities = availabilities.models.map((avail)=>{
-
         return avail.attributes;
       });
       res.status(200).send(availabilities);
     })
     .catch(err => {
       // This code indicates an outside service (the database) did not respond in time
+      console.log(err);
       res.status(503).send(err);
     });
   

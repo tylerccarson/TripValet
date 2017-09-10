@@ -33,17 +33,16 @@ class Calendar extends React.Component {
     let currentAvailability = this.state.availability;
     axios.get('/availability/byTripId')
       .then((availabilities)=>{
-        //I need to change the property of rangeStart to start and rangeEnd to end
 
         let storedAvailability = availabilities.data.map((avail) => {
           return {
             'id': avail.id,
+            //need to correct this to a actual firstname rather than id
             'title': avail.user_id,
             'start': avail.rangeStart,
             'end': avail.rangeEnd
           };
         });
-        console.log(storedAvailability);
         currentAvailability = currentAvailability.concat(storedAvailability);
         this.setState({
           availability: currentAvailability
@@ -78,7 +77,6 @@ class Calendar extends React.Component {
       // compare string since the date seems to be unique
       if (pickedSlot.start.toString() === availabilityDuplicate[i]['start'].toString() && (this.state.user.first === availabilityDuplicate[i]['title'] || this.state.user.id === availabilityDuplicate[i]['title'])) {
         let deleteMe = availabilityDuplicate[i].id;
-        console.log(availabilityDuplicate[i]);
         sameDateClickedTwice = true;
         availabilityDuplicate.splice(i, 1);
 
