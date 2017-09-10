@@ -10,9 +10,12 @@ exports.seed = function (knex, Promise) {
       return models.Availability.forge({
         user_id: 1,
         trip_id: 1,
-        start: '2017/10/15',
-        end: '2017/10/23'
+        rangeStart: '2017/10/15',
+        rangeEnd: '2017/10/23'
       }).save();
+    })
+    .then(avail => {
+      console.log(avail);
     })
     .error(err => {
       console.error('ERROR: failed to create availability');

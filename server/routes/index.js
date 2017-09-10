@@ -5,3 +5,4 @@ module.exports.trips = require('./trips');
 module.exports.messages = require('./messages');
 module.exports.confirmed = require('./confirmed');
 module.exports.user = require('./user');
+module.exports.availability = require('./availability');
