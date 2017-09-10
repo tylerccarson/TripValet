@@ -20,29 +20,26 @@ class Chatroom extends React.Component {
       messages: [],
       chatInput: '',
     };
-
     this.handleChatInput = this.handleChatInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    if (this.props.tripId) {
-      axios.get('/messages/byTrip', {
-        params: {
-          tripId: this.props.tripId
-        }
-      })
-        .then((messages) => {
-          let currentMessages = this.state.messages;
-          currentMessages = currentMessages.concat(messages.data);
-          this.setState({
-            messages: currentMessages
-          });
-        })
-        .catch((error) => {
-          console.log(error);
+  componentWillMount() {
+    axios.get('/messages/byTrip', {
+      params: {
+        tripId: this.props.tripId
+      }
+    })
+      .then((messages) => {
+        let currentMessages = this.state.messages;
+        currentMessages = currentMessages.concat(messages.data);
+        this.setState({
+          messages: currentMessages
         });
-    }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   handleChatInput(event) {
