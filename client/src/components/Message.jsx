@@ -6,6 +6,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import {ListItem} from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -59,11 +60,21 @@ class Message extends React.Component {
       }
     };
 
+    let avatarUrl = this.props.avatar ? this.props.avatar : 'https://68.media.tumblr.com/avatar_15088fad1a13_128.png';
+
     if (this.props.currentUser === this.props.user) {
       //show delete button
       return (
         <div className='message-container'>
-          <ListItem rightIconButton={rightIconMenu} disabled={this.state.disabled} secondaryText={<p style={style.text}>{this.state.secondaryText}</p>}>
+          <ListItem 
+            rightIconButton={rightIconMenu} 
+            disabled={this.state.disabled} 
+            secondaryText={
+              <p style={style.text}>{this.state.secondaryText}</p>
+            }
+            leftAvatar={
+              <Avatar src={avatarUrl}/>
+            }>
             { this.props.user }: {this.props.message}
           </ListItem>
           <Divider/>
@@ -74,7 +85,13 @@ class Message extends React.Component {
       // don't show menu
       return (
         <div className='message-container'>
-          <ListItem secondaryText={<p style={style.text}>{this.state.secondaryText}</p>}>
+          <ListItem 
+            secondaryText={
+              <p style={style.text}>{this.state.secondaryText}</p>
+            }
+            leftAvatar={
+              <Avatar src={avatarUrl}/>
+            }>
             { this.props.user }: {this.props.message}
           </ListItem>
           <Divider/>
