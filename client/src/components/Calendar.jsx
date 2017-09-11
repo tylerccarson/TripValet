@@ -52,10 +52,6 @@ class Calendar extends React.Component {
           availability: currentAvailability
         });
       })
-      .then(() => {
-        //get preloaded availability from creator of the event
-        axios.get('');
-      })
       .catch((error) => {
         console.log(error);
       });
