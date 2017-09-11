@@ -17,7 +17,11 @@ class Calendar extends React.Component {
     this.state = {
       user: this.props.currentUser,
       trip: this.props.trip,
-      availability: [],
+      availability: [{
+        title: this.props.trip.user_id,
+        start: this.props.trip.rangeStart,
+        end: this.props.trip.rangeEnd,
+      }],
       startDateForRange: '',
       endDateForRange: ''
     };
@@ -47,6 +51,10 @@ class Calendar extends React.Component {
         this.setState({
           availability: currentAvailability
         });
+      })
+      .then(() => {
+        //get preloaded availability from creator of the event
+        axios.get('');
       })
       .catch((error) => {
         console.log(error);
