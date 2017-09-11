@@ -51,17 +51,14 @@ class Trip extends React.Component {
         console.log(error);
       });
   }
-
   render( ) {
     var style = {
       confirms: {
         textAlign: 'center'
       },
       calendar: {
-
       },
       chatroom: {
-
       }
     };
 
@@ -69,18 +66,18 @@ class Trip extends React.Component {
       <div>
         <h1>{this.state.trip.tripname}</h1>
         <h3>Description: {this.state.description}</h3>
-        {Object.keys(this.state.currentUser).length !== 0 ? <Calendar 
+        {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
           allUsers={this.state.usersWithAccount}
           currentUser={this.state.currentUser}
           trip={this.state.trip}/>
           : <div>loading...</div>
         }
-        {Object.keys(this.state.trip).length !== 0 ? <Chatroom 
+        {Object.keys(this.state.trip).length !== 0 ? <Chatroom
           tripId={this.state.trip.id}
           user={this.state.currentUser.display}
-          userId={this.state.currentUser.id}/> 
+          userId={this.state.currentUser.id}/>
           : <div>loading...</div> }
-        {Object.keys(this.state.confirms).length !== 0 ? <Confirmations 
+        {Object.keys(this.state.confirms).length !== 0 ? <Confirmations
           style={style.confirms}
           tripId={this.state.trip.id}
           user={this.state.currentUser}

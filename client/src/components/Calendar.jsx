@@ -29,8 +29,8 @@ class Calendar extends React.Component {
     this.pickDate = this.pickDate.bind(this);
     this.startDateChange = this.startDateChange.bind(this);
     this.endDateChange = this.endDateChange.bind(this);
-    this.pickDateByRange = this.pickDateByRange.bind(this); 
-    this.inputIsValid = this.inputIsValid.bind(this); 
+    this.pickDateByRange = this.pickDateByRange.bind(this);
+    this.inputIsValid = this.inputIsValid.bind(this);
   }
 
   componentWillMount() {
@@ -83,7 +83,7 @@ class Calendar extends React.Component {
     // TODO: improve efficiency in the future if I have time.
     for (var i = 0; i < availabilityDuplicate.length; i++) {
       var sameDateClickedTwice = false;
-      // if the same user clicked the same date twice, 
+      // if the same user clicked the same date twice,
       // compare string since the date seems to be unique
       if (pickedSlot.start.toString() === availabilityDuplicate[i]['start'].toString() && (this.state.user.first === availabilityDuplicate[i]['title'] || this.state.user.id === availabilityDuplicate[i]['title'])) {
         let deleteMe = availabilityDuplicate[i].id;
@@ -95,7 +95,7 @@ class Calendar extends React.Component {
         });
         //delete entry from the DB
         axios.post('/availability/delete', {
-          'id': deleteMe 
+          'id': deleteMe
         })
           .then((res) => {
             console.log('availabilty deleted');
@@ -103,16 +103,16 @@ class Calendar extends React.Component {
           .catch((err) => {
             console.log(err);
           });
-          
+
 
 
 
         break;
       }
     }
-    
+
     if (!sameDateClickedTwice) {
-      
+
       let newAvailability = {
         'id': null,
         'title': this.state.user.first,
@@ -128,7 +128,7 @@ class Calendar extends React.Component {
         .catch((error) => {
           console.log(error);
         });
-        
+
       availabilityDuplicate.push(newAvailability);
 
       //2 reset state with new availability
@@ -209,9 +209,9 @@ class Calendar extends React.Component {
     // alert if user inputs invalid date, haven't try to prevent XSS yet
 
     // should have two /s,  like 2017/09/01
-    if (startDateArray.length !== 3 || endDateArray.length !== 3  
+    if (startDateArray.length !== 3 || endDateArray.length !== 3
         // year should be 4 digits
-        || startDateArray[0].length !== 4 || endDateArray[0].length !== 4 
+        || startDateArray[0].length !== 4 || endDateArray[0].length !== 4
         // month should be between 0 to 11 (0 based)
         || parseInt(startDateArray[1]) < 0 || parseInt(startDateArray[1]) > 12
         || parseInt(endDateArray[1]) < 0 || parseInt(endDateArray[1]) > 12
@@ -249,16 +249,8 @@ class Calendar extends React.Component {
           }
           }
         />
-
         <div>
-          <p>Start Date: </p>
-          <input value={this.state.startDateForRange} placeholder="YYYY/MM/DD" onChange={this.startDateChange}/>
-          
-          <p>End Date: </p>
-          <input value={this.state.endDateForRange} placeholder="YYYY/MM/DD" onChange={this.endDateChange}/>
-          
           <br/>
-          <button className="pickDateRange" onClick={this.pickDateByRange}>Set Availability!</button>
         </div>
 
       </div>

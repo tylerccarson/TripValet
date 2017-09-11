@@ -8,7 +8,7 @@ const Header = (props) => (
       <Navbar inverse collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to='/'>Dashboard</Link>
+            <Link to='/'>Trip Valet</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
