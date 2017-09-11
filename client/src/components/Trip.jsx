@@ -70,6 +70,7 @@ class Trip extends React.Component {
         <h1>{this.state.trip.tripname}</h1>
         <h3>Description: {this.state.description}</h3>
         {Object.keys(this.state.currentUser).length !== 0 ? <Calendar 
+          allUsers={this.state.usersWithAccount}
           currentUser={this.state.currentUser}
           trip={this.state.trip}/>
           : <div>loading...</div>
