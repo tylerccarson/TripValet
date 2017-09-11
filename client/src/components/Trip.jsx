@@ -1,6 +1,7 @@
 import React from 'react';
 import Calendar from './Calendar.jsx';
 import Chatroom from './Chatroom.jsx';
+import Confirmations from './Confirmations.jsx';
 import axios from 'axios';
 import Promise from 'bluebird';
 
@@ -52,7 +53,17 @@ class Trip extends React.Component {
   }
 
   render( ) {
-    var style = {'paddingTop': '50px'};
+    var style = {
+      confirms: {
+        textAlign: 'center'
+      },
+      calendar: {
+
+      },
+      chatroom: {
+
+      }
+    };
 
     return (
       <div>
@@ -67,6 +78,13 @@ class Trip extends React.Component {
           tripId={this.state.trip.id}
           user={this.state.currentUser.display}
           userId={this.state.currentUser.id}/> 
+          : <div>loading...</div> }
+        {Object.keys(this.state.confirms).length !== 0 ? <Confirmations 
+          style={style.confirms}
+          tripId={this.state.trip.id}
+          user={this.state.currentUser.display}
+          userId={this.state.currentUser.id}
+          confirms={this.state.confirms}/>
           : <div>loading...</div> }
       </div>
     );
