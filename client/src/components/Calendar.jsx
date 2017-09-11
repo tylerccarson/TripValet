@@ -18,7 +18,7 @@ class Calendar extends React.Component {
       user: this.props.currentUser,
       trip: this.props.trip,
       availability: [{
-        title: this.props.trip.user_id,
+        title: this.props.trip.tripname,
         start: this.props.trip.rangeStart,
         end: this.props.trip.rangeEnd,
       }],
@@ -39,10 +39,16 @@ class Calendar extends React.Component {
       .then((availabilities)=>{
 
         let storedAvailability = availabilities.data.map((avail) => {
+          let users = this.props.allUsers;
+          let name;
+          for (var i = 0; i < users.length; i++) {
+            if (users[i].id === avail.user_id) {
+              name = users[i].first;
+            }
+          }
           return {
             'id': avail.id,
-            //need to correct this to a actual firstname rather than id
-            'title': avail.user_id,
+            'title': name,
             'start': avail.rangeStart,
             'end': avail.rangeEnd
           };
