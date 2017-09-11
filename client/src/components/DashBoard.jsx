@@ -7,7 +7,7 @@ import { push } from 'react-router-redux';
 import { Link } from 'react-router-dom';
 import TripForm from './TripForm.jsx';
 import TripLinks from './TripLinks.jsx';
-import {List} from 'material-ui/List';
+import { List } from 'material-ui/List';
 import axios from 'axios';
 
 class DashBoard extends React.Component {
@@ -35,15 +35,6 @@ class DashBoard extends React.Component {
       lgShow: true
     });
   }
-
-  /*
-      tripname: req.body.tripname,
-      description: req.body.description,
-      location: req.body.location,
-      rangeStart: req.body.rangeStart,
-      rangeEnd: req.body.rangeEnd,
-      user_id: req.session.passport.user
-  */
 
   componentWillMount() {
     axios.get('/trips/byEmail')
@@ -87,8 +78,6 @@ class DashBoard extends React.Component {
             <TripLinks trips={this.state.trips}/>
           </List>
         </Jumbotron>
-
-
         <p>
           <Button
             bsStyle="primary"
