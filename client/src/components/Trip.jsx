@@ -82,7 +82,7 @@ class Trip extends React.Component {
         {Object.keys(this.state.confirms).length !== 0 ? <Confirmations 
           style={style.confirms}
           tripId={this.state.trip.id}
-          user={this.state.currentUser.display}
+          user={this.state.currentUser}
           userId={this.state.currentUser.id}
           confirms={this.state.confirms}/>
           : <div>loading...</div> }
