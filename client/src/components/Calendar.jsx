@@ -95,7 +95,7 @@ class Calendar extends React.Component {
         });
         //delete entry from the DB
         axios.post('/availability/delete', {
-          'id': deleteMe 
+          'id': deleteMe
         })
           .then((res) => {
             console.log('availabilty deleted');
@@ -103,7 +103,7 @@ class Calendar extends React.Component {
           .catch((err) => {
             console.log(err);
           });
-          
+
 
 
 
@@ -112,7 +112,7 @@ class Calendar extends React.Component {
     }
 
     if (!sameDateClickedTwice) {
-      
+
       let newAvailability = {
         'id': null,
         'title': this.state.user.first,
@@ -128,7 +128,7 @@ class Calendar extends React.Component {
         .catch((error) => {
           console.log(error);
         });
-        
+
       availabilityDuplicate.push(newAvailability);
 
       //2 reset state with new availability
@@ -251,7 +251,6 @@ class Calendar extends React.Component {
         />
         <div>
           <br/>
-          <button className="pickDateRange" onClick={this.pickDateByRange}>Set Availability!</button>
         </div>
 
       </div>
