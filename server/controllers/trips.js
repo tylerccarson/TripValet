@@ -17,7 +17,7 @@ module.exports.getAll = (req, res) => {
     });
 };
 
-module.exports.getTripsByUserEmail = (req, res ) => { // this is used when we want to fetch all trips by a user on dashboard.
+module.exports.getTripsByUserEmail = (req, res) => { // this is used when we want to fetch all trips by a user on dashboard.
   models.Profile.where({id: req.session.passport.user}).fetch()
     .then((user) => {
       if (!user) {
