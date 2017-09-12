@@ -64,8 +64,30 @@ class Calendar extends React.Component {
   }
 
   componentDidMount() {
-    //set up to receive socket info for new availability
-    //how to do this based on trip id?
+
+    this.props.socket.on('serverAvailabilityAdd', (data) => {
+
+      let stateAvailability = this.state.availability;
+      stateAvailability.push(data);
+
+      this.setState({
+        availability: stateAvailability
+      });
+    });
+
+    this.props.socket.on('serverAvailabilityDelete', (data) => {
+      let stateAvailability = this.state.availability;
+
+      for (var i = 0; i < stateAvailability.length; i++) {
+        if (stateAvailability[i].id === data.id) {
+          stateAvailability.splice(i, 0);
+        }
+      }
+
+      this.setState({
+        availability: stateAvailability
+      });
+    });
   }
 
   pickDate(pickedSlot) {
@@ -98,14 +120,12 @@ class Calendar extends React.Component {
           'id': deleteMe
         })
           .then((res) => {
+            this.props.socket.emit('clientAvailabilityDelete', deleteMe);
             console.log('availabilty deleted');
           })
           .catch((err) => {
             console.log(err);
           });
-
-
-
 
         break;
       }
@@ -120,21 +140,16 @@ class Calendar extends React.Component {
         'end': pickedSlot.end
       };
 
-      //1 put new availability into DB w/ trip id as well
+      //1 put new availability into DB and emit via sockets
       axios.post('/availability/byTripId', newAvailability)
         .then((posted) => {
           newAvailability.id = posted.data.id;
+          this.props.socket.emit('clientAvailabilityAdd', newAvailability);
         })
         .catch((error) => {
           console.log(error);
         });
 
-      availabilityDuplicate.push(newAvailability);
-
-      //2 reset state with new availability
-      this.setState({
-        availability: availabilityDuplicate
-      });
     }
 
   }

@@ -1,12 +1,8 @@
 import React from 'react';
-import io from 'socket.io-client';
 import TextField from 'material-ui/TextField';
 import ReactScrollbar from 'react-scrollbar-js';
 import Messages from './Messages.jsx';
 import axios from 'axios';
-
-let env = window.location.hostname + ':' + window.location.port;
-let socket = io(env);
 
 //to-dos:
 //1 styling
@@ -59,7 +55,7 @@ class Chatroom extends React.Component {
 
     axios.post('/messages/create', message)
       .then((res) => {
-        socket.emit('clientMessage', res);
+        this.props.socket.emit('clientMessage', res);
       })
       .catch((err) => {
         console.log(err);
@@ -80,7 +76,7 @@ class Chatroom extends React.Component {
   }
 
   componentDidMount() {
-    socket.on('serverMessage', (data) => {
+    this.props.socket.on('serverMessage', (data) => {
       //data needs user property
       let currentMessages = this.state.messages;
       currentMessages.push(data);
