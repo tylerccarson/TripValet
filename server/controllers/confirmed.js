@@ -1,6 +1,5 @@
 const models = require('../../db/models');
 
-// functions to be created.
 module.exports.getConfirmsByTripId = (req, res) => {
   var incomingUrl = req.headers.referer;
   incomingUrl = incomingUrl.split('/');
@@ -16,5 +15,20 @@ module.exports.getConfirmsByTripId = (req, res) => {
     });
 };
 
+module.exports.updateUserConfirmationForTrip = (req, res) => {
 
-//getByTripId
+  models.Confirmed.where({ 'trip_id': req.body.tripId, 'user_id': req.body.userId }).fetch()
+    .then((update) => {
+      let status = update.get('confirmed');
+      let newStatus = !status;
+      update.set('confirmed', newStatus).save()
+        .then((model) => {
+          res.status(200).send(model.get('confirmed'));
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(503).send(err);
+    });
+
+};

@@ -1,6 +1,7 @@
 import React from 'react';
 import {ListItem} from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
+import axios from 'axios';
 
 class Invitees extends React.Component {
   constructor(props) {
@@ -8,10 +9,25 @@ class Invitees extends React.Component {
     this.state = {
       confirmed: this.props.invitee.confirmed
     };
+    this.handleUserCheck = this.handleUserCheck.bind(this);
   }
 
   handleUserCheck() {
-    //toggle state and update database
+
+    let userId = this.props.user.id;
+    let tripId = this.props.trip.id;
+    axios.post('/confirmed/update', {
+      userId: userId,
+      tripId: tripId
+    })
+      .then((toggled) => {
+        this.setState({
+          confirmed: toggled.data
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -19,7 +35,7 @@ class Invitees extends React.Component {
     if (this.props.user.email === this.props.invitee.email) {
       checkBox = <Checkbox defaultChecked={this.state.confirmed} onCheck={this.handleUserCheck}/>; 
     } else {
-      checkBox = <Checkbox checked={this.state.confirmed}/>;
+      checkBox = <Checkbox checked={this.props.confirmed}/>;
     }
 
     return (

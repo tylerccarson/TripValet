@@ -6,7 +6,7 @@ const Confirmations = (props) => {
   return (
     <List>
       {props.confirms.map((invitee, i) => {
-        return <Invitees key={i} invitee={invitee} user={props.user}/>;
+        return <Invitees key={i} invitee={invitee} user={props.user} trip={props.trip}/>;
       })}
     </List>
   );
