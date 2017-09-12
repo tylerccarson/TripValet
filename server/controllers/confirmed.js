@@ -16,13 +16,15 @@ module.exports.getConfirmsByTripId = (req, res) => {
 };
 
 module.exports.updateUserConfirmationForTrip = (req, res) => {
-  console.log(req.body);
 
-  models.Confirmed.where({ 'trip_id': req.body.trip.id, 'user_id': req.body.user.id }).fetch()
+  models.Confirmed.where({ 'trip_id': req.body.trip.id, 'email': req.body.user.email }).fetch()
     .then((update) => {
       let status = update.get('confirmed');
       let newStatus = !status;
-      update.set('confirmed', newStatus).save()
+      update.set({
+        'confirmed': newStatus,
+        'user_id': req.body.user.id
+      }).save()
         .then((model) => {
           res.status(200).send(model.get('confirmed'));
         });
