@@ -14,11 +14,11 @@ class Invitees extends React.Component {
 
   handleUserCheck() {
 
-    let userId = this.props.user.id;
-    let tripId = this.props.trip.id;
+    let user = this.props.user;
+    let trip = this.props.trip;
     axios.post('/confirmed/update', {
-      userId: userId,
-      tripId: tripId
+      user: user,
+      trip: trip
     })
       .then((toggled) => {
         this.setState({
