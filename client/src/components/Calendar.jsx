@@ -121,7 +121,6 @@ class Calendar extends React.Component {
         })
           .then((res) => {
             this.props.socket.emit('clientAvailabilityDelete', deleteMe);
-            console.log('availabilty deleted');
           })
           .catch((err) => {
             console.log(err);
