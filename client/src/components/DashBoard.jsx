@@ -16,7 +16,9 @@ class DashBoard extends React.Component {
     this.state = {
       lgShow: false,
       user: {},
-      trips: []
+      upcomingTrips: [],
+      concurrentTrips: [],
+      previousTrips: []
     };
     this.hideModal = this.hideModal.bind(this);
     this.showModal = this.showModal.bind(this);
@@ -39,9 +41,56 @@ class DashBoard extends React.Component {
   componentWillMount() {
     axios.get('/trips/byEmail')
       .then((trips)=>{
-        this.setState({
-          trips: trips.data
-        });
+
+        console.log('trips data: ', trips.data);
+
+        for (var i = 0; i < trips.data.length; i++) {
+          var startDateArray = trips.data[i].rangeStart.split('/');
+          var endDateArray = trips.data[i].rangeEnd.split('/');
+          
+          var startYear = parseInt(startDateArray[0]);
+          var startMonth = parseInt(startDateArray[1]) - 1;
+          var startDay = parseInt(startDateArray[2]);
+
+          var endYear = parseInt(endDateArray[0]);
+          var endMonth = parseInt(endDateArray[1]) - 1;
+          var endDay = parseInt(endDateArray[2]);
+
+
+          // if the trip's end date is earlier than today, this trip has happened 
+          // already. valueOf() returns the miliseconds passed since 1970/1/1 till
+          // today since it is complicated to compare year, months and dates
+          if (new Date(endYear, endMonth, endDay).valueOf() <= new Date().valueOf()) {
+            var previousTripsDuplicate = this.state.previousTrips;
+            previousTripsDuplicate.push(trips.data[i]);
+
+            this.setState({
+              previousTrips: previousTripsDuplicate
+            });
+          // if the trip's start data is later than today, this trip is in the 
+          // future
+          } else if (new Date(startYear, startMonth, startDay).valueOf() >= new Date()) {
+            var upcomingTripsDuplicate = this.state.upcomingTrips;
+            upcomingTripsDuplicate.push(trips.data[i]);
+
+            this.setState({
+              upcomingTrips: upcomingTripsDuplicate
+            });
+
+          // if none of them is true, it can be considered as currently happening
+          // trip
+          } else {
+            var concurrentTripsDuplicate = this.state.concurrentTrips;
+            concurrentTripsDuplicate.push(trips.data[i]);
+
+            this.setState({
+              concurrentTrips: concurrentTripsDuplicate
+            });
+          }
+
+
+        }
+
       })
       .catch((error) => {
         console.log(error);
@@ -72,12 +121,28 @@ class DashBoard extends React.Component {
             />
           </Modal.Body>
         </Modal>
+
         <Jumbotron>
-          <h1>Upcoming Trips</h1>
+          <h3>Concurrent Trips</h3>
           <List>
-            <TripLinks trips={this.state.trips}/>
+            <TripLinks trips={this.state.concurrentTrips}/>
           </List>
         </Jumbotron>
+        
+        <Jumbotron>
+          <h3>Upcoming Trips</h3>
+          <List>
+            <TripLinks trips={this.state.upcomingTrips}/>
+          </List>
+        </Jumbotron>
+
+        <Jumbotron>
+          <h3>Previous Trips</h3>
+          <List>
+            <TripLinks trips={this.state.previousTrips}/>
+          </List>
+        </Jumbotron>
+        
         <p>
           <Button
             bsStyle="primary"
