@@ -11,5 +11,7 @@ const db = require('../../db');
 router.route('/byTrip')
   .get(ConfirmedController.getConfirmsByTripId);
 
+router.route('/update')
+  .post(ConfirmedController.updateUserConfirmationForTrip);
 
 module.exports = router;
