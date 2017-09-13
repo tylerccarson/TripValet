@@ -25,7 +25,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('clientConfirmation', (data) => {
-    console.log(data);
     io.sockets.emit('serverConfirmation', data);
   });
 
