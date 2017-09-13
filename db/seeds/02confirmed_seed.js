@@ -8,8 +8,8 @@ exports.seed = function (knex, Promise) {
         throw confirmed;
       }
       return models.Confirmed.forge({
-        email: 'example@example.com',
-        trip_id: 1,
+        email: 'jhjaylim@gmail.com',
+        trip_id: 4,
         confirmed: false
       }).save();
     })
