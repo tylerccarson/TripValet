@@ -20,14 +20,14 @@ exports.seed = function (knex, Promise) {
         location: 'Las Vegas',
         rangeStart: '2017-08-04T07:00:00.000Z',
         rangeEnd: '2017-08-13T07:00:00.000Z',
-        user_id: 5
+        user_id: 1
       }, {
         tripname: 'Code School: 90\'s edition',
         description: 'Learn how to make Pong and Snake for VIM',
         location: 'Bay Area',
         rangeStart: '2017-09-12T07:00:00.000Z',
         rangeEnd: '2017-09-22T07:00:00.000Z',
-        user_id: 4
+        user_id: 2
       }, {
         tripname: 'Future Event: Back to the Future',
         description: 'Go back in time to try and stop Kennedy\'s assassination',
@@ -41,7 +41,7 @@ exports.seed = function (knex, Promise) {
         location: 'London and Hawaii',
         rangeStart: '2017-10-10T07:00:00.000Z',
         rangeEnd: '2017-10-20T07:00:00.000Z',
-        user_id: 2
+        user_id: 4
       }]);
       return Promise.all(trips.invokeMap('save'));
     })
