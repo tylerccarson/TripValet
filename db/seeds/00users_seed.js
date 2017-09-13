@@ -18,12 +18,6 @@ exports.seed = function (knex, Promise) {
 
       var accounts = Accounts.forge([
         {
-            first: 'System',
-            last: 'Admin',
-            display: 'Administrator',
-            email: 'admin@domain.com'
-        },
-        {
             first: 'Jay',
             last: 'Lim',
             display: 'Lim Jay',
@@ -32,7 +26,7 @@ exports.seed = function (knex, Promise) {
         {
             first: 'Tyler',
             last: 'Carson',
-            display: 'Lim Jay',
+            display: 'Tyler Carson',
             email: 'tyler.c.carson@gmail.com'
         },
         {
@@ -63,3 +57,4 @@ exports.seed = function (knex, Promise) {
       console.log(err);
       console.log('WARNING: defualt user already exists.');
     });
+};
