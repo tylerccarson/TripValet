@@ -60,8 +60,6 @@ class Message extends React.Component {
       }
     };
 
-    let avatarUrl = this.props.avatar ? this.props.avatar : 'https://68.media.tumblr.com/avatar_15088fad1a13_128.png';
-
     if (this.props.currentUser === this.props.user) {
       //show delete button
       return (
@@ -71,9 +69,6 @@ class Message extends React.Component {
             disabled={this.state.disabled} 
             secondaryText={
               <p style={style.text}>{this.state.secondaryText}</p>
-            }
-            leftAvatar={
-              <Avatar src={avatarUrl}/>
             }>
             { this.props.user }: {this.props.message}
           </ListItem>
@@ -88,9 +83,6 @@ class Message extends React.Component {
           <ListItem 
             secondaryText={
               <p style={style.text}>{this.state.secondaryText}</p>
-            }
-            leftAvatar={
-              <Avatar src={avatarUrl}/>
             }>
             { this.props.user }: {this.props.message}
           </ListItem>
