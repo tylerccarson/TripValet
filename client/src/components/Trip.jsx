@@ -3,7 +3,11 @@ import Calendar from './Calendar.jsx';
 import Chatroom from './Chatroom.jsx';
 import Confirmations from './Confirmations.jsx';
 import axios from 'axios';
+import io from 'socket.io-client';
 import Promise from 'bluebird';
+
+let env = window.location.hostname + ':' + window.location.port;
+let socket = io(env);
 
 class Trip extends React.Component {
   constructor (props) {
@@ -69,13 +73,15 @@ class Trip extends React.Component {
         {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
           allUsers={this.state.usersWithAccount}
           currentUser={this.state.currentUser}
-          trip={this.state.trip}/>
+          trip={this.state.trip}
+          socket={socket}/>
           : <div>loading...</div>
         }
         {Object.keys(this.state.trip).length !== 0 ? <Chatroom
           tripId={this.state.trip.id}
           user={this.state.currentUser.display}
-          userId={this.state.currentUser.id}/>
+          userId={this.state.currentUser.id}
+          socket={socket}/>
           : <div>loading...</div> }
         {Object.keys(this.state.confirms).length !== 0 ? <Confirmations
           style={style.confirms}
