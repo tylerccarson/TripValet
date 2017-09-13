@@ -25,7 +25,6 @@ class Calendar extends React.Component {
       startDateForRange: '',
       endDateForRange: ''
     };
-
     this.pickDate = this.pickDate.bind(this);
     this.startDateChange = this.startDateChange.bind(this);
     this.endDateChange = this.endDateChange.bind(this);
@@ -78,9 +77,11 @@ class Calendar extends React.Component {
     this.props.socket.on('serverAvailabilityDelete', (data) => {
       let stateAvailability = this.state.availability;
 
+      console.log('data being deleted through socket io: ', data);
+
       for (var i = 0; i < stateAvailability.length; i++) {
-        if (stateAvailability[i].id === data.id) {
-          stateAvailability.splice(i, 0);
+        if (stateAvailability[i].id === data) {
+          stateAvailability.splice(i, 1);
         }
       }
 
@@ -91,6 +92,9 @@ class Calendar extends React.Component {
   }
 
   pickDate(pickedSlot) {
+
+    console.log('picked Slot: ', pickedSlot);
+    // console.log('picked slot after getdate', pickedSlot.start.getDate());
 
     // if the availablity list array is empty, the for loop below won't run
     if (!this.state.availability.length) {
@@ -107,7 +111,11 @@ class Calendar extends React.Component {
       var sameDateClickedTwice = false;
       // if the same user clicked the same date twice,
       // compare string since the date seems to be unique
-      if (pickedSlot.start.toString() === availabilityDuplicate[i]['start'].toString() && (this.state.user.first === availabilityDuplicate[i]['title'] || this.state.user.id === availabilityDuplicate[i]['title'])) {
+
+      var formatedStartDateFromDB = new Date(availabilityDuplicate[i]['start']);
+      var formatedPickedSlotStartDate = new Date(pickedSlot.start);
+
+      if ( formatedPickedSlotStartDate.toString() === formatedStartDateFromDB.toString() && (this.state.user.first === availabilityDuplicate[i]['title']) ) {
         let deleteMe = availabilityDuplicate[i].id;
         sameDateClickedTwice = true;
         availabilityDuplicate.splice(i, 1);
@@ -251,14 +259,17 @@ class Calendar extends React.Component {
       <div style={style} {...this.props}>
         <BigCalendar
           selectable
+          popup
           events = {this.state.availability}
           defaultDate={ new Date() } // set to current date
           onSelectEvent={ (name) => {
             // unpick for clicking on name cause it is more intuitive
+            console.log('select event');
             this.pickDate(name);
           }
           }
           onSelectSlot={ (slotInfo) => {
+            console.log('selected slot');
             this.pickDate(slotInfo);
           }
           }
