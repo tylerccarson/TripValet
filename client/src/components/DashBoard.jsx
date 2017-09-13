@@ -45,22 +45,16 @@ class DashBoard extends React.Component {
         console.log('trips data: ', trips.data);
 
         for (var i = 0; i < trips.data.length; i++) {
-          var startDateArray = trips.data[i].rangeStart.split('/');
-          var endDateArray = trips.data[i].rangeEnd.split('/');
+          var startDate = new Date(trips.data[i].rangeStart);
+          var endDate = new Date(trips.data[i].rangeEnd);
           
-          var startYear = parseInt(startDateArray[0]);
-          var startMonth = parseInt(startDateArray[1]) - 1;
-          var startDay = parseInt(startDateArray[2]);
-
-          var endYear = parseInt(endDateArray[0]);
-          var endMonth = parseInt(endDateArray[1]) - 1;
-          var endDay = parseInt(endDateArray[2]);
-
+          console.log('start date object: ', startDate);
+          console.log('end date object: ', endDate);
 
           // if the trip's end date is earlier than today, this trip has happened 
           // already. valueOf() returns the miliseconds passed since 1970/1/1 till
           // today since it is complicated to compare year, months and dates
-          if (new Date(endYear, endMonth, endDay).valueOf() <= new Date().valueOf()) {
+          if (endDate.valueOf() <= new Date().valueOf()) {
             var previousTripsDuplicate = this.state.previousTrips;
             previousTripsDuplicate.push(trips.data[i]);
 
@@ -69,7 +63,7 @@ class DashBoard extends React.Component {
             });
           // if the trip's start data is later than today, this trip is in the 
           // future
-          } else if (new Date(startYear, startMonth, startDay).valueOf() >= new Date()) {
+          } else if (startDate.valueOf() >= new Date()) {
             var upcomingTripsDuplicate = this.state.upcomingTrips;
             upcomingTripsDuplicate.push(trips.data[i]);
 
