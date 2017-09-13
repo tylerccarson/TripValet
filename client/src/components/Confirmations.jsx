@@ -12,6 +12,7 @@ class Confirmations extends React.Component {
 
   onComponentDidMount() {
     this.props.socket.on('serverConfirmation', (data) => {
+      console.log(data);
       let confirmations = this.state.confirmed;
       for (var i = 0; i < confirmations.length; i++) {
         if (confirmations[i].email === data.user.email) {
