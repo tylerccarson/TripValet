@@ -42,14 +42,9 @@ class DashBoard extends React.Component {
     axios.get('/trips/byEmail')
       .then((trips)=>{
 
-        console.log('trips data: ', trips.data);
-
         for (var i = 0; i < trips.data.length; i++) {
           var startDate = new Date(trips.data[i].rangeStart);
           var endDate = new Date(trips.data[i].rangeEnd);
-          
-          console.log('start date object: ', startDate);
-          console.log('end date object: ', endDate);
 
           // if the trip's end date is earlier than today, this trip has happened 
           // already. valueOf() returns the miliseconds passed since 1970/1/1 till
@@ -81,7 +76,6 @@ class DashBoard extends React.Component {
               concurrentTrips: concurrentTripsDuplicate
             });
           }
-
 
         }
 
