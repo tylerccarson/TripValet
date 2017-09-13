@@ -77,8 +77,6 @@ class Calendar extends React.Component {
     this.props.socket.on('serverAvailabilityDelete', (data) => {
       let stateAvailability = this.state.availability;
 
-      console.log('data being deleted through socket io: ', data);
-
       for (var i = 0; i < stateAvailability.length; i++) {
         if (stateAvailability[i].id === data) {
           stateAvailability.splice(i, 1);
@@ -92,9 +90,6 @@ class Calendar extends React.Component {
   }
 
   pickDate(pickedSlot) {
-
-    console.log('picked Slot: ', pickedSlot);
-    // console.log('picked slot after getdate', pickedSlot.start.getDate());
 
     // if the availablity list array is empty, the for loop below won't run
     if (!this.state.availability.length) {
@@ -112,8 +107,17 @@ class Calendar extends React.Component {
       // if the same user clicked the same date twice,
       // compare string since the date seems to be unique
 
+
+      // formate the date from DB (string) to a date(Date()) so the .toString()
+      // comparison works.
       var formatedStartDateFromDB = new Date(availabilityDuplicate[i]['start']);
-      var formatedPickedSlotStartDate = new Date(pickedSlot.start);
+
+      if (typeof pickedSlot.start === 'string') {
+        var formatedPickedSlotStartDate = new Date(pickedSlot.start);
+      } else {
+        var formatedPickedSlotStartDate = pickedSlot.start;
+      }
+
 
       if ( formatedPickedSlotStartDate.toString() === formatedStartDateFromDB.toString() && (this.state.user.first === availabilityDuplicate[i]['title']) ) {
         let deleteMe = availabilityDuplicate[i].id;
@@ -264,12 +268,10 @@ class Calendar extends React.Component {
           defaultDate={ new Date() } // set to current date
           onSelectEvent={ (name) => {
             // unpick for clicking on name cause it is more intuitive
-            console.log('select event');
             this.pickDate(name);
           }
           }
           onSelectSlot={ (slotInfo) => {
-            console.log('selected slot');
             this.pickDate(slotInfo);
           }
           }
