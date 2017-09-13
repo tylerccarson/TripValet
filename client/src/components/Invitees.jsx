@@ -21,7 +21,14 @@ class Invitees extends React.Component {
       trip: trip
     })
       .then((toggled) => {
+        //reset your own state
         this.setState({
+          confirmed: toggled.data
+        });
+        //emit to update other users' views
+        this.props.socket.emit('clientConfirmation', {
+          user: user,
+          trip: trip,
           confirmed: toggled.data
         });
       })
@@ -29,6 +36,8 @@ class Invitees extends React.Component {
         console.log(err);
       });
   }
+
+
 
   render() {
     let checkBox; 

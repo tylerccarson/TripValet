@@ -24,4 +24,8 @@ io.on('connection', (socket) => {
     io.sockets.emit('serverAvailabilityDelete', data);
   });
 
+  socket.on('clientConfirmation', (data) => {
+    io.sockets.emit('serverConfirmation', data);
+  });
+
 });
