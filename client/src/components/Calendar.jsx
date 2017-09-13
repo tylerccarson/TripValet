@@ -25,7 +25,6 @@ class Calendar extends React.Component {
       startDateForRange: '',
       endDateForRange: ''
     };
-
     this.pickDate = this.pickDate.bind(this);
     this.startDateChange = this.startDateChange.bind(this);
     this.endDateChange = this.endDateChange.bind(this);
@@ -79,8 +78,8 @@ class Calendar extends React.Component {
       let stateAvailability = this.state.availability;
 
       for (var i = 0; i < stateAvailability.length; i++) {
-        if (stateAvailability[i].id === data.id) {
-          stateAvailability.splice(i, 0);
+        if (stateAvailability[i].id === data) {
+          stateAvailability.splice(i, 1);
         }
       }
 
@@ -107,7 +106,20 @@ class Calendar extends React.Component {
       var sameDateClickedTwice = false;
       // if the same user clicked the same date twice,
       // compare string since the date seems to be unique
-      if (pickedSlot.start.toString() === availabilityDuplicate[i]['start'].toString() && (this.state.user.first === availabilityDuplicate[i]['title'] || this.state.user.id === availabilityDuplicate[i]['title'])) {
+
+
+      // formate the date from DB (string) to a date(Date()) so the .toString()
+      // comparison works.
+      var formatedStartDateFromDB = new Date(availabilityDuplicate[i]['start']);
+
+      if (typeof pickedSlot.start === 'string') {
+        var formatedPickedSlotStartDate = new Date(pickedSlot.start);
+      } else {
+        var formatedPickedSlotStartDate = pickedSlot.start;
+      }
+
+
+      if ( formatedPickedSlotStartDate.toString() === formatedStartDateFromDB.toString() && (this.state.user.first === availabilityDuplicate[i]['title']) ) {
         let deleteMe = availabilityDuplicate[i].id;
         sameDateClickedTwice = true;
         availabilityDuplicate.splice(i, 1);
@@ -251,6 +263,7 @@ class Calendar extends React.Component {
       <div style={style} {...this.props}>
         <BigCalendar
           selectable
+          popup
           events = {this.state.availability}
           defaultDate={ new Date() } // set to current date
           onSelectEvent={ (name) => {
