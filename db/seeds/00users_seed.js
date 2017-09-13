@@ -98,21 +98,3 @@ exports.seed = function (knex, Promise) {
       console.log(err);
       console.log('WARNING: defualt user already exists.');
     });
-
-
-  
-
-}
-
-// var Accounts = bookshelf.Collection.extend({
-//   model: Account
-// });
-    
-// var accounts = Accounts.forge([
-//   {name: 'Person1'},
-//   {name: 'Person2'}
-// ])  
-
-// accounts.invokeThen('save').then(function() {
-//   // ... all models in the collection have been saved
-// });
