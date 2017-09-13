@@ -17,7 +17,7 @@ class DashBoard extends React.Component {
       lgShow: false,
       user: {},
       upcomingTrips: [],
-      concurrentTrips: [],
+      currentTrips: [],
       previousTrips: []
     };
     this.hideModal = this.hideModal.bind(this);
@@ -58,7 +58,7 @@ class DashBoard extends React.Component {
             });
           // if the trip's start data is later than today, this trip is in the 
           // future
-          } else if (startDate.valueOf() >= new Date()) {
+          } else if (startDate.valueOf() >= new Date().valueOf()) {
             var upcomingTripsDuplicate = this.state.upcomingTrips;
             upcomingTripsDuplicate.push(trips.data[i]);
 
@@ -69,11 +69,11 @@ class DashBoard extends React.Component {
           // if none of them is true, it can be considered as currently happening
           // trip
           } else {
-            var concurrentTripsDuplicate = this.state.concurrentTrips;
-            concurrentTripsDuplicate.push(trips.data[i]);
+            var currentTripsDuplicate = this.state.currentTrips;
+            currentTripsDuplicate.push(trips.data[i]);
 
             this.setState({
-              concurrentTrips: concurrentTripsDuplicate
+              currentTrips: currentTripsDuplicate
             });
           }
 
@@ -111,9 +111,9 @@ class DashBoard extends React.Component {
         </Modal>
 
         <Jumbotron>
-          <h3>Concurrent Trips</h3>
+          <h3>Current Trips</h3>
           <List>
-            <TripLinks trips={this.state.concurrentTrips}/>
+            <TripLinks trips={this.state.currentTrips}/>
           </List>
         </Jumbotron>
         
