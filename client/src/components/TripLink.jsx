@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {ListItem} from 'material-ui/List';
+import { ListItem } from 'material-ui/List';
 
 const TripLink = (props) => {
   return (
