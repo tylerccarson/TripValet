@@ -42,7 +42,7 @@ class Invitees extends React.Component {
   render() {
     let checkBox; 
     if (this.props.user.email === this.props.invitee.email) {
-      checkBox = <Checkbox checked={this.state.confirmed} onCheck={this.handleUserCheck}/>; 
+      checkBox = <Checkbox defaultChecked={this.state.confirmed} onCheck={this.handleUserCheck}/>; 
     } else {
       checkBox = <Checkbox defaultChecked={this.state.confirmed}/>;
     }
