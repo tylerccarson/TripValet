@@ -8,7 +8,7 @@ var Main = () => (
     <Switch>
       <Route exact path='/' component={DashBoard}/>
       <Route path='/trip/:id' component={Trip}/>
-      // <Route path="/trip/*" component={DashBoard} />
+      <Route path="*" component={DashBoard}  />
     </Switch>
   </main>
 );
