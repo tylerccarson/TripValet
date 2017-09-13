@@ -20,13 +20,18 @@ router.route('/byUser')
 router.route('/')
   .get(TripController.getTripInfoById);
 
+router.route('/*')
+  .get((req, res) => {
+    res.render('index.ejs');
+  });
+
 module.exports = router;
 
 /* AVAILABLE FUNCTIONS
 
   POST
   TripController.createTrip
-  
+
   GET
   TripController.getTripsByUserEmail
   TripController.getAll

@@ -42,6 +42,7 @@ class DashBoard extends React.Component {
         this.setState({
           trips: trips.data
         });
+        console.log("line 45 trips.data", trips.data);
       })
       .catch((error) => {
         console.log(error);
@@ -56,6 +57,7 @@ class DashBoard extends React.Component {
 
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <Modal

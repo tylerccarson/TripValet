@@ -9,12 +9,14 @@ const Header = (props) => (
         <Navbar.Header>
           <Navbar.Brand>
             <Link to='/'>Trip Valet</Link>
+            <Link to='/*'></Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Navbar.Brand pullRight>
-            <Link to='/logout'
+            <Link
+              to='/logout'
               onClick={props.logout}>
               |       Logout
             </Link>

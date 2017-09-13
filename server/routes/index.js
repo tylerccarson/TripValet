@@ -6,3 +6,4 @@ module.exports.messages = require('./messages');
 module.exports.confirmed = require('./confirmed');
 module.exports.user = require('./user');
 module.exports.availability = require('./availability');
+module.exports.catchall = require('./catchall');
