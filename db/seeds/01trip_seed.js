@@ -42,8 +42,8 @@ exports.seed = function (knex, Promise) {
         rangeStart: '2017-10-10T07:00:00.000Z',
         rangeEnd: '2017-10-20T07:00:00.000Z',
         user_id: 4
-      }])
-      return Promise.all(trips.invokeMap('save'))
+      }]);
+      return Promise.all(trips.invokeMap('save'));
     })
     .error((err)=>{
       console.error('Failed to create new trip');

@@ -18,28 +18,28 @@ exports.seed = function (knex, Promise) {
 
       var accounts = Accounts.forge([
         {
-            first: 'Jay',
-            last: 'Lim',
-            display: 'Lim Jay',
-            email: 'jhjaylim@gmail.com'
+          first: 'Jay',
+          last: 'Lim',
+          display: 'Lim Jay',
+          email: 'jhjaylim@gmail.com'
         },
         {
-            first: 'Tyler',
-            last: 'Carson',
-            display: 'Tyler Carson',
-            email: 'tyler.c.carson@gmail.com'
+          first: 'Tyler',
+          last: 'Carson',
+          display: 'Tyler Carson',
+          email: 'tyler.c.carson@gmail.com'
         },
         {
-            first: 'Weiyi',
-            last: 'Lee',
-            display: 'Weiyi Lee',
-            email: 'weiyilee17@gmail.com'
+          first: 'Weiyi',
+          last: 'Lee',
+          display: 'Weiyi Lee',
+          email: 'weiyilee17@gmail.com'
         },
         {
-            first: 'Jason Lee',
-            last: '.',
-            display: 'Jason Lee',
-            email: 'jasondotlee@gmail.com'
+          first: 'Jason Lee',
+          last: '.',
+          display: 'Jason Lee',
+          email: 'jasondotlee@gmail.com'
         }
 
       ]);
