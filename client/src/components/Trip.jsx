@@ -5,6 +5,8 @@ import Confirmations from './Confirmations.jsx';
 import axios from 'axios';
 import io from 'socket.io-client';
 import Promise from 'bluebird';
+import { FormGroup, InputGroup, FormControl, DropdownButton, Button, ButtonToolbar, MenuItem, ControlLabel } from 'react-bootstrap';
+import FlatButton from 'material-ui/FlatButton';
 
 let env = window.location.hostname + ':' + window.location.port;
 let socket = io(env);
@@ -16,8 +18,12 @@ class Trip extends React.Component {
       trip: {},
       confirms: {},
       currentUser: {},
-      usersWithAccount: {}
+      usersWithAccount: {},
+      inviteInput: ''
     };
+
+    this.inviteNewUser = this.inviteNewUser.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   componentWillMount() {
@@ -55,6 +61,32 @@ class Trip extends React.Component {
         console.log(error);
       });
   }
+
+  onChange (e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  inviteNewUser(email) {
+    axios.post('/trips/invite', {
+      invitee: email,
+      trip: this.state.trip,
+      inviter: this.state.user
+    })
+      .then((invited) => {
+        let confirmations = this.state.confirms;
+        confirmations.push(invited);
+        this.setState({
+          confirms: confirmations,
+          inviteInput: ''
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render( ) {
     var style = {
       confirms: {
@@ -91,6 +123,30 @@ class Trip extends React.Component {
           confirms={this.state.confirms}
           socket={socket}/>
           : <div>loading...</div> }
+        <div>
+          <form>
+            <FormGroup>
+              <ControlLabel>Invite a friend</ControlLabel>
+              <InputGroup>
+                <FormControl
+                  type="text"
+                  name="email"
+                  value={this.state.inviteInput}
+                  onChange={this.onChange}
+                  placeholder="Who's coming with?"
+                />
+                <FlatButton
+                  primary={true}
+                  label="Add invite"
+                  fullWidth={true}
+                  key="submit"
+                  onClick={this.inviteNewUser} />
+
+              </InputGroup>
+            </FormGroup>
+
+          </form>
+        </div>
       </div>
     );
   }

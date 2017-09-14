@@ -126,11 +126,11 @@ module.exports.getTripsByUserSessionId = (req, res) => {
 };
 
 
-module.exports.getTripInfoById = (req, res) =>{
+module.exports.getTripInfoById = (req, res) => {
   
   var incomingUrl = req.headers.referer;
   incomingUrl = incomingUrl.split('/');
-  var tripId = incomingUrl[incomingUrl.length-1];
+  var tripId = incomingUrl[incomingUrl.length - 1];
   var userId = req.user.id;
   //first name or fullname? req.user.first
   var user = req.user.display;
@@ -149,5 +149,14 @@ module.exports.getTripInfoById = (req, res) =>{
     });
 
   
+};
+
+module.exports.inviteUser = (req, res) => {
+  //add email address to confirmation table for trip
+  console.log(req.body);
+
+  //need name for sender, tripname, and email address for newly added person
+  //sendInviteEmail(user.attributes.display, trip.tripname, invitees);
+
 };
 
