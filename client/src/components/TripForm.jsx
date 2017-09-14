@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormGroup, InputGroup, FormControl, DropdownButton, Button, ButtonToolbar, MenuItem, ControlLabel } from 'react-bootstrap';
 import DatePicker from 'material-ui/DatePicker';
-import Invitees from './Invitees.jsx';
+import Invited from './Invited.jsx';
 import axios from 'axios';
 import FlatButton from 'material-ui/FlatButton';
 import { Route, Switch } from 'react-router-dom';
@@ -19,6 +19,7 @@ class TripForm extends React.Component {
     super(props);
     this.state = {
       invited: [],
+      email: '',
       tripname: '',
       location: '',
       description: '',
@@ -27,7 +28,6 @@ class TripForm extends React.Component {
     };
     this.onChange = this.onChange.bind(this);
     this.addToList = this.addToList.bind(this);
-    this.sendForm = this.sendForm.bind(this);
     this.setStartDate = this.setStartDate.bind(this);
     this.setEndDate = this.setEndDate.bind(this);
     this.createTrip = this.createTrip.bind(this);
@@ -44,7 +44,6 @@ class TripForm extends React.Component {
       invited: this.state.invited
     })
       .then((trips)=>{
-        console.log(trips.data);
         this.props.hideModal();
         window.location.reload();
       })
@@ -53,7 +52,6 @@ class TripForm extends React.Component {
       });
 
   }
-  // this.props.router.push('/trips'+{trips.data.});
 
   onChange (e) {
     this.setState({
@@ -72,20 +70,11 @@ class TripForm extends React.Component {
   }
 
   addToList (e) {
-    var joined = this.state.invited.slice();
-    joined.push(this.state.email);
-
     this.setState({
-      email: '',
-      invited: joined
-    }, function() {
-      console.log('curent invited', this.state.invited);
-
+      invited: this.state.invited.concat([this.state.email])
     });
   }
-  sendForm (e) {
-    console.log(this.state);
-  }
+
   render () {
     return (
       <form>
@@ -117,21 +106,22 @@ class TripForm extends React.Component {
         </FormGroup>
 
         <FormGroup>
+
           <ControlLabel>Invitees</ControlLabel>
           <InputGroup>
             <FormControl
               type="text"
+              placeholder="Who's coming with?"
               name="email"
               value={this.state.email}
               onChange={this.onChange}
-              placeholder="Who's coming with?"
             />
             <FlatButton
               primary={true}
               label="Add invite"
               fullWidth={true}
-              key="submit"
-              onClick={this.addToList} />
+              onClick={() => this.addToList()}
+            />
 
           </InputGroup>
         </FormGroup>
@@ -165,7 +155,8 @@ class TripForm extends React.Component {
 
         <h3 style={inviteListStyle}>Invitees:</h3>
         {this.state.invited.map((invitee, i) => {
-          return <Invitees
+          console.log(invitee);
+          return <Invited
             invitee={invitee}
             key={i}/>;
         })

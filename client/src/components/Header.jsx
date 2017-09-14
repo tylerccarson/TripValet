@@ -4,7 +4,6 @@ import { Navbar, NavItem, Nav, NavDropdown} from 'react-bootstrap';
 const Header = (props) => (
   <header>
     <nav>
-
       <Navbar inverse collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
@@ -18,7 +17,7 @@ const Header = (props) => (
             <Link
               to='/logout'
               onClick={props.logout}>
-              |       Logout
+              |   Logout
             </Link>
           </Navbar.Brand>
         </Navbar.Collapse>
