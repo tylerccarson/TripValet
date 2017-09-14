@@ -27,8 +27,18 @@ class Confirmations extends React.Component {
   }
 
   render() {
+    const style = {
+      inviteList: {
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'scroll',
+        height: '300px',
+        width: '320px'
+      }
+    };
+
     return (
-      <List>
+      <List style={style.inviteList}>
         {this.state.confirmed.map((invitee, i) => {
           return <Invitees 
             key={i} 
