@@ -19,7 +19,7 @@ class Trip extends React.Component {
       confirms: {},
       currentUser: {},
       usersWithAccount: {},
-      inviteInput: ''
+      email: ''
     };
 
     this.inviteNewUser = this.inviteNewUser.bind(this);
@@ -70,13 +70,13 @@ class Trip extends React.Component {
 
   inviteNewUser(email) {
     axios.post('/trips/invite', {
-      invitee: email,
+      invitee: this.state.email,
       trip: this.state.trip,
       inviter: this.state.user
     })
       .then((invited) => {
         let confirmations = this.state.confirms;
-        confirmations.push(invited);
+        confirmations.push(invited.data);
         this.setState({
           confirms: confirmations,
           inviteInput: ''
@@ -131,7 +131,7 @@ class Trip extends React.Component {
                 <FormControl
                   type="text"
                   name="email"
-                  value={this.state.inviteInput}
+                  value={this.state.email}
                   onChange={this.onChange}
                   placeholder="Who's coming with?"
                 />

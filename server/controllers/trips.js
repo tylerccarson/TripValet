@@ -154,7 +154,17 @@ module.exports.getTripInfoById = (req, res) => {
 module.exports.inviteUser = (req, res) => {
   //add email address to confirmation table for trip
   console.log(req.body);
-
+  models.Confirmed.forge({
+    email: req.body.invitee,
+    trip_id: req.body.trip.id
+  }).save()
+    .then((entry) => {
+      res.send(entry);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(503).send(error);
+    });
   //need name for sender, tripname, and email address for newly added person
   //sendInviteEmail(user.attributes.display, trip.tripname, invitees);
 
