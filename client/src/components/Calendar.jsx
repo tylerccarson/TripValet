@@ -152,6 +152,12 @@ class Calendar extends React.Component {
         'end': pickedSlot.end
       };
 
+      // var availabilityDuplicate = this.state.availability.slice();
+      // availabilityDuplicate.push(newAvailability);
+
+      // this.setState({
+      //   availability: availabilityDuplicate
+      // });
       //1 put new availability into DB and emit via sockets
       axios.post('/availability/byTripId', newAvailability)
         .then((posted) => {
@@ -168,6 +174,9 @@ class Calendar extends React.Component {
 
   checkForConnectedAvailability(selected) {
 
+    console.log('this.state.availability.length: ', this.state.availability.length);
+
+
     for (var i = 0; i < this.state.availability.length; i++) {
       for (var j = i + 1; j < this.state.availability.length; j++) {
         var iStartDate = this.state.availability[i].start;
@@ -181,11 +190,14 @@ class Calendar extends React.Component {
         console.log('jStartDate: ', jStartDate);
         console.log('jEndDate: ', jEndDate);
 
+        console.log('new Date(iEndDate).getDate() - 1: ', new Date(iEndDate).getDate() - 1);
+        console.log('new Date(jStartDate).getDate(): ', new Date(jStartDate).getDate());
+
 
         // assuming the added date is availability j, if availability j is one day 
         // after availability i, add a merged availability and delete the 2 
         // individual availabilities
-        if (new Date(iEndDate).getDate() === new Date(jStartDate).getDate() - 1) {
+        if ( (new Date(iEndDate).getDate() - 1 === new Date(jStartDate).getDate() - 1) && (this.state.user.first === this.state.availability[i]['title']) && (this.state.user.first === this.state.availability[j]['title']) ) {
 
           // delete jth availability
 
@@ -359,12 +371,14 @@ class Calendar extends React.Component {
           onSelectEvent={ (name) => {
             // unpick for clicking on name cause it is more intuitive
             this.pickDate(name);
+            console.log('name: ', name);
             console.log('this.state.availbility: ', this.state.availability);
             this.checkForConnectedAvailability(name);
           }
           }
           onSelectSlot={ (slotInfo) => {
             this.pickDate(slotInfo);
+            console.log('slotInfo: ', slotInfo);
             console.log('this.state.availbility: ', this.state.availability);
             this.checkForConnectedAvailability(slotInfo);
           }

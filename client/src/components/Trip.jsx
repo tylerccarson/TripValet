@@ -23,19 +23,6 @@ class Trip extends React.Component {
   componentWillMount() {
     axios.get('/trips')
       .then((trip)=>{
-        console.log('trip.data: ', trip.data);
-
-        var oldRangeEnd = new Date(trip.data.trip.rangeEnd);
-        var oldRangeEndYear = oldRangeEnd.getFullYear();
-        var oldRangeEndMonth = oldRangeEnd.getMonth();
-        var oldRangeEndDate = oldRangeEnd.getDate();
-
-        var newRangeEndDate = new Date(oldRangeEndYear, oldRangeEndMonth, oldRangeEndDate + 1);
-
-        console.log('new range end date: ', newRangeEndDate);
-
-        trip.data.trip.rangeEnd = newRangeEndDate;
-
         this.setState({
           trip: trip.data.trip,
         });
