@@ -35,12 +35,32 @@ class TripForm extends React.Component {
   }
 
   createTrip() {
+
+    // when we select 9/13 ~ 9/14, we expect the event to be till the end of 9/14
+    // which is the start of 9/15, so we add one day to the end date, since it is
+    // currently the start of 9/14
+
+    var oldEndDate = this.state.rangeEnd;
+
+    var nextDaysYear = oldEndDate.getFullYear();
+    var nextDaysMonth = oldEndDate.getMonth();
+    var nextDaysDate = oldEndDate.getDate() + 1;
+
+    var endDatesNextDay = new Date(nextDaysYear, nextDaysMonth, nextDaysDate);
+
+    this.setState({
+      rangeEnd: endDatesNextDay
+    });
+
+    // set state is async, so post endDatesNextDay to prevent the post happens 
+    // before the set state, sending the old date
+
     axios.post('/trips/create', {
       tripname: this.state.tripname,
       description: this.state.description,
       location: this.state.location,
       rangeStart: this.state.rangeStart,
-      rangeEnd: this.state.rangeEnd,
+      rangeEnd: endDatesNextDay,
       invited: this.state.invited
     })
       .then((trips)=>{

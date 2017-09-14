@@ -42,8 +42,6 @@ class DashBoard extends React.Component {
     axios.get('/trips/byEmail')
       .then((trips)=>{
 
-        console.log('trips.data', trips.data);
-
         for (var i = 0; i < trips.data.length; i++) {
           var startDate = new Date(trips.data[i].rangeStart);
           var endDate = new Date(trips.data[i].rangeEnd);
