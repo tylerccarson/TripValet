@@ -26,10 +26,11 @@ class Calendar extends React.Component {
       endDateForRange: ''
     };
     this.pickDate = this.pickDate.bind(this);
-    this.startDateChange = this.startDateChange.bind(this);
-    this.endDateChange = this.endDateChange.bind(this);
-    this.pickDateByRange = this.pickDateByRange.bind(this);
-    this.inputIsValid = this.inputIsValid.bind(this);
+    this.checkForConnectedAvailability = this.checkForConnectedAvailability.bind(this);
+    // this.startDateChange = this.startDateChange.bind(this);
+    // this.endDateChange = this.endDateChange.bind(this);
+    // this.pickDateByRange = this.pickDateByRange.bind(this);
+    // this.inputIsValid = this.inputIsValid.bind(this);
   }
 
   componentWillMount() {
@@ -165,6 +166,15 @@ class Calendar extends React.Component {
 
   }
 
+  checkForConnectedAvailability(selected) {
+
+    for (var i = 0; i < this.state.availability.length; i++) {
+      for (var j = i + 1; j < this.state.availability.length; j++) {
+        
+      }
+    }
+  }
+  /*
   startDateChange(e) {
     this.setState({
       startDateForRange: e.target.value
@@ -251,6 +261,7 @@ class Calendar extends React.Component {
 
     return true;
   }
+  */
 
   render() {
 
@@ -269,10 +280,14 @@ class Calendar extends React.Component {
           onSelectEvent={ (name) => {
             // unpick for clicking on name cause it is more intuitive
             this.pickDate(name);
+            console.log('this.state.availbility: ', this.state.availability);
+            {/* this.checkForConnectedAvailability(name); */}
           }
           }
           onSelectSlot={ (slotInfo) => {
             this.pickDate(slotInfo);
+            console.log('this.state.availbility: ', this.state.availability);
+            {/* this.checkForConnectedAvailability(slotInfo); */}
           }
           }
         />
