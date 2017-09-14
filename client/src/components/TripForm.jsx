@@ -71,8 +71,10 @@ class TripForm extends React.Component {
 
   addToList (e) {
     this.setState({
-      invited: this.state.invited.concat([this.state.email])
+      invited: this.state.invited.concat([this.state.email]),
+      email: ""
     });
+
   }
 
   render () {
