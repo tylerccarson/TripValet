@@ -1,5 +1,5 @@
 import React from 'react';
-import {ListItem} from 'material-ui/List';
+import { ListItem } from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 import axios from 'axios';
 
@@ -40,21 +40,21 @@ class Invitees extends React.Component {
 
 
   render() {
-    let checkBox; 
+    let checkBox;
     if (this.props.user.email === this.props.invitee.email) {
-      checkBox = <Checkbox defaultChecked={this.state.confirmed} onCheck={this.handleUserCheck}/>; 
+      checkBox = <Checkbox defaultChecked={this.state.confirmed} onCheck={this.handleUserCheck}/>;
     } else {
       checkBox = <Checkbox defaultChecked={this.state.confirmed}/>;
     }
 
     return (
       <div>
-        <ListItem 
+        <ListItem
           leftCheckbox={checkBox}
           primaryText={this.props.invitee.email}/>
       </div>
     );
   }
-} 
+}
 
 export default Invitees;
