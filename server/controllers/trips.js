@@ -2,6 +2,10 @@ const models = require('../../db/models');
 const Promise = require('bluebird');
 const db = require('../../db');
 var sendInviteEmail = require('../helpers/sendInviteEmail').sendInviteEmail;
+var api_key = 'key-ed15d9b7166f3bbab71cec2127e6b019';
+var domain = 'mg.tripvalet.me';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+var helpers = require('../helpers/sendInviteEmail.js');
 
 module.exports.getAll = (req, res) => {
 
@@ -90,7 +94,7 @@ module.exports.createTrip = (req, res) => {
                 invitees.push(invitations[i].email);
               }
 
-              sendInviteEmail(user.attributes.display, trip.tripname, invitees);
+              helpers.sendInviteEmail(user.attributes.display, trip.tripname, invitees);
 
               res.status(201).send(trip);
 
@@ -132,7 +136,6 @@ module.exports.getTripInfoById = (req, res) => {
   incomingUrl = incomingUrl.split('/');
   var tripId = incomingUrl[incomingUrl.length - 1];
   var userId = req.user.id;
-  //first name or fullname? req.user.first
   var user = req.user.display;
 
   models.Trip.where({id: tripId}).fetch()
@@ -152,7 +155,7 @@ module.exports.getTripInfoById = (req, res) => {
 };
 
 module.exports.inviteUser = (req, res) => {
-  //add email address to confirmation table for trip
+  
   return models.Confirmed.where({ email: req.body.invitee, trip_id: req.body.trip.id }).fetch()
     .then((invited) => {
       if (invited) {
@@ -165,17 +168,23 @@ module.exports.inviteUser = (req, res) => {
       }).save();
     })
     .then((entry) => {
-      //send email
-      sendInviteEmail(req.body.inviter.display, req.body.trip.tripname, req.body.invitee);
-      res.send(entry);
+      
+      mailgun.validate(req.body.invitee, (err, body) => {
+
+        if (body && body.is_valid) {
+          helpers.sendInviteEmail(req.body.inviter.display, req.body.trip.tripname, req.body.invitee);
+          res.send(entry);
+        } else {
+          res.status(404).send('Invalid email');
+        }
+
+      });
     })
     .catch((err) => {
       console.log('User has already been invited or incorrect email ', err);
-      //maybe send alert that they've already been invited?
+      
       res.status(404).send(err.message);
     });
-  //need name for sender, tripname, and email address for newly added person
-  //sendInviteEmail(user.attributes.display, trip.tripname, invitees);
 
 };
 

@@ -1,10 +1,9 @@
+var api_key = 'key-ed15d9b7166f3bbab71cec2127e6b019';
+var domain = 'mg.tripvalet.me';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
 var sendInviteEmail = function(inviterName, tripName, invitees) {
   
-  var api_key = 'key-ed15d9b7166f3bbab71cec2127e6b019';
-  var domain = 'mg.tripvalet.me';
-  var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-
-
   var mailOptions = {
     from: 'Trip Valet <postmaster@mg.tripvalet.me>',
     to: invitees,
