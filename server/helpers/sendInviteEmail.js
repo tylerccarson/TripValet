@@ -24,11 +24,13 @@ var sendInviteEmail = function(inviterName, tripName, invitees) {
   mailgun.messages().send(mailOptions, function(error, response) {
     if (error) {
       console.log('error happened sending mail: ', error);
-      res.end('error');
+      //return false
+      //res.end('error');
     } else {
       console.log('message sent ' + response);
       console.log(response);
       // res.end('sent');
+      //return true
     }
   });
 };

@@ -153,17 +153,26 @@ module.exports.getTripInfoById = (req, res) => {
 
 module.exports.inviteUser = (req, res) => {
   //add email address to confirmation table for trip
-  console.log(req.body);
-  models.Confirmed.forge({
-    email: req.body.invitee,
-    trip_id: req.body.trip.id
-  }).save()
+  return models.Confirmed.where({ email: req.body.invitee, trip_id: req.body.trip.id }).fetch()
+    .then((invited) => {
+      if (invited) {
+        throw new Error('User already invited!');
+      }
+
+      return models.Confirmed.forge({
+        email: req.body.invitee,
+        trip_id: req.body.trip.id
+      }).save();
+    })
     .then((entry) => {
+      //send email
+      sendInviteEmail(req.body.inviter.display, req.body.trip.tripname, req.body.invitee);
       res.send(entry);
     })
-    .catch((error) => {
-      console.log(error);
-      res.status(503).send(error);
+    .catch((err) => {
+      console.log('User has already been invited or incorrect email ', err);
+      //maybe send alert that they've already been invited?
+      res.status(404).send(err.message);
     });
   //need name for sender, tripname, and email address for newly added person
   //sendInviteEmail(user.attributes.display, trip.tripname, invitees);

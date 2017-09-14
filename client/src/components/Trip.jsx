@@ -72,18 +72,21 @@ class Trip extends React.Component {
     axios.post('/trips/invite', {
       invitee: this.state.email,
       trip: this.state.trip,
-      inviter: this.state.user
+      inviter: this.state.currentUser
     })
       .then((invited) => {
         let confirmations = this.state.confirms;
         confirmations.push(invited.data);
         this.setState({
           confirms: confirmations,
-          inviteInput: ''
+          email: ''
         });
       })
       .catch((error) => {
         console.log(error);
+        this.setState({
+          email: ''
+        });
       });
   }
 
