@@ -96,7 +96,7 @@ class Calendar extends React.Component {
 
   compareToSelectDates() {
     var avails = this.state.availability;
-    console.log("COMPARE Avails!", avails);
+    console.log('COMPARE Avails!', avails);
 
     var availsObj = {};
     var selected = {};
@@ -137,19 +137,19 @@ class Calendar extends React.Component {
       date2 = new Date(date2);
     }
 
-    if (date1.getFullYear()<date2.getFullYear()) {
+    if (date1.getFullYear() < date2.getFullYear()) {
       return -1;
-    } else if (date1.getFullYear()>date2.getFullYear()) {
+    } else if (date1.getFullYear() > date2.getFullYear()) {
       return 1;
     } else {
-      if (date1.getMonth()<date2.getMonth()) {
+      if (date1.getMonth() < date2.getMonth()) {
         return -1;
-      } else if (date1.getMonth()>date2.getMonth()) {
+      } else if (date1.getMonth() > date2.getMonth()) {
         return 1;
       } else {
-        if (date1.getDate()<date2.getDate()) {
+        if (date1.getDate() < date2.getDate()) {
           return -1;
-        } else if (date1.getDate()>date2.getDate()) {
+        } else if (date1.getDate() > date2.getDate()) {
           return 1;
         } else {
           return 0;
