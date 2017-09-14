@@ -58,8 +58,8 @@ class Calendar extends React.Component {
           availability: currentAvailability
         });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
   }
 
@@ -158,8 +158,8 @@ class Calendar extends React.Component {
           newAvailability.id = posted.data.id;
           this.props.socket.emit('clientAvailabilityAdd', newAvailability);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          console.log(err);
         });
 
     }
@@ -170,7 +170,86 @@ class Calendar extends React.Component {
 
     for (var i = 0; i < this.state.availability.length; i++) {
       for (var j = i + 1; j < this.state.availability.length; j++) {
-        
+        var iStartDate = this.state.availability[i].start;
+        var iEndDate = this.state.availability[i].end;
+
+        var jStartDate = this.state.availability[j].start;
+        var jEndDate = this.state.availability[j].end;
+
+        console.log('iStartDate: ', iStartDate);
+        console.log('iEndDate: ', iEndDate);
+        console.log('jStartDate: ', jStartDate);
+        console.log('jEndDate: ', jEndDate);
+
+
+        // assuming the added date is availability j, if availability j is one day 
+        // after availability i, add a merged availability and delete the 2 
+        // individual availabilities
+        if (new Date(iEndDate).getDate() === new Date(jStartDate).getDate() - 1) {
+
+          // delete jth availability
+
+          var availabilityDuplicate = this.state.availability.slice();
+
+          let deleteMe = availabilityDuplicate[j].id;
+          availabilityDuplicate.splice(j, 1);
+          
+          this.setState({
+            availability: availabilityDuplicate
+          });
+          //delete entry from the DB
+          axios.post('/availability/delete', {
+            'id': deleteMe
+          })
+          .then((res) => {
+            this.props.socket.emit('clientAvailabilityDelete', deleteMe);
+          })
+          .then(() => {
+            // delete ith availability
+
+            var availabilityDuplicate = this.state.availability.slice();
+                        
+            let deleteMe = availabilityDuplicate[i].id;
+            availabilityDuplicate.splice(i, 1);
+
+            this.setState({
+              availability: availabilityDuplicate
+            });
+            //delete entry from the DB
+            axios.post('/availability/delete', {
+              'id': deleteMe
+            })
+            .then((res) => {
+            this.props.socket.emit('clientAvailabilityDelete', deleteMe);
+            })
+            .then(() => {
+              // add new availability
+              let newAvailability = {
+                'id': null,
+                'title': this.state.user.first,
+                'start': iStartDate,
+                'end': jEndDate
+              };
+
+              //1 put new availability into DB and emit via sockets
+              axios.post('/availability/byTripId', newAvailability)
+                .then((posted) => {
+                  newAvailability.id = posted.data.id;
+                  this.props.socket.emit('clientAvailabilityAdd', newAvailability);
+                })
+                .catch((err) => {
+                  console.log('error happend when trying to add availability: ',err);
+                });
+            })
+            .catch((err) => {
+              console.log('error happend when trying to delete i: ', i, err);
+            })
+
+          })
+          .catch((err) => {
+            console.log('error happened when trying to delete j: ', j, err);
+          });          
+        }
       }
     }
   }
@@ -229,8 +308,8 @@ class Calendar extends React.Component {
       .then((posted) => {
         console.log('successfully added to DB');
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
 
   }
@@ -281,13 +360,13 @@ class Calendar extends React.Component {
             // unpick for clicking on name cause it is more intuitive
             this.pickDate(name);
             console.log('this.state.availbility: ', this.state.availability);
-            {/* this.checkForConnectedAvailability(name); */}
+            this.checkForConnectedAvailability(name);
           }
           }
           onSelectSlot={ (slotInfo) => {
             this.pickDate(slotInfo);
             console.log('this.state.availbility: ', this.state.availability);
-            {/* this.checkForConnectedAvailability(slotInfo); */}
+            this.checkForConnectedAvailability(slotInfo);
           }
           }
         />
