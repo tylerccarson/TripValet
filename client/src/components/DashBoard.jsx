@@ -46,9 +46,6 @@ class DashBoard extends React.Component {
           var startDate = new Date(trips.data[i].rangeStart);
           var endDate = new Date(trips.data[i].rangeEnd);
 
-          // console.log('trips.data[i] rangeStart: ', i, trips.data[i].rangeStart);
-          // console.log('trips.data[i] rangeEnd: ', i, trips.data[i].rangeEnd);
-
           // if the trip's end date is earlier than today, this trip has happened 
           // already. valueOf() returns the miliseconds passed since 1970/1/1 till
           // today since it is complicated to compare year, months and dates
