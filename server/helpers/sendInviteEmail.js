@@ -10,10 +10,10 @@ var sendInviteEmail = function(inviterName, tripName, invitees) {
     to: invitees,
     subject: `${inviterName} has invited you to ${tripName} on TripValet!`,
     html: `
-            <p>This is a automatically generate email, please do not reply.</p>
-            <p> ${inviterName} has invided you to ${tripName}!</p>
+            <p>This is an automatically generated email, please do not reply.</p>
+            <p> ${inviterName} has invited you to ${tripName}!</p>
             <br />
-            <a href = https://tripvalet.herokuapp.com/ >Go to TripValet to see more details</a>
+            <a href = https://tripvalet.herokuapp.com/ >Go to TripValet for more details.</a>
             <br />
             
             <p>If you have any further questions, please email weiyilee17@tripvalet.me</p>
