@@ -30,6 +30,9 @@ class Calendar extends React.Component {
     this.endDateChange = this.endDateChange.bind(this);
     this.pickDateByRange = this.pickDateByRange.bind(this);
     this.inputIsValid = this.inputIsValid.bind(this);
+    this.compareToSelectDates = this.compareToSelectDates.bind(this);
+    this.sortArraysInProperty = this.sortArraysInProperty.bind(this);
+    this.compareDates = this.compareDates.bind(this);
   }
 
   componentWillMount() {
@@ -42,7 +45,7 @@ class Calendar extends React.Component {
           let name;
           for (var i = 0; i < users.length; i++) {
             if (users[i].id === avail.user_id) {
-              name = users[i].first;
+              name = users[i].display;
             }
           }
           return {
@@ -56,6 +59,8 @@ class Calendar extends React.Component {
         this.setState({
           availability: currentAvailability
         });
+
+        this.compareToSelectDates();
       })
       .catch((error) => {
         console.log(error);
@@ -89,6 +94,71 @@ class Calendar extends React.Component {
     });
   }
 
+  compareToSelectDates() {
+    var avails = this.state.availability;
+    console.log("COMPARE Avails!", avails);
+
+    var availsObj = {};
+    var selected = {};
+    avails.forEach(avail=>{ // this will collect all avails and organize by user
+      var check = false;
+      if (avail.id) {
+        if (availsObj[avail.title] === undefined ) {
+          availsObj[avail.title] = [];
+        }
+        availsObj[avail.title].push({start: avail.start, end: avail.end });
+
+      }
+    });
+    console.log('AVAIL OBJ: ', availsObj);
+    //console.log('Demo distinct ', availsObj)
+
+    this.sortArraysInProperty(availsObj, this.compareDates);
+    console.log('Avails After Sort', availsObj);
+
+    // below is to sort multiple availabilityies 
+    // sortObject(availsObj);
+  }
+
+  sortArraysInProperty(obj, filter) { // filter will be comapring distinct ranges
+    for (var x in obj) {
+      obj[x].sort(filter);
+    }
+  }
+
+  compareDates(first, second) { // assume one date obj;
+    var date1 = first.start;
+    var date2 = second.start;
+
+    if (typeof date1 === 'string') {
+      date1 = new Date(date1);
+    }
+    if (typeof date2 === 'string') {
+      date2 = new Date(date2);
+    }
+
+    if (date1.getFullYear()<date2.getFullYear()) {
+      return -1;
+    } else if (date1.getFullYear()>date2.getFullYear()) {
+      return 1;
+    } else {
+      if (date1.getMonth()<date2.getMonth()) {
+        return -1;
+      } else if (date1.getMonth()>date2.getMonth()) {
+        return 1;
+      } else {
+        if (date1.getDate()<date2.getDate()) {
+          return -1;
+        } else if (date1.getDate()>date2.getDate()) {
+          return 1;
+        } else {
+          return 0;
+        }
+
+      }
+    }
+  }
+
   pickDate(pickedSlot) {
 
     // if the availablity list array is empty, the for loop below won't run
@@ -119,7 +189,7 @@ class Calendar extends React.Component {
       }
 
 
-      if ( formatedPickedSlotStartDate.toString() === formatedStartDateFromDB.toString() && (this.state.user.first === availabilityDuplicate[i]['title']) ) {
+      if ( formatedPickedSlotStartDate.toString() === formatedStartDateFromDB.toString() && (this.state.user.display === availabilityDuplicate[i]['title']) ) {
         let deleteMe = availabilityDuplicate[i].id;
         sameDateClickedTwice = true;
         availabilityDuplicate.splice(i, 1);
@@ -133,6 +203,7 @@ class Calendar extends React.Component {
         })
           .then((res) => {
             this.props.socket.emit('clientAvailabilityDelete', deleteMe);
+            this.compareToSelectDates();
           })
           .catch((err) => {
             console.log(err);
@@ -146,7 +217,7 @@ class Calendar extends React.Component {
 
       let newAvailability = {
         'id': null,
-        'title': this.state.user.first,
+        'title': this.state.user.display,
         'start': pickedSlot.start,
         'end': pickedSlot.end
       };
@@ -156,13 +227,13 @@ class Calendar extends React.Component {
         .then((posted) => {
           newAvailability.id = posted.data.id;
           this.props.socket.emit('clientAvailabilityAdd', newAvailability);
+          this.compareToSelectDates();
         })
         .catch((error) => {
           console.log(error);
         });
 
     }
-
   }
 
   startDateChange(e) {
@@ -201,7 +272,7 @@ class Calendar extends React.Component {
     var availabilityDuplicate = this.state.availability.slice();
 
     let newAvailability = {
-      'title': this.state.user.first,
+      'title': this.state.user.display,
       'start': new Date(startDateObj.year, startDateObj.month, startDateObj.date),
       'end': new Date(endDateObj.year, endDateObj.month, endDateObj.date)
     };
@@ -218,11 +289,11 @@ class Calendar extends React.Component {
     axios.post('/availability/byTripId', newAvailability)
       .then((posted) => {
         console.log('successfully added to DB');
+        this.compareToSelectDates();
       })
       .catch((error) => {
         console.log(error);
       });
-
   }
 
   inputIsValid() {
