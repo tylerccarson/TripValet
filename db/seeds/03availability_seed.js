@@ -117,17 +117,27 @@ exports.seed = function (knex, Promise) {
         trip_id: 1,
         rangeStart: '2017-08-04T07:00:00.000Z',
         rangeEnd: '2017-08-13T07:00:00.000Z'
-      }, {
-        //trip 2
+      },{ // trip2
+        //trip 3
         user_id: 1,
         trip_id: 2,
-        rangeStart: '2017-09-12T07:00:00.000Z',
-        rangeEnd: '2017-09-22T07:00:00.000Z'
+        rangeStart: '2017-09-10T07:00:00.000Z',
+        rangeEnd: '2017-09-20T07:00:00.000Z'
+      }, {
+        user_id: 1,
+        trip_id: 2,
+        rangeStart: '2017-09-23T07:00:00.000Z',
+        rangeEnd: '2017-09-27T07:00:00.000Z'
       }, {
         user_id: 2,
         trip_id: 2,
-        rangeStart: '2017-09-12T07:00:00.000Z',
-        rangeEnd: '2017-09-22T07:00:00.000Z'
+        rangeStart: '2017-09-11T07:00:00.000Z',
+        rangeEnd: '2017-09-21T07:00:00.000Z'
+      }, {
+        user_id: 2,
+        trip_id: 2,
+        rangeStart: '2017-09-24T07:00:00.000Z',
+        rangeEnd: '2017-09-28T07:00:00.000Z'
       }, {
         user_id: 3,
         trip_id: 2,
@@ -136,8 +146,8 @@ exports.seed = function (knex, Promise) {
       }, {
         user_id: 4,
         trip_id: 2,
-        rangeStart: '2017-09-12T07:00:00.000Z',
-        rangeEnd: '2017-09-22T07:00:00.000Z'
+        rangeStart: '2017-09-13T07:00:00.000Z',
+        rangeEnd: '2017-09-23T07:00:00.000Z'
       }]);
       return Promise.all(availability.invokeMap('save'));
     })
