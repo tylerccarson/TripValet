@@ -88,7 +88,8 @@ class Trip extends React.Component {
           trip={this.state.trip}
           user={this.state.currentUser}
           userId={this.state.currentUser.id}
-          confirms={this.state.confirms}/>
+          confirms={this.state.confirms}
+          socket={socket}/>
           : <div>loading...</div> }
       </div>
     );
