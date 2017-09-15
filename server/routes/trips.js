@@ -8,6 +8,9 @@ const db = require('../../db');
 router.route('/create')
   .post(TripController.createTrip);
 
+router.route('/invite')
+  .post(TripController.inviteUser);
+
 router.route('/allTrips')
   .get(TripController.getAll);
 
