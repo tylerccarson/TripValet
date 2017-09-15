@@ -21,10 +21,16 @@ class Calendar extends React.Component {
         title: this.props.trip.tripname,
         start: this.props.trip.rangeStart,
         end: this.props.trip.rangeEnd,
-      }]
+      }],
+      overlapAvailabilities: []
     };
     this.pickDate = this.pickDate.bind(this);
+    this.compareToSelectDates = this.compareToSelectDates.bind(this);
+    this.sortArraysInProperty = this.sortArraysInProperty.bind(this);
+    this.compareDates = this.compareDates.bind(this);
+    this.compareDateStrings = this.compareDateStrings.bind(this);
     this.checkForConnectedAvailability = this.checkForConnectedAvailability.bind(this);
+    this.turnAvailabilityToOjb = this.turnAvailabilityToOjb.bind(this);
   }
 
   componentWillMount() {
@@ -37,7 +43,7 @@ class Calendar extends React.Component {
           let name;
           for (var i = 0; i < users.length; i++) {
             if (users[i].id === avail.user_id) {
-              name = users[i].first;
+              name = users[i].display;
             }
           }
           return {
@@ -51,7 +57,12 @@ class Calendar extends React.Component {
         currentAvailability = currentAvailability.concat(storedAvailability);
         this.setState({
           availability: currentAvailability
+        }, () => {
+          this.setState({overlapAvailabilities: this.compareToSelectDates()});
+          console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
         });
+
+        
       })
       .catch((err) => {
         console.log(err);
@@ -70,13 +81,15 @@ class Calendar extends React.Component {
         availability: stateAvailability
       }, () => {
         this.checkForConnectedAvailability();
+        this.setState({overlapAvailabilities: this.compareToSelectDates()});
+        console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
+
       });
+      
     });
 
     this.props.socket.on('serverAvailabilityDelete', (data) => {
       let stateAvailability = this.state.availability;
-
-      console.log('this.state.availability before sending to server: ', stateAvailability);
 
       for (var i = 0; i < stateAvailability.length; i++) {
         if (stateAvailability[i].id === data) {
@@ -84,18 +97,182 @@ class Calendar extends React.Component {
         }
       }
 
-      console.log('this.state.availability after sending to server: ', stateAvailability);
-      
-
       this.setState({
         availability: stateAvailability
       }, () => {
-        this.checkForConnectedAvailability();        
+        this.checkForConnectedAvailability();
+      }, ()=>{
+        this.setState({overlapAvailabilities: this.compareToSelectDates()}); // this state is relying on availability state changes
       });
+      
+      console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
+
     });
   }
 
-  pickDate(pickedSlot, callback) {
+  turnAvailabilityToOjb() {
+    var avails = this.state.availability;
+    var availsObj = {};
+    var selected = {};
+    avails.forEach(avail=>{ // this will collect all avails and organize by username
+      var check = false;
+      if (avail.id) {
+        if (availsObj[avail.title] === undefined ) {
+          availsObj[avail.title] = [];
+        }
+        availsObj[avail.title].push({id: avail.id, title: avail.title, start: avail.start, end: avail.end });
+
+      }
+    });
+
+    this.sortArraysInProperty(availsObj, this.compareDates);
+    // console.log('AVAILABILITIES IN OBJ: ', availsObj);
+    return availsObj;
+  }
+
+  compareToSelectDates() {
+    
+    var availsObj = this.turnAvailabilityToOjb();
+
+    // below is to sort multiple availabilities 
+    // sortObject(availsObj);
+
+    var list = [];
+    var first = true;
+
+
+    for (var x in availsObj) {
+      if (first) {
+        list = availsObj[x];
+        first = false;
+      }
+      var tempList = [];
+      for (var i = 0; i < availsObj[x].length; i++) {
+        // this will examine, current persons avails and noted list
+        tempList = tempList.concat(this.compareWithSelectedList(list, availsObj[x][i], x, i));
+        // then update.
+      }
+      if (tempList.length === 0) {
+        return [];
+      }
+      list = tempList;
+
+    }
+    console.log('OVERLAP FOUND:', list);
+    return list;
+    
+
+  }
+
+  compareWithSelectedList(notelist, avail) { // takes notelist(multiple overlaps) and find overlap for current availability passed in as second argument
+    var result = [];
+    notelist.forEach(noted => { // note[], avail {}
+
+      
+      if (this.compareDateStrings(noted.start, avail.start) <= 0 && this.compareDateStrings(noted.end, avail.end) >= 0) {
+        // note is larger [{}]
+        result.push(avail);
+      } else if (this.compareDateStrings(noted.start, avail.start) >= 0 && this.compareDateStrings(noted.end, avail.end) <= 0) {
+        // note is smaller {[]}
+        result.push(noted);
+      } else if (this.compareDateStrings(noted.start, avail.start) <= 0 && this.compareDateStrings(noted.end, avail.end) <= 0) {
+        // skew note left [{]}
+        var obj = {start: avail.start, end: noted.end};
+        if (this.compareDateStrings(obj.start, obj.end) <= 0) {
+          result.push(obj);
+        }
+        
+      } else if (this.compareDateStrings(noted.start, avail.start) >= 0 && this.compareDateStrings(noted.end, avail.end) >= 0) {
+        // skew note right {[}] 
+        var obj = {start: noted.start, end: avail.end};
+        if (this.compareDateStrings(obj.start, obj.end) <= 0) {
+          result.push(obj);
+        }
+        
+      } 
+
+    });
+    // return all overlapping dates
+    return result;
+  }
+
+  sortArraysInProperty(obj, filter) { // filter to be used for comapring distinct date ranges
+    for (var x in obj) {
+      obj[x].sort(filter);
+    }
+  }
+
+  compareDates(first, second) { // this function determines whether the first date is earlier than second
+    var date1 = first.start;
+    var date2 = second.start;
+
+    if (typeof date1 === 'string') {
+      date1 = new Date(date1);
+    }
+    if (typeof date2 === 'string') {
+      date2 = new Date(date2);
+    }
+
+    if (date1.getFullYear() < date2.getFullYear()) {
+      return -1;
+    } else if (date1.getFullYear() > date2.getFullYear()) {
+      return 1;
+    } else {
+      if (date1.getMonth() < date2.getMonth()) {
+        return -1;
+      } else if (date1.getMonth() > date2.getMonth()) {
+        return 1;
+      } else {
+        if (date1.getDate() < date2.getDate()) {
+          return -1;
+        } else if (date1.getDate() > date2.getDate()) {
+          return 1;
+        } else {
+          return 0;
+        }
+
+      }
+    }
+  }
+
+  compareDateStrings(first, second) { // this function determines whether the first date string is earlier than second
+
+    var date1 = first;
+    var date2 = second;  
+    if (typeof date1 === 'string') {
+      date1 = new Date(date1);
+    }
+    if (typeof date2 === 'string') {
+      date2 = new Date(date2);
+    }
+
+    if (date1.getFullYear() < date2.getFullYear()) {
+      return -1;
+    } else if (date1.getFullYear() > date2.getFullYear()) {
+      return 1;
+    } else {
+      if (date1.getMonth() < date2.getMonth()) {
+        return -1;
+      } else if (date1.getMonth() > date2.getMonth()) {
+        return 1;
+      } else {
+        if (date1.getDate() < date2.getDate()) {
+          return -1;
+        } else if (date1.getDate() > date2.getDate()) {
+          return 1;
+        } else {
+          return 0;
+        }
+
+      }
+    }
+  }
+
+  iterateAvails() {
+
+  }
+
+  pickDate(pickedSlot) {
 
     // if the availablity list array is empty, the for loop below won't run
     if (!this.state.availability.length) {
@@ -124,10 +301,20 @@ class Calendar extends React.Component {
         var formatedPickedSlotStartDate = pickedSlot.start;
       }
 
-      if ( formatedPickedSlotStartDate.toString() === formatedStartDateFromDB.toString() && (this.state.user.first === availabilityDuplicate[i]['title']) ) {
+      
+      if ( (formatedPickedSlotStartDate.toString() === formatedStartDateFromDB.toString()) && (this.state.user.display === availabilityDuplicate[i]['title']) ) {
+
         let deleteMe = availabilityDuplicate[i].id;
         sameDateClickedTwice = true;
         availabilityDuplicate.splice(i, 1);
+
+        this.setState({
+          availability: availabilityDuplicate
+        }, ()=>{
+          this.setState({overlapAvailabilities: this.compareToSelectDates()});
+          console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
+
+        });
 
         //delete entry from the DB
         axios.post('/availability/delete', {
@@ -148,7 +335,7 @@ class Calendar extends React.Component {
 
       let newAvailability = {
         'id': null,
-        'title': this.state.user.first,
+        'title': this.state.user.display,
         'start': pickedSlot.start,
         'end': pickedSlot.end
       };
@@ -158,130 +345,46 @@ class Calendar extends React.Component {
         .then((posted) => {
           newAvailability.id = posted.data.id;
           this.props.socket.emit('clientAvailabilityAdd', newAvailability);
+          
         })
         .catch((err) => {
           console.log(err);
         });
 
     }
-
   }
 
-  checkForConnectedAvailability(selected) {
+  checkForConnectedAvailability() {
+    console.log('enter check for connected availability');
+    var availabilityObj = this.turnAvailabilityToOjb();
+    console.log('availability obj: ', availabilityObj);
 
-    console.log('this.state.availability: ', this.state.availability);
-    // console.log('this.state.availability.length: ', this.state.availability.length);
+    var currentUserName = this.state.user.display;
 
-    for (var i = 0; i < this.state.availability.length; i++) {
-      for (var j = i + 1; j < this.state.availability.length; j++) {
+    for (var i = 0; i < availabilityObj[currentUserName].length; i++) {
+      for (var j = i + 1; j < availabilityObj[currentUserName].length; j++) {
 
-        console.log('i: ', i);
-        console.log('j: ', j);
+        var iStartDate = new Date(availabilityObj[currentUserName][i].start);
+        var iEndDate = new Date(availabilityObj[currentUserName][i].end);
+        
+        var jStartDate = new Date(availabilityObj[currentUserName][j].start);
+        var jEndDate = new Date(availabilityObj[currentUserName][j].end);
 
-        var iStartDate = this.state.availability[i].start;
-        var iEndDate = this.state.availability[i].end;
+        console.log('i start date: ', iStartDate);
+        console.log('i end date: ', iEndDate);
 
-        var jStartDate = this.state.availability[j].start;
-        var jEndDate = this.state.availability[j].end;
+        console.log('j start date: ', jStartDate);
+        console.log('j end date: ', jEndDate);
 
-        console.log('iStartDate: ', iStartDate);
-        console.log('iEndDate: ', iEndDate);
-        console.log('jStartDate: ', jStartDate);
-        console.log('jEndDate: ', jEndDate);
+        // if () {
 
-        // console.log('new Date(iEndDate).getDate() - 1: ', new Date(iEndDate).getDate() - 1);
-        // console.log('new Date(jStartDate).getDate(): ', new Date(jStartDate).getDate());
-
-
-        // assuming the added date is availability j, if availability j is one day 
-        // after availability i, add a merged availability and delete the 2 
-        // individual availabilities
-        if ( (this.state.user.first === this.state.availability[i]['title']) && (this.state.user.first === this.state.availability[j]['title']) && (new Date(iEndDate).getDate() === new Date(jStartDate).getDate() - 1) ) {
-
-          // delete jth availability
-
-          console.log('delete j ', j);
-          console.log('i in delete j: ', i);
-
-          var availabilityDuplicate = this.state.availability.slice();
-
-          let deleteMe = availabilityDuplicate[j].id;
-          availabilityDuplicate.splice(j, 1);
-          
-          this.setState({
-            availability: availabilityDuplicate
-          });
-
-          console.log('i in delete j after setState: ', i);
-          
-          //delete entry from the DB
-          axios.post('/availability/delete', {
-            'id': deleteMe
-          })
-          .then((res) => {
-            console.log('this.state.availability after post', this.state.availability);
-            console.log('i in delete j after post: ', i);
-            
-            this.props.socket.emit('clientAvailabilityDelete', deleteMe);
-          })
-          .then(() => {
-            // delete ith availability
-
-            console.log('delete i', i);
-
-            console.log('availability', this.state.availability);
-
-            var availabilityDuplicate = this.state.availability.slice();
-                        
-            let deleteMe = availabilityDuplicate[i].id;
-            availabilityDuplicate.splice(i, 1);
-
-            this.setState({
-              availability: availabilityDuplicate
-            });
-            //delete entry from the DB
-            axios.post('/availability/delete', {
-              'id': deleteMe
-            })
-            .then((res) => {
-            this.props.socket.emit('clientAvailabilityDelete', deleteMe);
-            })
-            .then(() => {
-              // add new availability
-
-              console.log('add availability');
-
-              console.log('this.state.availability: ', this.state.availability);
-
-              let newAvailability = {
-                'id': null,
-                'title': this.state.user.first,
-                'start': iStartDate,
-                'end': jEndDate
-              };
-
-              //1 put new availability into DB and emit via sockets
-              axios.post('/availability/byTripId', newAvailability)
-                .then((posted) => {
-                  newAvailability.id = posted.data.id;
-                  this.props.socket.emit('clientAvailabilityAdd', newAvailability);
-                })
-                .catch((err) => {
-                  console.log('error happend when trying to add availability: ',err);
-                });
-            })
-            .catch((err) => {
-              console.log('error happend when trying to delete i: ', i, err);
-            })
-
-          })
-          .catch((err) => {
-            console.log('error happened when trying to delete j: ', j, err);
-          });          
-        }
+        // }
       }
     }
+
+
   }
+
 
   render() {
 
@@ -299,15 +402,13 @@ class Calendar extends React.Component {
           defaultDate={ new Date() } // set to current date
           onSelectEvent={ (name) => {
             // unpick for clicking on name cause it is more intuitive
-            this.pickDate(name, () => {
-              console.log('name: ', name);
-            });
+            this.pickDate(name);
+            console.log('name: ', name);
           }
           }
           onSelectSlot={ (slotInfo) => {
-            this.pickDate(slotInfo, () => {
-              console.log('slotInfo: ', slotInfo);
-            });
+            this.pickDate(slotInfo);
+            console.log('slotInfo: ', slotInfo);
           }
           }
         />
