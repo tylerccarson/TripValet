@@ -23,6 +23,9 @@ class Trip extends React.Component {
   componentWillMount() {
     axios.get('/trips')
       .then((trip)=>{
+
+        console.log('trip from get /trips: ', trip.data.trip);
+
         this.setState({
           trip: trip.data.trip,
         });
