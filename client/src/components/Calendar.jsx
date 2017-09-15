@@ -60,10 +60,12 @@ class Calendar extends React.Component {
         currentAvailability = currentAvailability.concat(storedAvailability);
         this.setState({
           availability: currentAvailability
+        }, () => {
+          this.setState({overlapAvailabilities: this.compareToSelectDates()});
+          console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
         });
 
-        this.setState({overlapAvailabilities: this.compareToSelectDates()});
-        console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
+        
       })
       .catch((error) => {
         console.log(error);
@@ -79,10 +81,12 @@ class Calendar extends React.Component {
 
       this.setState({
         availability: stateAvailability
-      });
-      this.setState({overlapAvailabilities: this.compareToSelectDates()});
-      console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
+      }, () => {
+        this.setState({overlapAvailabilities: this.compareToSelectDates()});
+        console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
 
+      });
+      
     });
 
     this.props.socket.on('serverAvailabilityDelete', (data) => {
@@ -96,8 +100,10 @@ class Calendar extends React.Component {
 
       this.setState({
         availability: stateAvailability
+      }, ()=>{
+        this.setState({overlapAvailabilities: this.compareToSelectDates()}); // this state is relying on availability state changes
       });
-      this.setState({overlapAvailabilities: this.compareToSelectDates()});
+      
       console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
 
     });
@@ -120,6 +126,7 @@ class Calendar extends React.Component {
     });
 
     this.sortArraysInProperty(availsObj, this.compareDates);
+    console.log('AVAILABILITIES IN OBJ: ', availsObj);
 
     // below is to sort multiple availabilities 
     // sortObject(availsObj);
@@ -297,9 +304,11 @@ class Calendar extends React.Component {
 
         this.setState({
           availability: availabilityDuplicate
+        }, ()=>{
+          this.setState({overlapAvailabilities: this.compareToSelectDates()});
+          console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
+
         });
-        this.setState({overlapAvailabilities: this.compareToSelectDates()});
-        console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
 
         //delete entry from the DB
         axios.post('/availability/delete', {
@@ -387,9 +396,11 @@ class Calendar extends React.Component {
       startDateForRange: '',
       endDateForRange: '',
       availability: availabilityDuplicate
+    }, () => {
+      this.setState({overlapAvailabilities: this.compareToSelectDates()}); // this state change relies on availability change
+      console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
+
     });
-    this.setState({overlapAvailabilities: this.compareToSelectDates()});
-    console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
 
     //put into DB test: {rangeStart: '2017/09/08', rangeEnd: '2017/09/30'}
     //maybe switch this out for sockets?
