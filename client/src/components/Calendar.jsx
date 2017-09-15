@@ -114,7 +114,7 @@ class Calendar extends React.Component {
 
     var availsObj = {};
     var selected = {};
-    avails.forEach(avail=>{ // this will collect all avails and organize by user
+    avails.forEach(avail=>{ // this will collect all avails and organize by username
       var check = false;
       if (avail.id) {
         if (availsObj[avail.title] === undefined ) {
@@ -158,7 +158,7 @@ class Calendar extends React.Component {
 
   }
 
-  compareWithSelectedList(notelist, avail, x, i) { // 리스트 먹고 리스트 뱉음
+  compareWithSelectedList(notelist, avail) { // takes notelist(multiple overlaps) and find overlap for current availability passed in as second argument
     var result = [];
     notelist.forEach(noted => { // note[], avail {}
 
@@ -186,17 +186,17 @@ class Calendar extends React.Component {
       } 
 
     });
-
+    // return all overlapping dates
     return result;
   }
 
-  sortArraysInProperty(obj, filter) { // filter will be comapring distinct ranges
+  sortArraysInProperty(obj, filter) { // filter to be used for comapring distinct date ranges
     for (var x in obj) {
       obj[x].sort(filter);
     }
   }
 
-  compareDates(first, second) { // assume one date obj;
+  compareDates(first, second) { // this function determines whether the first date is earlier than second
     var date1 = first.start;
     var date2 = second.start;
 
@@ -229,7 +229,7 @@ class Calendar extends React.Component {
     }
   }
 
-  compareDateStrings(first, second) {
+  compareDateStrings(first, second) { // this function determines whether the first date string is earlier than second
 
     var date1 = first;
     var date2 = second;  
