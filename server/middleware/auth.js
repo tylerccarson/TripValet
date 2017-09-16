@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
   redisClient = require('redis').createClient(process.env.REDIS_URL);
 } else {
   console.log('REDIS IN DEVELOPMENT');
-  redisClient = require('redis').createClient('6379', 'redis');
+  redisClient = require('redis').createClient();
 }
 
 module.exports.verify = (req, res, next) => {
@@ -21,7 +21,7 @@ module.exports.verify = (req, res, next) => {
 module.exports.session = session({
   store: new RedisStore({
     client: redisClient,
-    host: '172.17.0.2/16',
+    host: 'localhost',
     port: 6379
   }),
   secret: 'more laughter, more love, more life',
