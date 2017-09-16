@@ -31,6 +31,8 @@ class Calendar extends React.Component {
     this.compareDateStrings = this.compareDateStrings.bind(this);
     this.checkForConnectedAvailability = this.checkForConnectedAvailability.bind(this);
     this.turnAvailabilityToOjb = this.turnAvailabilityToOjb.bind(this);
+    this.addAvailabilityByRange = this.addAvailabilityByRange.bind(this);
+    this.deleteMultipleDates = this.deleteMultipleDates.bind(this);
   }
 
   componentWillMount() {
@@ -306,15 +308,15 @@ class Calendar extends React.Component {
 
         let deleteMe = availabilityDuplicate[i].id;
         sameDateClickedTwice = true;
-        availabilityDuplicate.splice(i, 1);
+        // availabilityDuplicate.splice(i, 1);
 
-        this.setState({
-          availability: availabilityDuplicate
-        }, ()=>{
+        // this.setState({
+        //   availability: availabilityDuplicate
+        // }, ()=>{
           this.setState({overlapAvailabilities: this.compareToSelectDates()});
           console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
 
-        });
+        // });
 
         //delete entry from the DB
         axios.post('/availability/delete', {
@@ -361,30 +363,86 @@ class Calendar extends React.Component {
 
     var currentUserName = this.state.user.display;
 
-    for (var i = 0; i < availabilityObj[currentUserName].length; i++) {
-      for (var j = i + 1; j < availabilityObj[currentUserName].length; j++) {
 
-        var iStartDate = new Date(availabilityObj[currentUserName][i].start);
-        var iEndDate = new Date(availabilityObj[currentUserName][i].end);
+    // length - 1 so the next date of i is still in range of the array
+    for (var i = 0; i < availabilityObj[currentUserName].length - 1; i++) {
+
+      var iEndDate = new Date(availabilityObj[currentUserName][i].end).getDate();
+      var startDateOneDayAfteri = new Date(availabilityObj[currentUserName][i + 1].start).getDate();
+      
+      console.log('i start date', iEndDate);
+      console.log('i next dates end', startDateOneDayAfteri);
+      
+      var idsToDelete = [];
+
+      if (iEndDate === startDateOneDayAfteri - 1) {
         
-        var jStartDate = new Date(availabilityObj[currentUserName][j].start);
-        var jEndDate = new Date(availabilityObj[currentUserName][j].end);
+        // to prevent i + 2 gets out of array range
+        if (availabilityObj[currentUserName][i + 2] !== undefined) {
+          var endDateOneDayAfteri = new Date(availabilityObj[currentUserName][i + 1].end).getDate();
+          var startDateTwoDaysAfteri = new Date(availabilityObj[currentUserName][i + 2].start).getDate();
+          // if the new picked date is in the middle of two dates, ex. originally
+          // had 9/3, 9/5, then pick 9/4, we shall combine the activities
+          if (endDateOneDayAfteri === startDateTwoDaysAfteri - 1) {
+            // connect i, i + 1 and i + 2
+            idsToDelete.push(availabilityObj[currentUserName][i].id, availabilityObj[currentUserName][i + 1].id, availabilityObj[currentUserName][i + 2].id);
+            
+            this.addAvailabilityByRange(availabilityObj[currentUserName][i].start, availabilityObj[currentUserName][i + 2].end);
+            
 
-        console.log('i start date: ', iStartDate);
-        console.log('i end date: ', iEndDate);
+          // 2 days after is in range, but not connected to the new added date
+          } else {
+            // connect i and i + 1
+            idsToDelete.push(availabilityObj[currentUserName][i].id, availabilityObj[currentUserName][i + 1].id);
 
-        console.log('j start date: ', jStartDate);
-        console.log('j end date: ', jEndDate);
+            this.addAvailabilityByRange(availabilityObj[currentUserName][i].start, availabilityObj[currentUserName][i + 1].end);
+            
 
-        // if () {
+          }
 
-        // }
+        // 2 days after is out of range, but i and i + 1 are still connected
+        } else {
+          // connect i and i + 1
+          this.addAvailabilityByRange(availabilityObj[currentUserName][i].start, availabilityObj[currentUserName][i + 1].end);
+          
+        }
+        console.log('connected!');
       }
     }
 
-
   }
 
+  addAvailabilityByRange(startDateString, endDateString) {
+    // for range end, we need to add 1 to include it on the calendar
+    var startDate = new Date(startDateString);
+    var endDate = new Date(endDateString);
+
+    var newEndDateYear = endDate.getFullYear();
+    var newEndDateMonth = endDate.getMonth();
+    var newEndDateDate = endDate.getDate() + 1;
+
+    let newAvailability = {
+      'id': null,
+      'title': this.state.user.display,
+      'start': startDate,
+      'end': new Date(newEndDateYear, newEndDateMonth, newEndDateDate)
+    };
+
+    //1 put new availability into DB and emit via sockets
+    axios.post('/availability/byTripId', newAvailability)
+      .then((posted) => {
+        newAvailability.id = posted.data.id;
+        this.props.socket.emit('clientAvailabilityAdd', newAvailability);
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  deleteMultipleDates() {
+    
+  }
 
   render() {
 
