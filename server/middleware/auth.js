@@ -21,7 +21,7 @@ module.exports.verify = (req, res, next) => {
 module.exports.session = session({
   store: new RedisStore({
     client: redisClient,
-    host: 'localhost',
+    host: '172.18.0.3/16',
     port: 6379
   }),
   secret: 'more laughter, more love, more life',
