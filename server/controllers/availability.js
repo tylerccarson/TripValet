@@ -1,4 +1,6 @@
 const models = require('../../db/models');
+const knex = require('knex')(require('../../knexfile'));
+
 
 module.exports.getAvailabilityByTripId = (req, res) => {
 
@@ -55,8 +57,21 @@ module.exports.deleteAvailabilityById = (req, res) => {
       res.send(destroyed);
     })
     .catch((error) => {
-      console.log(err);
+      console.log(error);
       res.status(503).send(error);
     });
 
+};
+
+module.exports.deleteMultipleAvailabilityById = (req, res) => {
+
+  knex('availability').whereIn('id', req.body.ids).delete()
+    .then((destroyed) => {
+      console.log('destroyed: ', destroyed);
+      res.send(req.body.ids);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(503).send(error);
+    });
 };
