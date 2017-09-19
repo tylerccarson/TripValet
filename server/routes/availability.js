@@ -17,4 +17,10 @@ router.route('/delete')
 router.route('/multipleDelete')
   .post(AvailabilityController.deleteMultipleAvailabilityById);
 
+router.route('/syncToGoogleCalendar')
+  .post(AvailabilityController.syncToGoogleCalendar);
+
+router.route('/google/callback')
+  .get(AvailabilityController.setGoogleCalendar);
+
 module.exports = router;
