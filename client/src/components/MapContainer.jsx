@@ -41,6 +41,7 @@ export class MapContainer extends React.Component {
     this.findPointsNearBy = this.findPointsNearBy.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.searchHandle = this.searchHandle.bind(this);
+    this.infoClick = this.infoClick.bind(this);
 	}
 
 	onMarkerClick(props, marker, e) {
@@ -130,6 +131,12 @@ export class MapContainer extends React.Component {
       });
     }
   }
+
+  infoClick(e) {
+    console.log(e);
+    this.props.addToSchedule();
+  }
+
 	componentWillMount() {
 		axios.get('/api/foursquare')
 			.then((response)=>{
@@ -141,6 +148,7 @@ export class MapContainer extends React.Component {
 			.then(()=>{
 				this.findPointsNearBy(); 
 			});
+
 
 	}
 
@@ -176,7 +184,7 @@ export class MapContainer extends React.Component {
           				{this.state.selectedPlace.info.location.address ? this.addressArrayToString(this.state.selectedPlace.info.location.formattedAddress) : ''}
           				{this.state.selectedPlace.info.contact.formattedPhone ? <text>{`Contact: ${this.state.selectedPlace.info.contact.formattedPhone}`}<br/></text> : ''}
           				{this.state.selectedPlace.info.url ? <text><a href={this.state.selectedPlace.info.url} target="_blank" >Website</a><br/></text> : ''}
-          				{<a href={`https://foursquare.com/v/${this.state.selectedPlace.info.id}`} target="_blank" >more info...</a>}
+          				{<a href={`https://foursquare.com/v/${this.state.selectedPlace.info.id}`} target="_blank" >more info...</a>} <button onClick={this.infoClick}>Add to Schedule</button>
           			</p>
 							</div>
           	: <div><h1>loading...</h1></div>

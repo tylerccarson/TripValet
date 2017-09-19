@@ -70,7 +70,9 @@ class Trip extends React.Component {
   }
 
   addToSchedule(schedule, day) {
-    this.schedule[day].push(schedule);
+    console.log("CLICKED");
+    this.state.schedule[1].push(schedule);
+    console.log(this.state.schedule);
   }
 
   onChange (e) {
