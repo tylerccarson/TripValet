@@ -36,6 +36,13 @@ class TripForm extends React.Component {
 
   createTrip() {
 
+    //only submit if entries have been made
+    if (this.state.invited.length === 0 || this.state.tripname === '' || this.state.location === '' || this.state.description === '' || this.state.rangeStart === null || this.state.rangeEnd === null) {
+      //alert
+      alert("Please fill out all fields before submitting form.\nThanks!");
+      return;
+    }
+
     // when we select 9/13 ~ 9/14, we expect the event to be till the end of 9/14
     // which is the start of 9/15, so we add one day to the end date, since it is
     // currently the start of 9/14
