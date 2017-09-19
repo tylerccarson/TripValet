@@ -38,6 +38,10 @@ class Confirmations extends React.Component {
     };
 
     return (
+      <div>
+        {/* added these 2 otherwise I can't click my button */}
+        <br/>
+        <br/>
       <List style={style.inviteList}>
         {this.state.confirmed.map((invitee, i) => {
           return <Invitees 
@@ -48,6 +52,7 @@ class Confirmations extends React.Component {
             socket={this.props.socket}/>;
         })}
       </List>
+      </div>
     );
   }
 

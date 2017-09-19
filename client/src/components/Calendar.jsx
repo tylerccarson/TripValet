@@ -3,6 +3,7 @@ import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import axios from 'axios';
 
+
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 // Setup the localizer by providing the moment (or globalize) Object
@@ -37,6 +38,7 @@ class Calendar extends React.Component {
     this.connectSingleAvailability = this.connectSingleAvailability.bind(this);
     this.connectMultipleAvailability = this.connectMultipleAvailability.bind(this);
     this.currentDateIsSingle = this.currentDateIsSingle.bind(this);
+    this.syncToGoogleCalendar = this.syncToGoogleCalendar.bind(this);
   }
 
   componentWillMount() {
@@ -135,7 +137,7 @@ class Calendar extends React.Component {
         this.setState({overlapAvailabilities: this.compareToSelectDates()}); // this state is relying on availability state changes
       });
       
-      console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
+      // console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
 
     });
   }
@@ -187,7 +189,7 @@ class Calendar extends React.Component {
       list = tempList;
 
     }
-    console.log('OVERLAP FOUND:', list);
+    // console.log('OVERLAP FOUND:', list);
     return list;
     
 
@@ -577,6 +579,52 @@ class Calendar extends React.Component {
     }
   }
 
+  syncToGoogleCalendar() {
+    console.log('this.state.overlap availabilities: ', this.state.overlapAvailabilities);
+
+    var testEvents = {
+      'summary': 'test summary',
+      'location': '944 Market Street, 8th floor, San Francisco, CA 94102',
+      'description': 'test descriptions',
+      'start': {
+        'dateTime': '2017-09-18T09:00:00-07:00',
+        'timeZone': 'America/Los_Angeles',
+      },
+      'end': {
+        'dateTime': '2017-09-20T17:00:00-07:00',
+        'timeZone': 'America/Los_Angeles',
+      },
+      'recurrence': [
+        'RRULE:FREQ=DAILY;COUNT=2'
+      ],
+      // 'attendees': [
+      //   {'email': 'lpage@example.com'},
+      //   {'email': 'sbrin@example.com'},
+      // ],
+      'reminders': {
+        'useDefault': false,
+        'overrides': [
+          {'method': 'email', 'minutes': 24 * 60},
+          {'method': 'popup', 'minutes': 10},
+        ],
+      },
+    };
+
+
+    axios.post('/availability/syncToGoogleCalendar', {
+      'commonDates': testEvents
+    })
+      .then((res) => {
+        console.log('successfully sync to google calendar!');
+        console.log('res', res);
+        window.location = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+  }
+
   render() {
 
     // should give an explicit height based on documentation
@@ -603,6 +651,7 @@ class Calendar extends React.Component {
         />
         <div>
           <br/>
+          <button onClick = {this.syncToGoogleCalendar}>Set Common Date!</button>
         </div>
 
       </div>
