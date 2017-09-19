@@ -23,7 +23,11 @@ class DashBoard extends React.Component {
     this.hideModal = this.hideModal.bind(this);
     this.showModal = this.showModal.bind(this);
     this.close = this.close.bind(this);
+    this.getUserTrips = this.getUserTrips.bind(this);
+  }
 
+  componentDidMount() {
+    this.getUserTrips();
   }
 
   hideModal(e) {
@@ -38,21 +42,18 @@ class DashBoard extends React.Component {
     });
   }
 
-  componentWillMount() {
+  getUserTrips() {
     axios.get('/trips/byEmail')
       .then((trips)=>{
-
         for (var i = 0; i < trips.data.length; i++) {
           var startDate = new Date(trips.data[i].rangeStart);
           var endDate = new Date(trips.data[i].rangeEnd);
-
           // if the trip's end date is earlier than today, this trip has happened 
           // already. valueOf() returns the miliseconds passed since 1970/1/1 till
           // today since it is complicated to compare year, months and dates
           if (endDate.valueOf() <= new Date().valueOf()) {
             var previousTripsDuplicate = this.state.previousTrips;
             previousTripsDuplicate.push(trips.data[i]);
-
             this.setState({
               previousTrips: previousTripsDuplicate
             });
@@ -61,24 +62,19 @@ class DashBoard extends React.Component {
           } else if (startDate.valueOf() >= new Date().valueOf()) {
             var upcomingTripsDuplicate = this.state.upcomingTrips;
             upcomingTripsDuplicate.push(trips.data[i]);
-
             this.setState({
               upcomingTrips: upcomingTripsDuplicate
             });
-
           // if none of them is true, it can be considered as currently happening
           // trip
           } else {
             var currentTripsDuplicate = this.state.currentTrips;
             currentTripsDuplicate.push(trips.data[i]);
-
             this.setState({
               currentTrips: currentTripsDuplicate
             });
           }
-
         }
-
       })
       .catch((error) => {
         console.log(error);
@@ -90,7 +86,6 @@ class DashBoard extends React.Component {
       lgShow: false
     });
   }
-
 
   render() {
     return (
