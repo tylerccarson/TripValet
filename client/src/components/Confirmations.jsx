@@ -8,9 +8,14 @@ class Confirmations extends React.Component {
     this.state = {
       confirmed: this.props.confirms
     };
+    this.confirmationListener = this.confirmationListener.bind(this);
   }
 
   componentDidMount() {
+    this.confirmationListener();
+  }
+
+  confirmationListener() {
     this.props.socket.on('serverConfirmation', (data) => {
       let confirmations = this.state.confirmed;
       for (var i = 0; i < confirmations.length; i++) {
@@ -24,6 +29,7 @@ class Confirmations extends React.Component {
         confirmed: confirmations
       });
     });
+
   }
 
   render() {

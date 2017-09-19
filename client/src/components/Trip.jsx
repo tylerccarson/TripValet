@@ -30,9 +30,14 @@ class Trip extends React.Component {
     this.inviteNewUser = this.inviteNewUser.bind(this);
     this.onChange = this.onChange.bind(this);
     this.addToSchedule = this.addToSchedule.bind(this);
+    this.getTripData = this.getTripData.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this.getTripData();
+  }
+
+  getTripData() {
     axios.get('/trips')
       .then((trip)=>{
         this.setState({

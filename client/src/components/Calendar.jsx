@@ -25,6 +25,7 @@ class Calendar extends React.Component {
       overlapAvailabilities: [],
       addingMultipleAvailability: false
     };
+    
     this.pickDate = this.pickDate.bind(this);
     this.compareToSelectDates = this.compareToSelectDates.bind(this);
     this.sortArraysInProperty = this.sortArraysInProperty.bind(this);
@@ -37,9 +38,13 @@ class Calendar extends React.Component {
     this.connectSingleAvailability = this.connectSingleAvailability.bind(this);
     this.connectMultipleAvailability = this.connectMultipleAvailability.bind(this);
     this.currentDateIsSingle = this.currentDateIsSingle.bind(this);
+    this.subscribeToNewAvailability = this.subscribeToNewAvailability.bind(this);
+    this.getAllAvailability = this.getAllAvailability.bind(this);
+    this.subscribeToDeletedAvailability = this.subscribeToDeletedAvailability.bind(this);
+    this.subscribeToMultipleAvailabilityDelete = this.subscribeToMultipleAvailabilityDelete.bind(this);
   }
 
-  componentWillMount() {
+  getAllAvailability() {
     let currentAvailability = this.state.availability;
     axios.get('/availability/byTripId')
       .then((availabilities)=>{
@@ -74,54 +79,45 @@ class Calendar extends React.Component {
       });
   }
 
-  componentDidMount() {
-
+  subscribeToNewAvailability() {
     this.props.socket.on('serverAvailabilityAdd', (data) => {
-
       let stateAvailability = this.state.availability;
       stateAvailability.push(data);
-
-
       this.setState({
         availability: stateAvailability
       }, () => {
         if (this.state.addingMultipleAvailability) {
-
         } else {
           this.checkForConnectedAvailability();
-        }
-        
+        }      
         this.setState({overlapAvailabilities: this.compareToSelectDates()});
 
-
       });
-      
     });
+  }
 
+  subscribeToDeletedAvailability() {
     this.props.socket.on('serverAvailabilityDelete', (data) => {
       let stateAvailability = this.state.availability;
-
       for (var i = 0; i < stateAvailability.length; i++) {
         if (stateAvailability[i].id === data) {
           stateAvailability.splice(i, 1);
         }
       }
-
       this.setState({
         availability: stateAvailability
       }, () => {
       }, ()=>{
-        this.setState({overlapAvailabilities: this.compareToSelectDates()}); 
         // this state is relying on availability state changes
+        this.setState({overlapAvailabilities: this.compareToSelectDates()}); 
       });
-      
     });
+  }
 
+  subscribeToMultipleAvailabilityDelete() {
     this.props.socket.on('serverAvailabilityMultipleDelete', (idArray) => {
       let stateAvailability = this.state.availability;
-
       idArray.sort();
-      
       for (var i = 0; i < stateAvailability.length; i++) {
         for (var j = 0; j < idArray.length; j++) {
           if (stateAvailability[i].id === idArray[j]) {
@@ -129,15 +125,21 @@ class Calendar extends React.Component {
           }
         }
       }
-
       this.setState({
         availability: stateAvailability
       }, ()=>{
         this.setState({overlapAvailabilities: this.compareToSelectDates()}); // this state is relying on availability state changes
       });
 
-
     });
+  }
+
+  componentDidMount() {
+    this.getAllAvailability();
+    this.subscribeToNewAvailability();
+    this.subscribeToDeletedAvailability();
+    this.subscribeToMultipleAvailabilityDelete();
+
   }
 
   turnAvailabilityToOjb() {
