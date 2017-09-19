@@ -14,4 +14,7 @@ router.route('/byTripId')
 router.route('/delete')
   .post(AvailabilityController.deleteAvailabilityById);
 
+router.route('/multipleDelete')
+  .post(AvailabilityController.deleteMultipleAvailabilityById);
+
 module.exports = router;

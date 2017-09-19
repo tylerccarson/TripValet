@@ -24,6 +24,10 @@ io.on('connection', (socket) => {
     io.sockets.emit('serverAvailabilityDelete', data);
   });
 
+  socket.on('clientAvailabilityMultipleDelete', (idArray) => {
+    io.sockets.emit('serverAvailabilityMultipleDelete', idArray);
+  });
+
   socket.on('clientConfirmation', (data) => {
     io.sockets.emit('serverConfirmation', data);
   });
