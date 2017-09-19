@@ -2,7 +2,11 @@ const models = require('../../db/models');
 const Promise = require('bluebird');
 const db = require('../../db');
 var sendInviteEmail = require('../helpers/sendInviteEmail').sendInviteEmail;
-var api_key = 'key-ed15d9b7166f3bbab71cec2127e6b019';
+//public key
+var api_key = 'pubkey-247c3d16a016d3647cc064709d145b7e';
+//private key
+//var api_key = 'key-ed15d9b7166f3bbab71cec2127e6b019';
+
 var domain = 'mg.tripvalet.me';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 var helpers = require('../helpers/sendInviteEmail.js');
@@ -156,35 +160,44 @@ module.exports.getTripInfoById = (req, res) => {
 
 module.exports.inviteUser = (req, res) => {
   
-  return models.Confirmed.where({ email: req.body.invitee, trip_id: req.body.trip.id }).fetch()
-    .then((invited) => {
-      if (invited) {
-        throw new Error('User already invited!');
-      }
+  mailgun.validate(req.body.invitee, (err, body) => {
+    if (body && body.is_valid) {
 
-      return models.Confirmed.forge({
-        email: req.body.invitee,
-        trip_id: req.body.trip.id
-      }).save();
-    })
-    .then((entry) => {
-      
-      mailgun.validate(req.body.invitee, (err, body) => {
+      return models.Confirmed.where({ email: req.body.invitee, trip_id: req.body.trip.id }).fetch()
+        .then((invited) => {
+          if (invited) {
+            throw new Error('User already invited!');
+          }
 
-        if (body && body.is_valid) {
+          return models.Confirmed.forge({
+            email: req.body.invitee,
+            trip_id: req.body.trip.id
+          }).save();
+        })
+        .then((entry) => {
           helpers.sendInviteEmail(req.body.inviter.display, req.body.trip.tripname, req.body.invitee);
           res.send(entry);
-        } else {
-          res.status(404).send('Invalid email');
-        }
+        })
+        .catch((err) => {
+          console.log('User has already been invited or incorrect email ', err);
+          res.status(404).send(err.message);
+        });
+    } else {
+      res.status(404).send('Invalid email');
+    }
 
-      });
-    })
-    .catch((err) => {
-      console.log('User has already been invited or incorrect email ', err);
-      
-      res.status(404).send(err.message);
-    });
+  });
 
+};
+
+module.exports.validateEmail = (req, res) => {
+  let email = req.body.email;
+  mailgun.validate(email, (err, body) => {
+    if (body && body.is_valid) {
+      res.status(200).send(body);
+    } else {
+      res.status(404).send('Invalid email');
+    }
+  });
 };
 
