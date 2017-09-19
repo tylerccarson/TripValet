@@ -111,7 +111,6 @@ class Calendar extends React.Component {
 
       this.setState({
         availability: stateAvailability
-      }, () => {
       }, ()=>{
         this.setState({overlapAvailabilities: this.compareToSelectDates()}); 
         // this state is relying on availability state changes
@@ -297,10 +296,6 @@ class Calendar extends React.Component {
 
       }
     }
-  }
-
-  iterateAvails() {
-
   }
 
   pickDate(pickedSlot) {
@@ -580,12 +575,22 @@ class Calendar extends React.Component {
   }
 
   syncToGoogleCalendar() {
+
+    // trip overlap date is still buggy, so we still need this to debug in the future
     console.log('this.state.overlap availabilities: ', this.state.overlapAvailabilities);
 
-    var testEvents = {
-      'summary': 'test summary',
-      'location': '944 Market Street, 8th floor, San Francisco, CA 94102',
-      'description': 'test descriptions',
+    var attendees = [];
+
+    for (var i = 0; i < this.props.allUsers.length; i++) {
+      var emailObj = {};
+      emailObj['email'] = this.props.allUsers[i].email;
+      attendees.push(emailObj);
+    }
+
+    var events = {
+      'summary': this.state.trip.tripname,
+      'location': this.state.trip.location,
+      'description': this.state.trip.description,
       'start': {
         'dateTime': '2017-09-18T09:00:00-07:00',
         'timeZone': 'America/Los_Angeles',
@@ -594,13 +599,7 @@ class Calendar extends React.Component {
         'dateTime': '2017-09-20T17:00:00-07:00',
         'timeZone': 'America/Los_Angeles',
       },
-      'recurrence': [
-        'RRULE:FREQ=DAILY;COUNT=2'
-      ],
-      // 'attendees': [
-      //   {'email': 'lpage@example.com'},
-      //   {'email': 'sbrin@example.com'},
-      // ],
+      'attendees': attendees,
       'reminders': {
         'useDefault': false,
         'overrides': [
@@ -608,15 +607,13 @@ class Calendar extends React.Component {
           {'method': 'popup', 'minutes': 10},
         ],
       },
-    };
+    }
 
 
     axios.post('/availability/syncToGoogleCalendar', {
-      'commonDates': testEvents
+      'commonDates': events
     })
       .then((res) => {
-        console.log('successfully sync to google calendar!');
-        console.log('res', res);
         window.location = res.data;
       })
       .catch((err) => {
