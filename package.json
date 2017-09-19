@@ -27,6 +27,8 @@
     "enzyme": "^2.9.1",
     "express": "^4.15.2",
     "express-session": "^1.15.1",
+    "google-auth-library": "^0.11.0",
+    "googleapis": "^21.3.0",
     "grunt-env": "^0.4.4",
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
     "history": "^4.7.2",
