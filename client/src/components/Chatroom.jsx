@@ -18,9 +18,16 @@ class Chatroom extends React.Component {
     };
     this.handleChatInput = this.handleChatInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.fetchAllMessages = this.fetchAllMessages.bind(this);
+    this.subscribeToMessages = this.subscribeToMessages.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this.fetchAllMessages();
+    this.subscribeToMessages();
+  }
+
+  fetchAllMessages() {
     axios.get('/messages/byTrip', {
       params: {
         tripId: this.props.tripId
@@ -35,7 +42,7 @@ class Chatroom extends React.Component {
       })
       .catch((error) => {
         console.log(error);
-      });
+      }); 
   }
 
   handleChatInput(event) {
@@ -75,7 +82,7 @@ class Chatroom extends React.Component {
     this.refs.Scrollbar.scrollToY('120%'); 
   }
 
-  componentDidMount() {
+  subscribeToMessages() {
     this.props.socket.on('serverMessage', (data) => {
       //data needs user property
       let currentMessages = this.state.messages;

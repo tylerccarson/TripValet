@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  tripvalet:
+    build: .
+    depends_on:
+      - 'redis'
+      - 'postgres'
+    ports: 
+      - '3000:3000'
+
+  redis:
+    image: "redis:alpine"
+
+  postgres:
+    image: "postgres:9.4"

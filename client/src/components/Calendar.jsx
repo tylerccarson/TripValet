@@ -25,6 +25,7 @@ class Calendar extends React.Component {
       overlapAvailabilities: [],
       addingMultipleAvailability: false
     };
+
     this.pickDate = this.pickDate.bind(this);
     this.compareToSelectDates = this.compareToSelectDates.bind(this);
     this.sortArraysInProperty = this.sortArraysInProperty.bind(this);
@@ -37,13 +38,16 @@ class Calendar extends React.Component {
     this.connectSingleAvailability = this.connectSingleAvailability.bind(this);
     this.connectMultipleAvailability = this.connectMultipleAvailability.bind(this);
     this.currentDateIsSingle = this.currentDateIsSingle.bind(this);
+    this.subscribeToNewAvailability = this.subscribeToNewAvailability.bind(this);
+    this.getAllAvailability = this.getAllAvailability.bind(this);
+    this.subscribeToDeletedAvailability = this.subscribeToDeletedAvailability.bind(this);
+    this.subscribeToMultipleAvailabilityDelete = this.subscribeToMultipleAvailabilityDelete.bind(this);
   }
 
-  componentWillMount() {
+  getAllAvailability() {
     let currentAvailability = this.state.availability;
     axios.get('/availability/byTripId')
       .then((availabilities)=>{
-
         let storedAvailability = availabilities.data.map((avail) => {
           let users = this.props.allUsers;
           let name;
@@ -59,15 +63,12 @@ class Calendar extends React.Component {
             'end': avail.rangeEnd
           };
         });
-
         currentAvailability = currentAvailability.concat(storedAvailability);
         this.setState({
           availability: currentAvailability
         }, () => {
           this.setState({overlapAvailabilities: this.compareToSelectDates()});
-        });
-
-        
+        });        
       })
       .catch((err) => {
         console.log(err);
@@ -75,53 +76,51 @@ class Calendar extends React.Component {
   }
 
   componentDidMount() {
+    this.getAllAvailability();
+    this.subscribeToNewAvailability();
+    this.subscribeToDeletedAvailability();
+    this.subscribeToMultipleAvailabilityDelete();
+  }
 
+  subscribeToNewAvailability() {
     this.props.socket.on('serverAvailabilityAdd', (data) => {
-
       let stateAvailability = this.state.availability;
       stateAvailability.push(data);
-
-
       this.setState({
         availability: stateAvailability
       }, () => {
         if (this.state.addingMultipleAvailability) {
-
         } else {
           this.checkForConnectedAvailability();
-        }
-        
+        }      
         this.setState({overlapAvailabilities: this.compareToSelectDates()});
 
-
       });
-      
     });
+  }
 
+  subscribeToDeletedAvailability() {
     this.props.socket.on('serverAvailabilityDelete', (data) => {
       let stateAvailability = this.state.availability;
-
       for (var i = 0; i < stateAvailability.length; i++) {
         if (stateAvailability[i].id === data) {
           stateAvailability.splice(i, 1);
         }
       }
-
       this.setState({
         availability: stateAvailability
       }, () => {
       }, ()=>{
-        this.setState({overlapAvailabilities: this.compareToSelectDates()}); 
         // this state is relying on availability state changes
+        this.setState({overlapAvailabilities: this.compareToSelectDates()}); 
       });
-      
     });
+  }
 
+  subscribeToMultipleAvailabilityDelete() {
     this.props.socket.on('serverAvailabilityMultipleDelete', (idArray) => {
       let stateAvailability = this.state.availability;
-
       idArray.sort();
-      
       for (var i = 0; i < stateAvailability.length; i++) {
         for (var j = 0; j < idArray.length; j++) {
           if (stateAvailability[i].id === idArray[j]) {
@@ -129,13 +128,11 @@ class Calendar extends React.Component {
           }
         }
       }
-
       this.setState({
         availability: stateAvailability
       }, ()=>{
         this.setState({overlapAvailabilities: this.compareToSelectDates()}); // this state is relying on availability state changes
       });
-
 
     });
   }
@@ -161,7 +158,6 @@ class Calendar extends React.Component {
   }
 
   compareToSelectDates() {
-    
     var availsObj = this.turnAvailabilityToOjb();
 
 
@@ -170,8 +166,6 @@ class Calendar extends React.Component {
 
     var list = [];
     var first = true;
-
-
     for (var x in availsObj) {
       if (first) {
         list = availsObj[x];
@@ -197,8 +191,6 @@ class Calendar extends React.Component {
   compareWithSelectedList(notelist, avail) { // takes notelist(multiple overlaps) and find overlap for current availability passed in as second argument
     var result = [];
     notelist.forEach(noted => { // note[], avail {}
-
-      
       if (this.compareDateStrings(noted.start, avail.start) <= 0 && this.compareDateStrings(noted.end, avail.end) >= 0) {
         // note is larger [{}]
         result.push(avail);
@@ -210,17 +202,14 @@ class Calendar extends React.Component {
         var obj = {start: avail.start, end: noted.end};
         if (this.compareDateStrings(obj.start, obj.end) <= 0) {
           result.push(obj);
-        }
-        
+        }        
       } else if (this.compareDateStrings(noted.start, avail.start) >= 0 && this.compareDateStrings(noted.end, avail.end) >= 0) {
         // skew note right {[}] 
         var obj = {start: noted.start, end: avail.end};
         if (this.compareDateStrings(obj.start, obj.end) <= 0) {
           result.push(obj);
-        }
-        
+        }       
       } 
-
     });
     // return all overlapping dates
     return result;
@@ -260,7 +249,6 @@ class Calendar extends React.Component {
         } else {
           return 0;
         }
-
       }
     }
   }
@@ -275,7 +263,6 @@ class Calendar extends React.Component {
     if (typeof date2 === 'string') {
       date2 = new Date(date2);
     }
-
     if (date1.getFullYear() < date2.getFullYear()) {
       return -1;
     } else if (date1.getFullYear() > date2.getFullYear()) {
@@ -293,13 +280,8 @@ class Calendar extends React.Component {
         } else {
           return 0;
         }
-
       }
     }
-  }
-
-  iterateAvails() {
-
   }
 
   pickDate(pickedSlot) {
@@ -308,11 +290,9 @@ class Calendar extends React.Component {
     if (!this.state.availability.length) {
       var sameDateClickedTwice = false;
     }
-
     // Following best practices to not mutate state, so create a duplicate, modify
     // the duplicate, and set state to the duplicate
     var availabilityDuplicate = this.state.availability.slice();
-
 
     // TODO: improve efficiency in the future if I have time.
     for (var i = 0; i < availabilityDuplicate.length; i++) {
@@ -320,26 +300,19 @@ class Calendar extends React.Component {
       // if the same user clicked the same date twice,
       // compare string since the date seems to be unique
 
-
-      // formate the date from DB (string) to a date(Date()) so the .toString()
+      // format the date from DB (string) to a date(Date()) so the .toString()
       // comparison works.
       var formatedStartDateFromDB = new Date(availabilityDuplicate[i]['start']);
-
       if (typeof pickedSlot.start === 'string') {
         var formatedPickedSlotStartDate = new Date(pickedSlot.start);
       } else {
         var formatedPickedSlotStartDate = pickedSlot.start;
       }
-
-      
       if ( (formatedPickedSlotStartDate.toString() === formatedStartDateFromDB.toString()) && (this.state.user.display === availabilityDuplicate[i]['title']) ) {
-
         let deleteMe = availabilityDuplicate[i].id;
         sameDateClickedTwice = true;
 
         this.setState({overlapAvailabilities: this.compareToSelectDates()});
-
-        //delete entry from the DB
         axios.post('/availability/delete', {
           'id': deleteMe
         })
@@ -349,57 +322,47 @@ class Calendar extends React.Component {
           .catch((err) => {
             console.log(err);
           });
-
         break;
       }
     }
 
     if (!sameDateClickedTwice) {
-
       let newAvailability = {
         'id': null,
         'title': this.state.user.display,
         'start': pickedSlot.start,
         'end': pickedSlot.end
       };
-
-      //1 put new availability into DB and emit via sockets
       axios.post('/availability/byTripId', newAvailability)
         .then((posted) => {
           newAvailability.id = posted.data.id;
-          this.props.socket.emit('clientAvailabilityAdd', newAvailability);
-          
+          this.props.socket.emit('clientAvailabilityAdd', newAvailability);    
         })
         .catch((err) => {
           console.log(err);
         });
-
     }
   }
 
   currentDateIsSingle(day) {
     var currentStartDate = new Date(day.start).getDate();
-    var currentEndDate = new Date(day.end).getDate();
-    
+    var currentEndDate = new Date(day.end).getDate();   
     return currentStartDate === currentEndDate;
   }
 
   checkForConnectedAvailability() {
     var availabilityObj = this.turnAvailabilityToOjb();
     console.log('availability obj: ', availabilityObj);
-
     var currentUserName = this.state.user.display;
 
     // length - 1 so the next date of i is still in range of the array
     for (var i = 0; i < availabilityObj[currentUserName].length - 1; i++) {
-
-      var startDateOneDayAfteri = new Date(availabilityObj[currentUserName][i + 1].start).getDate();
-      
+      var startDateOneDayAfteri = new Date(availabilityObj[currentUserName][i + 1].start).getDate();      
       var wantToBreak = false;
+
       // if i is a single date
       if ( this.currentDateIsSingle(availabilityObj[currentUserName][i]) ) {
         this.connectSingleAvailability(availabilityObj, currentUserName, i);
-        // had to do it this way if we want to abstract the logic of connectSingleAvailability to a function
         if (wantToBreak) {
           break;
         }
@@ -411,9 +374,7 @@ class Calendar extends React.Component {
           break;
         }
       }
-      
     }
-
   }
 
   addAvailabilityByRange(startDateStartString, endDateStartString, endDateEndString, idsToDelete) {
@@ -439,7 +400,6 @@ class Calendar extends React.Component {
       'end': new Date(newEndDateYear, newEndDateMonth, newEndDateDate)
     };
 
-    //1 put new availability into DB and emit via sockets
     axios.post('/availability/byTripId', newAvailability)
       .then((posted) => {
         newAvailability.id = posted.data.id;
@@ -451,7 +411,6 @@ class Calendar extends React.Component {
   }
 
   deleteMultipleDates(idArrayTobeDeleted) {
-
     //delete entry from the DB
     axios.post('/availability/MultipleDelete', {
       'ids': idArrayTobeDeleted
@@ -477,15 +436,17 @@ class Calendar extends React.Component {
     var idsToDelete = [];    
 
     if (iEndDate === startDateOneDayAfteri - 1) {
-      
+
       // to prevent i + 2 gets out of array range
       if (availabilityObj[currentUserName][i + 2] !== undefined) {
         var endDateOneDayAfteri = new Date(availabilityObj[currentUserName][i + 1].end).getDate();
         var startDateTwoDaysAfteri = new Date(availabilityObj[currentUserName][i + 2].start).getDate();
         // if the new picked date is in the middle of two dates, ex. originally
         // had 9/3, 9/5, then pick 9/4, we shall combine the activities
+
         if (endDateOneDayAfteri === startDateTwoDaysAfteri - 1) {
           // connect i, i + 1 and i + 2
+
           idsToDelete.push(availabilityObj[currentUserName][i].id, availabilityObj[currentUserName][i + 1].id, availabilityObj[currentUserName][i + 2].id);
 
           this.setState({
@@ -498,10 +459,10 @@ class Calendar extends React.Component {
 
           wantToBreak = true;
           return;
-
         // 2 days after is in range, but not connected to the new added date
         } else {
           // connect i and i + 1
+          
           idsToDelete.push(availabilityObj[currentUserName][i].id, availabilityObj[currentUserName][i + 1].id);
 
           this.addAvailabilityByRange(availabilityObj[currentUserName][i].start, availabilityObj[currentUserName][i + 1].start, availabilityObj[currentUserName][i + 1].end, idsToDelete);
@@ -509,9 +470,7 @@ class Calendar extends React.Component {
           this.deleteMultipleDates(idsToDelete);
         }
 
-      // 2 days after is out of range, but i and i + 1 are still connected
       } else {
-        // connect i and i + 1
 
         idsToDelete.push(availabilityObj[currentUserName][i].id, availabilityObj[currentUserName][i + 1].id);
 
@@ -559,27 +518,20 @@ class Calendar extends React.Component {
         } else {
           // connect i and i + 1
           idsToDelete.push(availabilityObj[currentUserName][i].id, availabilityObj[currentUserName][i + 1].id);
-
           this.addAvailabilityByRange(availabilityObj[currentUserName][i].start, availabilityObj[currentUserName][i + 1].start, availabilityObj[currentUserName][i + 1].end, idsToDelete);
-
           this.deleteMultipleDates(idsToDelete);
         }
-
       // 2 days after is out of range, but i and i + 1 are still connected
       } else {
         // connect i and i + 1
-
         idsToDelete.push(availabilityObj[currentUserName][i].id, availabilityObj[currentUserName][i + 1].id);
-
         this.addAvailabilityByRange(availabilityObj[currentUserName][i].start, availabilityObj[currentUserName][i + 1].start, availabilityObj[currentUserName][i + 1].end, idsToDelete);
-
         this.deleteMultipleDates(idsToDelete);
       }
     }
   }
 
   render() {
-
     // should give an explicit height based on documentation
     var style = {
       height: '400px'

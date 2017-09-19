@@ -10,6 +10,7 @@ import Promise from 'bluebird';
 import { FormGroup, InputGroup, FormControl, DropdownButton, Button, ButtonToolbar, MenuItem, ControlLabel } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
 import $ from 'jquery';
+import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 
 let env = window.location.hostname + ':' + window.location.port;
 let socket = io(env);
@@ -24,15 +25,22 @@ class Trip extends React.Component {
       currentUser: {},
       usersWithAccount: {},
       email: '',
-      schedule: [1,2,3,4]
+      schedule: [1,2,3,4],
+      toggleValue: 1
     };
 
     this.inviteNewUser = this.inviteNewUser.bind(this);
     this.onChange = this.onChange.bind(this);
     this.addToSchedule = this.addToSchedule.bind(this);
+    this.getTripData = this.getTripData.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this.getTripData();
+  }
+
+  getTripData() {
     axios.get('/trips')
       .then((trip)=>{
         this.setState({
@@ -81,6 +89,12 @@ class Trip extends React.Component {
     });
   }
 
+  handleChange(value) {
+    this.setState({
+      toggleValue: value
+    });
+  }
+
   inviteNewUser(email) {
     axios.post('/trips/invite', {
       invitee: this.state.email,
@@ -104,41 +118,86 @@ class Trip extends React.Component {
   }
 
   render( ) {
-    var style = {
+    const style = {
       confirms: {
         textAlign: 'center'
       },
       calendar: {
       },
       chatroom: {
+      },
+      map: {
+
+      },
+      toggle: {
+        marginTop: '70px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }
     };
+
+    let view;
+
+    if (this.state.toggleValue === 1) {
+      view = (
+        <div style={style.calendar}>
+          {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
+            allUsers={this.state.usersWithAccount}
+            currentUser={this.state.currentUser}
+            trip={this.state.trip}
+            socket={socket}/>
+            : <div>loading...</div>
+          }
+        </div>
+      );
+    } else {
+      view = (
+        <div style={style.map}>
+          <MapContainer id="mapcont" addToSchedule={this.addToSchedule}/>
+          <Schedule list={this.state.schedule} />
+        </div>
+      );
+    }
 
     return (
       <div id="cont">
         <h1>{this.state.trip.tripname}</h1>
         <h3>Description: {this.state.description}</h3>
-        {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
-          allUsers={this.state.usersWithAccount}
-          currentUser={this.state.currentUser}
-          trip={this.state.trip}
-          socket={socket}/>
-          : <div>Calendar loading...</div>
-        }
-        {Object.keys(this.state.trip).length !== 0 ? <Chatroom
-          tripId={this.state.trip.id}
-          user={this.state.currentUser.display}
-          userId={this.state.currentUser.id}
-          socket={socket}/>
-          : <div>Chatroom loading...</div> }
-        {Object.keys(this.state.confirms).length !== 0 ? <Confirmations
-          style={style.confirms}
-          trip={this.state.trip}
-          user={this.state.currentUser}
-          userId={this.state.currentUser.id}
-          confirms={this.state.confirms}
-          socket={socket}/>
-          : <div>loading...</div> }
+        <div>
+          <div style={style.toggle}>
+            <ButtonToolbar>
+              <ToggleButtonGroup
+                type="radio"
+                name="options"
+                defaultValue={this.state.toggleValue}
+                onChange={this.handleChange}>
+                <ToggleButton value={1}>Calendar View</ToggleButton>
+                <ToggleButton value={2}>Map View</ToggleButton>
+              </ToggleButtonGroup>
+            </ButtonToolbar>
+          </div>
+          {view}
+        </div>
+        <div>
+          {Object.keys(this.state.trip).length !== 0 ? <Chatroom
+            style={style.chatroom}
+            tripId={this.state.trip.id}
+            user={this.state.currentUser.display}
+            userId={this.state.currentUser.id}
+            socket={socket}/>
+            : <div>loading...</div> }
+        </div>
+        <div>
+          {Object.keys(this.state.confirms).length !== 0 ? <Confirmations
+            style={style.confirms}
+            trip={this.state.trip}
+            user={this.state.currentUser}
+            userId={this.state.currentUser.id}
+            confirms={this.state.confirms}
+            socket={socket}/>
+            : <div>loading...</div> }
+        </div>
         <div>
           <form>
             <FormGroup>
@@ -163,8 +222,6 @@ class Trip extends React.Component {
 
           </form>
         </div>
-        <MapContainer id="mapcont" addToSchedule={this.addToSchedule}/>
-        <Schedule list={this.state.schedule} />
 
       </div>
     );
