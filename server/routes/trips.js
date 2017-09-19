@@ -23,6 +23,9 @@ router.route('/byUser')
 router.route('/')
   .get(TripController.getTripInfoById);
 
+router.route('/validate')
+  .post(TripController.validateEmail);
+
 router.route('/*')
   .get((req, res) => {
     res.render('index.ejs');

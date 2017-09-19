@@ -36,6 +36,13 @@ class TripForm extends React.Component {
 
   createTrip() {
 
+    //only submit if entries have been made
+    if (this.state.invited.length === 0 || this.state.tripname === '' || this.state.location === '' || this.state.description === '' || this.state.rangeStart === null || this.state.rangeEnd === null) {
+      //alert
+      alert("Please fill out all fields before submitting form.\nThanks!");
+      return;
+    }
+
     // when we select 9/13 ~ 9/14, we expect the event to be till the end of 9/14
     // which is the start of 9/15, so we add one day to the end date, since it is
     // currently the start of 9/14
@@ -90,10 +97,36 @@ class TripForm extends React.Component {
   }
 
   addToList (e) {
-    this.setState({
-      invited: this.state.invited.concat([this.state.email]),
-      email: ""
-    });
+    //if user has already been invited, don't add to list
+    let invites = this.state.invited;
+    let entry = this.state.email;
+    if (invites.includes(entry)) {
+      this.setState({
+        email: ''
+      });
+    } else {
+      //post to server to validate email
+      axios.post('/trips/validate', {
+        email: entry
+      })
+        //if valid response
+        .then((validated) => {
+          //add to invited list and set state
+          invites.push(entry);
+          //reset email field to empty string
+          this.setState({
+            invited: invites,
+            email: ''
+          });
+        })
+        //if error
+        .catch((err) => {
+          //reset email field without adding
+          this.setState({
+            email: ''
+          });
+        });
+    }
 
   }
 
@@ -177,7 +210,6 @@ class TripForm extends React.Component {
 
         <h3 style={inviteListStyle}>Invitees:</h3>
         {this.state.invited.map((invitee, i) => {
-          console.log(invitee);
           return <Invited
             invitee={invitee}
             key={i}/>;
