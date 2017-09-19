@@ -90,10 +90,36 @@ class TripForm extends React.Component {
   }
 
   addToList (e) {
-    this.setState({
-      invited: this.state.invited.concat([this.state.email]),
-      email: ""
-    });
+    //if user has already been invited, don't add to list
+    let invites = this.state.invited;
+    let entry = this.state.email;
+    if (invites.includes(entry)) {
+      this.setState({
+        email: ''
+      });
+    } else {
+      //post to server to validate email
+      axios.post('/trips/validate', {
+        email: entry
+      })
+        //if valid response
+        .then((validated) => {
+          //add to invited list and set state
+          invites.push(entry);
+          //reset email field to empty string
+          this.setState({
+            invited: invites,
+            email: ''
+          });
+        })
+        //if error
+        .catch((err) => {
+          //reset email field without adding
+          this.setState({
+            email: ''
+          });
+        });
+    }
 
   }
 
@@ -177,7 +203,6 @@ class TripForm extends React.Component {
 
         <h3 style={inviteListStyle}>Invitees:</h3>
         {this.state.invited.map((invitee, i) => {
-          console.log(invitee);
           return <Invited
             invitee={invitee}
             key={i}/>;
