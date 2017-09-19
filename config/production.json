@@ -29,5 +29,10 @@
       "consumerSecret": "A9wmZPdurnknnK9g7dfnxSRcGWvsHggc0IugYRsdZXa4LzuvPB",
       "callbackURL": "https://tripvalet.herokuapp.com/auth/twitter/callback"
     }
+  },
+  "map": {
+    "clientID": "QGKZKK1B1LRKHIX3FGAPJRBUOGT3GUMJLWNHWR42ARFXAJCN",
+    "clientSecret": "PGKKOSSLWS5C4Y0YCTEPPR2WCX4HKHYFMZCK3NVDA45NZWCH",
+    "mapKey": "AIzaSyBltPUIFN_TATbG_Ofpba3cjwvLTbo2TeQ"
   }
 }

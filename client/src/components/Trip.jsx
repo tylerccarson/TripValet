@@ -1,15 +1,19 @@
 import React from 'react';
 import Calendar from './Calendar.jsx';
 import Chatroom from './Chatroom.jsx';
+import MapContainer from './MapContainer.jsx';
 import Confirmations from './Confirmations.jsx';
+import Schedule from './Schedule.jsx';
 import axios from 'axios';
 import io from 'socket.io-client';
 import Promise from 'bluebird';
 import { FormGroup, InputGroup, FormControl, DropdownButton, Button, ButtonToolbar, MenuItem, ControlLabel } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
+import $ from 'jquery';
 
 let env = window.location.hostname + ':' + window.location.port;
 let socket = io(env);
+
 
 class Trip extends React.Component {
   constructor (props) {
@@ -19,11 +23,13 @@ class Trip extends React.Component {
       confirms: {},
       currentUser: {},
       usersWithAccount: {},
-      email: ''
+      email: '',
+      schedule: [1,2,3,4]
     };
 
     this.inviteNewUser = this.inviteNewUser.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.addToSchedule = this.addToSchedule.bind(this);
   }
 
   componentWillMount() {
@@ -60,6 +66,13 @@ class Trip extends React.Component {
       .catch((error) => {
         console.log(error);
       });
+
+  }
+
+  addToSchedule(schedule, day) {
+    console.log("CLICKED");
+    this.state.schedule[1].push(schedule);
+    console.log(this.state.schedule);
   }
 
   onChange (e) {
@@ -102,7 +115,7 @@ class Trip extends React.Component {
     };
 
     return (
-      <div>
+      <div id="cont">
         <h1>{this.state.trip.tripname}</h1>
         <h3>Description: {this.state.description}</h3>
         {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
@@ -110,14 +123,14 @@ class Trip extends React.Component {
           currentUser={this.state.currentUser}
           trip={this.state.trip}
           socket={socket}/>
-          : <div>loading...</div>
+          : <div>Calendar loading...</div>
         }
         {Object.keys(this.state.trip).length !== 0 ? <Chatroom
           tripId={this.state.trip.id}
           user={this.state.currentUser.display}
           userId={this.state.currentUser.id}
           socket={socket}/>
-          : <div>loading...</div> }
+          : <div>Chatroom loading...</div> }
         {Object.keys(this.state.confirms).length !== 0 ? <Confirmations
           style={style.confirms}
           trip={this.state.trip}
@@ -150,6 +163,9 @@ class Trip extends React.Component {
 
           </form>
         </div>
+        <MapContainer id="mapcont" addToSchedule={this.addToSchedule}/>
+        <Schedule list={this.state.schedule} />
+
       </div>
     );
   }
