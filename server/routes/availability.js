@@ -21,6 +21,9 @@ router.route('/syncToGoogleCalendar')
   .post(AvailabilityController.syncToGoogleCalendar);
 
 router.route('/google/callback')
-  .get(AvailabilityController.setGoogleCalendar);
+  .get(AvailabilityController.redirectToTempPage);
 
+router.route('/addEvent')
+  .post(AvailabilityController.addEventsToGoogleCalendar);
+  
 module.exports = router;
