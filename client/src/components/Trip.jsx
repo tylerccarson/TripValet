@@ -117,7 +117,7 @@ class Trip extends React.Component {
     return (
       <div id="cont">
         <h1>{this.state.trip.tripname}</h1>
-        <h3>Description: {this.state.description}</h3>
+        <h3>Description: {this.state.trip.description}</h3>
         {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
           allUsers={this.state.usersWithAccount}
           currentUser={this.state.currentUser}
