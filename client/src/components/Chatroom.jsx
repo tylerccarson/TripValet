@@ -19,12 +19,12 @@ class Chatroom extends React.Component {
     this.handleChatInput = this.handleChatInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.fetchAllMessages = this.fetchAllMessages.bind(this);
-    this.messageListener = this.messageListener.bind(this);
+    this.subscribeToMessages = this.subscribeToMessages.bind(this);
   }
 
   componentDidMount() {
     this.fetchAllMessages();
-    this.messageListener();
+    this.subscribeToMessages();
   }
 
   fetchAllMessages() {
@@ -82,7 +82,7 @@ class Chatroom extends React.Component {
     this.refs.Scrollbar.scrollToY('120%'); 
   }
 
-  messageListener() {
+  subscribeToMessages() {
     this.props.socket.on('serverMessage', (data) => {
       //data needs user property
       let currentMessages = this.state.messages;

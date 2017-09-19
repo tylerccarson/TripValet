@@ -8,28 +8,26 @@ class Confirmations extends React.Component {
     this.state = {
       confirmed: this.props.confirms
     };
-    this.confirmationListener = this.confirmationListener.bind(this);
+    this.subscribeToConfirmations = this.subscribeToConfirmations.bind(this);
   }
 
   componentDidMount() {
-    this.confirmationListener();
+    this.subscribeToConfirmations();
   }
 
-  confirmationListener() {
+  subscribeToConfirmations() {
     this.props.socket.on('serverConfirmation', (data) => {
       let confirmations = this.state.confirmed;
       for (var i = 0; i < confirmations.length; i++) {
         if (confirmations[i].email === data.user.email) {
-          //toggle value for the user that checked
           confirmations[i].confirmed = data.confirmed;
         }
       }
-      //re-render with new default confirmation passed to list
+
       this.setState({
         confirmed: confirmations
       });
     });
-
   }
 
   render() {
