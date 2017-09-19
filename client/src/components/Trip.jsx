@@ -25,7 +25,7 @@ class Trip extends React.Component {
       currentUser: {},
       usersWithAccount: {},
       email: '',
-      schedule: [1,2,3,4],
+      schedule: [1, 2, 3, 4],
       toggleValue: 1
     };
 
@@ -77,7 +77,7 @@ class Trip extends React.Component {
   }
 
   addToSchedule(schedule, day) {
-    console.log("CLICKED");
+    console.log('CLICKED');
     this.state.schedule[1].push(schedule);
     console.log(this.state.schedule);
   }
