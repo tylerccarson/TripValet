@@ -93,6 +93,7 @@ class Calendar extends React.Component {
         
         this.setState({overlapAvailabilities: this.compareToSelectDates()});
 
+
       });
       
     });
@@ -134,8 +135,7 @@ class Calendar extends React.Component {
       }, ()=>{
         this.setState({overlapAvailabilities: this.compareToSelectDates()}); // this state is relying on availability state changes
       });
-      
-      console.log('NEW OVERLAP STATE: ', this.state.overlapAvailabilities);
+
 
     });
   }
@@ -156,12 +156,14 @@ class Calendar extends React.Component {
     });
 
     this.sortArraysInProperty(availsObj, this.compareDates);
+
     return availsObj;
   }
 
   compareToSelectDates() {
     
     var availsObj = this.turnAvailabilityToOjb();
+
 
     // below is to sort multiple availabilities 
     // sortObject(availsObj);
@@ -187,7 +189,6 @@ class Calendar extends React.Component {
       list = tempList;
 
     }
-    console.log('OVERLAP FOUND:', list);
     return list;
     
 
@@ -335,7 +336,7 @@ class Calendar extends React.Component {
 
         let deleteMe = availabilityDuplicate[i].id;
         sameDateClickedTwice = true;
-        
+
         this.setState({overlapAvailabilities: this.compareToSelectDates()});
 
         //delete entry from the DB
