@@ -8,6 +8,10 @@ var googleAuth = require('google-auth-library');
 
 var config = require('config')['passport'];
 
+var globalOauth2Client;
+var globalCommenDates;
+
+
 module.exports.getAvailabilityByTripId = (req, res) => {
 
   var incomingUrl = req.headers.referer;
@@ -83,37 +87,28 @@ module.exports.deleteMultipleAvailabilityById = (req, res) => {
 };
 
 module.exports.syncToGoogleCalendar = (req, res) => {
-  // console.log('req.body.commonDates:', req.body.commonDates);
 
   var clientSecret = config.Google.clientSecret;
   var clientId = config.Google.clientID;
-
-  // currently redirecting to home page, we can redirect back to the original page
-  // in the future
-  // var redirectUrl = config.Google.callbackURL;
   var redirectUrl = 'http://localhost:3000/availability/google/callback';
-
-  console.log('client secret:', clientSecret);
-  console.log('client id: ', clientId);
-  console.log('redirectUrl: ', redirectUrl);
-
   var auth = new googleAuth();
   var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
   var SCOPES = ['https://www.googleapis.com/auth/calendar',
-                'https://www.googleapis.com/auth/plus.login'];
+  'https://www.googleapis.com/auth/plus.me'];
   
   var authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES
   });
 
-  console.log('authUrl: ', authUrl);
+  globalOauth2Client = oauth2Client;
+  globalCommenDates = req.body.commonDates;
 
   res.status(201).send(authUrl);
 
 };
 
-module.exports.setGoogleCalendar = (req, res) => {
+module.exports.redirectToTempPage = (req, res) => {
 
   var path = require('path');
 
@@ -121,41 +116,32 @@ module.exports.setGoogleCalendar = (req, res) => {
 
 };
 
+module.exports.addEventsToGoogleCalendar = (req, res) => {
+
+  var authCode = req.body.auth;
+
+  globalOauth2Client.getToken(authCode, (err, token) => {
+    if (err) {
+      console.log('Error while trying to retrieve access token', err);
+      return;
+    }
+
+  globalOauth2Client.credentials = token;
+
+  addEvents(globalOauth2Client);
+    
+  })
+
+};
+
 
 function addEvents(auth) {
   var calendar = google.calendar('v3');
-  
-  var event = {
-    'summary': 'Test Insert Event',
-    'location': '944 Market Street, 8th floor, San Francisco, CA 94102',
-    'description': 'Test descriptions.',
-    'start': {
-      'dateTime': '2017-09-18T09:00:00-07:00',
-      'timeZone': 'America/Los_Angeles',
-    },
-    'end': {
-      'dateTime': '2017-09-20T17:00:00-07:00',
-      'timeZone': 'America/Los_Angeles',
-    },
-    // 'recurrence': [
-    //   'RRULE:FREQ=DAILY;COUNT=2'
-    // ],
-    // 'attendees': [
-    //   {'email': 'iloverpg9@gmail.com'},
-    // ],
-    'reminders': {
-      'useDefault': false,
-      'overrides': [
-        {'method': 'email', 'minutes': 24 * 60},
-        {'method': 'popup', 'minutes': 10},
-      ],
-    },
-  };
 
   calendar.events.insert({
-    // auth: auth,
+    auth: auth,
     calendarId: 'primary',
-    resource: event,
+    resource: globalCommenDates,
   }, function(err, event) {
     if (err) {
       console.log('There was an error contacting the Calendar service: ' + err);
