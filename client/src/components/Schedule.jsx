@@ -4,9 +4,9 @@ import DaySchedule from './DaySchedule.jsx';
 
 const Schedule = (props) => {
   return (
-    <ul style={{marginTop: '800px'}}>
-      {props.list.map((day, index)=>{
-        return <DaySchedule key={index} day={day} />;
+    <ul style={{margin:'800px', zIndex:301}}>
+      {props.list.map((todos, index)=>{ // day is array
+        return <DaySchedule key={index} todos={todos} day={index} removeSchedule={props.removeSchedule} />;
       })}
     </ul>
   );

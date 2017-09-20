@@ -28,6 +28,7 @@ app.use('/messages', routes.messages);
 app.use('/confirmed', routes.confirmed);
 app.use('/user', routes.user);
 app.use('/availability', routes.availability);
+app.use('/schedules', routes.schedules);
 
 
 
