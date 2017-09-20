@@ -603,8 +603,8 @@ class Calendar extends React.Component {
           }
           }
         />
-        <div>
-          <br/>
+        <div style={{marginTop: '30px'}}>
+          
           <button onClick = {this.syncToGoogleCalendar}>Set Common Date!</button>
         </div>
 
