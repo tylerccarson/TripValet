@@ -5,7 +5,10 @@
     "start": "nodemon server",
     "build": "webpack --watch",
     "heroku-postbuild": "webpack -p",
-    "test": "NODE_ENV=test grunt test"
+    "test": "NODE_ENV=test grunt test",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "seeds": "knex run:seeds"
   },
   "author": "Hack Reactor",
   "license": "MIT",

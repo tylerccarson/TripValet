@@ -8,9 +8,18 @@ services:
       - 'postgres'
     ports: 
       - '3000:3000'
+    links:
+      - postgres
 
   redis:
-    image: "redis:alpine"
+    image: 'redis:alpine'
+    volumes: 
+      - 'data-volume:/var/lib/redis/data'
 
   postgres:
-    image: "postgres:9.4"
+    image: 'postgres:9.6-alpine'
+    volumes:
+      - 'data-volume:/var/lib/postgresql/data'
+
+volumes:
+  data-volume:
