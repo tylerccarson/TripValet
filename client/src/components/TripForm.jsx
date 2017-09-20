@@ -77,7 +77,7 @@ class TripForm extends React.Component {
         console.log('error', error);
       });
 
-      });
+    });
 
   }
 
