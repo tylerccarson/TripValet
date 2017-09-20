@@ -44,6 +44,8 @@ class Calendar extends React.Component {
     this.getAllAvailability = this.getAllAvailability.bind(this);
     this.subscribeToDeletedAvailability = this.subscribeToDeletedAvailability.bind(this);
     this.subscribeToMultipleAvailabilityDelete = this.subscribeToMultipleAvailabilityDelete.bind(this);
+    this.renderCommonDates = this.renderCommonDates.bind(this);
+    this.setCommonDate = this.setCommonDate.bind(this);
   }
 
   getAllAvailability() {
@@ -69,7 +71,11 @@ class Calendar extends React.Component {
         this.setState({
           availability: currentAvailability
         }, () => {
-          this.setState({overlapAvailabilities: this.compareToSelectDates()});
+          this.setState({
+            overlapAvailabilities: this.compareToSelectDates()
+          }, () => {
+            // this.renderCommonDates();            
+          });
         });        
       })
       .catch((err) => {
@@ -95,7 +101,11 @@ class Calendar extends React.Component {
         } else {
           this.checkForConnectedAvailability();
         }      
-        this.setState({overlapAvailabilities: this.compareToSelectDates()});
+        this.setState({
+          overlapAvailabilities: this.compareToSelectDates()
+        }, () => {
+          this.renderCommonDates();
+        });
 
       });
     });
@@ -113,7 +123,11 @@ class Calendar extends React.Component {
         availability: stateAvailability
       }, ()=>{
         // this state is relying on availability state changes
-        this.setState({overlapAvailabilities: this.compareToSelectDates()}); 
+        this.setState({
+          overlapAvailabilities: this.compareToSelectDates()
+        }, () => {
+          this.renderCommonDates();
+        }); 
       });
     });
   }
@@ -132,7 +146,11 @@ class Calendar extends React.Component {
       this.setState({
         availability: stateAvailability
       }, ()=>{
-        this.setState({overlapAvailabilities: this.compareToSelectDates()}); // this state is relying on availability state changes
+        this.setState({
+          overlapAvailabilities: this.compareToSelectDates()
+        }, () => {
+          this.renderCommonDates();
+        });
       });
 
     });
@@ -580,6 +598,15 @@ class Calendar extends React.Component {
 
   }
 
+  setCommonDate(e) {
+    console.log('e.target.value: ', e.target.value);
+  }
+
+  renderCommonDates() {
+    console.log('over lap: ', this.state.overlapAvailabilities);
+
+  }
+
   render() {
     // should give an explicit height based on documentation
     var style = {
@@ -594,17 +621,31 @@ class Calendar extends React.Component {
           events = {this.state.availability}
           defaultDate={ new Date() } // set to current date
           onSelectEvent={ (name) => {
-            // unpick for clicking on name cause it is more intuitive
-            this.pickDate(name);
-          }
+              // unpick for clicking on name cause it is more intuitive
+              this.pickDate(name);
+            }
           }
           onSelectSlot={ (slotInfo) => {
-            this.pickDate(slotInfo);
-          }
+              this.pickDate(slotInfo);
+            }
           }
         />
         <div>
           <br/>
+          
+          <div onChange={this.setCommonDate}>
+            {
+              this.state.overlapAvailabilities.map((commonDate, index)=>{
+                return (<input type="radio" name="gender" value="male" />);
+              })
+            }
+
+          
+            <input type="radio" name="gender" value="male" /> Male
+            <input type="radio" name="gender" value="female" /> Female
+            <input type="radio" name="gender" value="other" /> Other
+          </div>
+
           <button onClick = {this.syncToGoogleCalendar}>Set Common Date!</button>
         </div>
 
