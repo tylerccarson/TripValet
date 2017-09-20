@@ -3,6 +3,7 @@ import Calendar from './Calendar.jsx';
 import Chatroom from './Chatroom.jsx';
 import MapContainer from './MapContainer.jsx';
 import Confirmations from './Confirmations.jsx';
+import ImageUpload from './ImageUpload.jsx';
 import Schedule from './Schedule.jsx';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -176,7 +177,34 @@ class Trip extends React.Component {
             socket={socket}/>
             : <div>loading...</div> }
         </div>
+        <div>
+          <form>
+            <FormGroup>
+              <ControlLabel>Invite a friend</ControlLabel>
+              <InputGroup>
+                <FormControl
+                  type="text"
+                  name="email"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  placeholder="Who's coming with?"
+                />
+                <FlatButton
+                  primary={true}
+                  label="Add invite"
+                  fullWidth={true}
+                  key="submit"
+                  onClick={this.inviteNewUser} />
 
+              </InputGroup>
+            </FormGroup>
+
+          </form>
+        </div>
+        <ImageUpload
+          user={this.state.currentUser}
+          trip={this.state.trip}
+        />
       </div>
     );
   }
