@@ -26,7 +26,7 @@ class ImageUpload extends React.Component {
     };
   }
   handleImageChange(e) {
-    e.preventDefault();``
+    e.preventDefault();
     let reader = new FormData();
     reader.append('File', e.target.files[0]);
     reader.append('trip_id', this.props.trip.id);
@@ -37,7 +37,7 @@ class ImageUpload extends React.Component {
       imagePreviewUrl: reader.result,
       reader: reader
     });
-  };
+  }
 
   handleSubmit(e) {
     e.preventDefault();

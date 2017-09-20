@@ -3,6 +3,7 @@ import Calendar from './Calendar.jsx';
 import Chatroom from './Chatroom.jsx';
 import MapContainer from './MapContainer.jsx';
 import Confirmations from './Confirmations.jsx';
+import ImageUpload from './ImageUpload.jsx';
 import Schedule from './Schedule.jsx';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -202,7 +203,7 @@ class Trip extends React.Component {
         </div>
         <ImageUpload
           user={this.state.currentUser}
-          trip={tripData}
+          trip={this.state.trip}
         />
       </div>
     );

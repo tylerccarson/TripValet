@@ -26,8 +26,3 @@ var AWSconfig = {
 //   "accessKeyId": AWSconfig.s3.accessKeyId,
 //   "secretAccessKey": AWSconfig.s3.secretAccessKey
 // });
-Add Comment Collapse
-
-
-
-jasondotlee [4:30 PM] 
