@@ -630,27 +630,8 @@ class Calendar extends React.Component {
             }
           }
         />
-<<<<<<< HEAD
-        <div>
-          <br/>
-          
-          <div onChange={this.setCommonDate}>
-            {
-              this.state.overlapAvailabilities.map((commonDate, index)=>{
-                return (<input type="radio" name="gender" value="male" />);
-              })
-            }
-
-          
-            <input type="radio" name="gender" value="male" /> Male
-            <input type="radio" name="gender" value="female" /> Female
-            <input type="radio" name="gender" value="other" /> Other
-          </div>
-
-=======
         <div style={{marginTop: '30px'}}>
           
->>>>>>> a6cbb9753a1874102d4c6f044257db7f2f7dc725
           <button onClick = {this.syncToGoogleCalendar}>Set Common Date!</button>
         </div>
 
