@@ -67,7 +67,6 @@ class ImageUpload extends React.Component {
         let imgUrls = images.data.map( image => {
           return image.url;
         } );
-        console.log(imgUrls);
         this.setState({
           imageUrls: imgUrls
         });
