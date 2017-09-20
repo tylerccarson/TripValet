@@ -5,11 +5,11 @@ services:
     build: .
     depends_on:
       - 'redis'
-      - 'postgres'
+      - 'postgresdb'
     ports: 
       - '3000:3000'
     links:
-      - postgres
+      - postgresdb
 
   redis:
     image: 'redis:alpine'
