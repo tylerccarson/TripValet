@@ -12,10 +12,8 @@ var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 var helpers = require('../helpers/sendInviteEmail.js');
 
 module.exports.getAll = (req, res) => {
-
   models.Trip.fetchAll()
-    .then(trips =>{
-      
+    .then(trips =>{      
       trips = trips.models.map(trip=>{ return trip.attributes; });
       res.status(200).send(trips);
     })
@@ -130,12 +128,12 @@ module.exports.getTripsByUserSessionId = (req, res) => {
       res.status(503).send(err);
     });
 
-  
+
 };
 
 
 module.exports.getTripInfoById = (req, res) => {
-  
+
   var incomingUrl = req.headers.referer;
   incomingUrl = incomingUrl.split('/');
   var tripId = incomingUrl[incomingUrl.length - 1];
@@ -155,11 +153,11 @@ module.exports.getTripInfoById = (req, res) => {
       res.status(503).send(err);
     });
 
-  
+
 };
 
 module.exports.inviteUser = (req, res) => {
-  
+
   mailgun.validate(req.body.invitee, (err, body) => {
     if (body && body.is_valid) {
 
@@ -200,4 +198,3 @@ module.exports.validateEmail = (req, res) => {
     }
   });
 };
-

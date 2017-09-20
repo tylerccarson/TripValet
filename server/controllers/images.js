@@ -40,3 +40,16 @@ module.exports.save = (req, res) => {
     }
   });
 };
+
+module.exports.getAllImages = (req, res) => {
+  var trip_id = parseInt(req.query.trip_Id);
+  console.log('this is the trip_id', trip_id);
+  models.Images.where({'trip_id': trip_id}).fetchAll()
+    .then(images =>{
+      res.status(200).send(images);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(503).send(err);
+    });
+};

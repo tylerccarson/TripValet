@@ -178,33 +178,12 @@ class Trip extends React.Component {
             : <div>loading...</div> }
         </div>
         <div>
-          <form>
-            <FormGroup>
-              <ControlLabel>Invite a friend</ControlLabel>
-              <InputGroup>
-                <FormControl
-                  type="text"
-                  name="email"
-                  value={this.state.email}
-                  onChange={this.onChange}
-                  placeholder="Who's coming with?"
-                />
-                <FlatButton
-                  primary={true}
-                  label="Add invite"
-                  fullWidth={true}
-                  key="submit"
-                  onClick={this.inviteNewUser} />
+          {Object.keys(this.state.trip).length !== 0 ? <ImageUpload
+            user={this.state.currentUser}
+            trip={this.state.trip}/>
+            : <div>loading...</div> }
 
-              </InputGroup>
-            </FormGroup>
-
-          </form>
         </div>
-        <ImageUpload
-          user={this.state.currentUser}
-          trip={this.state.trip}
-        />
       </div>
     );
   }
