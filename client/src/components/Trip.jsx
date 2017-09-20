@@ -176,7 +176,34 @@ class Trip extends React.Component {
             socket={socket}/>
             : <div>loading...</div> }
         </div>
+        <div>
+          <form>
+            <FormGroup>
+              <ControlLabel>Invite a friend</ControlLabel>
+              <InputGroup>
+                <FormControl
+                  type="text"
+                  name="email"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  placeholder="Who's coming with?"
+                />
+                <FlatButton
+                  primary={true}
+                  label="Add invite"
+                  fullWidth={true}
+                  key="submit"
+                  onClick={this.inviteNewUser} />
 
+              </InputGroup>
+            </FormGroup>
+
+          </form>
+        </div>
+        <ImageUpload
+          user={this.state.currentUser}
+          trip={tripData}
+        />
       </div>
     );
   }
