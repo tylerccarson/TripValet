@@ -14,4 +14,7 @@ router.route('/byTrip')
 router.route('/update')
   .post(ConfirmedController.updateUserConfirmationForTrip);
 
+router.route('/delete')
+  .post(ConfirmedController.deleteUserFromTrip);
+
 module.exports = router;

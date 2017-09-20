@@ -47,7 +47,7 @@ class Confirmations extends React.Component {
     axios.post('/trips/invite', {
       invitee: this.state.email,
       trip: this.props.trip,
-      inviter: this.props.currentUser
+      inviter: this.props.user
     })
       .then((invited) => {
         let confirmations = this.state.confirms;
@@ -66,13 +66,28 @@ class Confirmations extends React.Component {
   }
 
   leaveTrip() {
-    //use an alert to make sure that the user wants to leave the trip
+    if (confirm('Are you sure you want to leave the trip?') === true) {
+      axios.post('/confirmed/delete', {
+        confirmation: cid,
+        availability: aids,
+        user: this.props.user,
+        trip: this.props.trip
+      })
+        .then((deleted) => {
+          window.location = '/';
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return;
+    }
 
   }
 
 
   render() {
-    
+
     const style = {
       confirmations: {
         height: '400px',
