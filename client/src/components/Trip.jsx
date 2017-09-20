@@ -25,7 +25,7 @@ class Trip extends React.Component {
       currentUser: {},
       usersWithAccount: {},
       email: '',
-      toggleValue: 1
+      toggleValue: 1,
       schedule: [[], [], [], []]
     };
 
