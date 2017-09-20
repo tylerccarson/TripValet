@@ -16,7 +16,7 @@ services:
     volumes: 
       - 'data-volume:/var/lib/redis/data'
 
-  postgres:
+  postgresdb:
     image: 'postgres:9.6-alpine'
     volumes:
       - 'data-volume:/var/lib/postgresql/data'
