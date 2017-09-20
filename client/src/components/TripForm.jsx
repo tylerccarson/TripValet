@@ -57,25 +57,26 @@ class TripForm extends React.Component {
 
     this.setState({
       rangeEnd: endDatesNextDay
-    });
+    }, () =>{
+      // set state is async, so post endDatesNextDay to prevent the post happens
+      // before the set state, sending the old date
 
-    // set state is async, so post endDatesNextDay to prevent the post happens 
-    // before the set state, sending the old date
-
-    axios.post('/trips/create', {
-      tripname: this.state.tripname,
-      description: this.state.description,
-      location: this.state.location,
-      rangeStart: this.state.rangeStart,
-      rangeEnd: endDatesNextDay,
-      invited: this.state.invited
-    })
-      .then((trips)=>{
-        this.props.hideModal();
-        window.location.reload();
+      axios.post('/trips/create', {
+        tripname: this.state.tripname,
+        description: this.state.description,
+        location: this.state.location,
+        rangeStart: this.state.rangeStart,
+        rangeEnd: endDatesNextDay,
+        invited: this.state.invited
       })
-      .catch((error) => {
-        console.log('error', error);
+        .then((trips)=>{
+          this.props.hideModal();
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log('error', error);
+        });
+    
       });
 
   }
