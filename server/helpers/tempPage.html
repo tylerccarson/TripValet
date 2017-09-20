@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  <script>
+    
+    // slice 6 is because ?code=
+    //                    0123456
+    var authCode = window.location.search.split('&')[0].slice(6);
+
+    $.ajax({
+      method: 'POST',
+      url: '/availability/addEvent',
+      data: {
+        auth: authCode
+      },
+      dataType: 'json',
+      success: (data) => {
+        console.log('success', data);
+      },
+      error: (err) => {
+        console.log('err in tempPage', err);
+      }
+    });
+
+  </script>
+  <p>Trip Event has been added to your google Calendar!</p>
+  <p>Click the link below to go back to Trip Valet</p>
+  <a href="https://tripvalet.herokuapp.com/">Go back to Trip Valet!</a>
+</body>
+</html>

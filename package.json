@@ -24,6 +24,8 @@
     "enzyme": "^2.9.1",
     "express": "^4.15.2",
     "express-session": "^1.15.1",
+    "google-auth-library": "^0.11.0",
+    "googleapis": "^21.3.0",
     "fs": "^0.0.1-security",
     "google-maps-react": "^1.1.0",
     "grunt-env": "^0.4.4",

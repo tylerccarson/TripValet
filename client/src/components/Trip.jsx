@@ -163,7 +163,7 @@ class Trip extends React.Component {
     return (
       <div id="cont">
         <h1>{this.state.trip.tripname}</h1>
-        <h3>Description: {this.state.description}</h3>
+        <h3>Description: {this.state.trip.description}</h3>
         <div>
           <div style={style.toggle}>
             <ButtonToolbar>

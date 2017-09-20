@@ -1,6 +1,16 @@
 const models = require('../../db/models');
 const knex = require('knex')(require('../../knexfile'));
 
+// const tempPage = require('../helpers/tempPage.html');
+
+var google = require('googleapis');
+var googleAuth = require('google-auth-library');
+
+var config = require('config')['passport'];
+
+var globalOauth2Client;
+var globalCommenDates;
+
 
 module.exports.getAvailabilityByTripId = (req, res) => {
 
@@ -75,3 +85,68 @@ module.exports.deleteMultipleAvailabilityById = (req, res) => {
       res.status(503).send(error);
     });
 };
+
+module.exports.syncToGoogleCalendar = (req, res) => {
+
+  var clientSecret = config.Google.clientSecret;
+  var clientId = config.Google.clientID;
+  var redirectUrl = 'http://localhost:3000/availability/google/callback';
+  var auth = new googleAuth();
+  var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
+  var SCOPES = ['https://www.googleapis.com/auth/calendar',
+  'https://www.googleapis.com/auth/plus.me'];
+  
+  var authUrl = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: SCOPES
+  });
+
+  globalOauth2Client = oauth2Client;
+  globalCommenDates = req.body.commonDates;
+
+  res.status(201).send(authUrl);
+
+};
+
+module.exports.redirectToTempPage = (req, res) => {
+
+  var path = require('path');
+
+  res.sendFile(path.resolve(__dirname, '../helpers/tempPage.html'));
+
+};
+
+module.exports.addEventsToGoogleCalendar = (req, res) => {
+
+  var authCode = req.body.auth;
+
+  globalOauth2Client.getToken(authCode, (err, token) => {
+    if (err) {
+      console.log('Error while trying to retrieve access token', err);
+      return;
+    }
+
+  globalOauth2Client.credentials = token;
+
+  addEvents(globalOauth2Client);
+    
+  })
+
+};
+
+
+function addEvents(auth) {
+  var calendar = google.calendar('v3');
+
+  calendar.events.insert({
+    auth: auth,
+    calendarId: 'primary',
+    resource: globalCommenDates,
+  }, function(err, event) {
+    if (err) {
+      console.log('There was an error contacting the Calendar service: ' + err);
+      return;
+    }
+    console.log('Event created: %s', event.htmlLink);
+  });
+}

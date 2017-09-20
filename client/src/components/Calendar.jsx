@@ -3,6 +3,7 @@ import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import axios from 'axios';
 
+
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 // Setup the localizer by providing the moment (or globalize) Object
@@ -38,6 +39,7 @@ class Calendar extends React.Component {
     this.connectSingleAvailability = this.connectSingleAvailability.bind(this);
     this.connectMultipleAvailability = this.connectMultipleAvailability.bind(this);
     this.currentDateIsSingle = this.currentDateIsSingle.bind(this);
+    this.syncToGoogleCalendar = this.syncToGoogleCalendar.bind(this);
     this.subscribeToNewAvailability = this.subscribeToNewAvailability.bind(this);
     this.getAllAvailability = this.getAllAvailability.bind(this);
     this.subscribeToDeletedAvailability = this.subscribeToDeletedAvailability.bind(this);
@@ -109,7 +111,6 @@ class Calendar extends React.Component {
       }
       this.setState({
         availability: stateAvailability
-      }, () => {
       }, ()=>{
         // this state is relying on availability state changes
         this.setState({overlapAvailabilities: this.compareToSelectDates()}); 
@@ -531,6 +532,54 @@ class Calendar extends React.Component {
     }
   }
 
+  syncToGoogleCalendar() {
+
+    // trip overlap date is still buggy, so we still need this to debug in the future
+    console.log('this.state.overlap availabilities: ', this.state.overlapAvailabilities);
+
+    var attendees = [];
+
+    for (var i = 0; i < this.props.allUsers.length; i++) {
+      var emailObj = {};
+      emailObj['email'] = this.props.allUsers[i].email;
+      attendees.push(emailObj);
+    }
+
+    var events = {
+      'summary': this.state.trip.tripname,
+      'location': this.state.trip.location,
+      'description': this.state.trip.description,
+      'start': {
+        'dateTime': '2017-09-18T09:00:00-07:00',
+        'timeZone': 'America/Los_Angeles',
+      },
+      'end': {
+        'dateTime': '2017-09-20T17:00:00-07:00',
+        'timeZone': 'America/Los_Angeles',
+      },
+      'attendees': attendees,
+      'reminders': {
+        'useDefault': false,
+        'overrides': [
+          {'method': 'email', 'minutes': 24 * 60},
+          {'method': 'popup', 'minutes': 10},
+        ],
+      },
+    }
+
+
+    axios.post('/availability/syncToGoogleCalendar', {
+      'commonDates': events
+    })
+      .then((res) => {
+        window.location = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+  }
+
   render() {
     // should give an explicit height based on documentation
     var style = {
@@ -556,6 +605,7 @@ class Calendar extends React.Component {
         />
         <div>
           <br/>
+          <button onClick = {this.syncToGoogleCalendar}>Set Common Date!</button>
         </div>
 
       </div>
