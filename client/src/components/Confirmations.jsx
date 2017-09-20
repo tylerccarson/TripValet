@@ -68,8 +68,6 @@ class Confirmations extends React.Component {
   leaveTrip() {
     if (confirm('Are you sure you want to leave the trip?') === true) {
       axios.post('/confirmed/delete', {
-        confirmation: cid,
-        availability: aids,
         user: this.props.user,
         trip: this.props.trip
       })
@@ -82,9 +80,7 @@ class Confirmations extends React.Component {
     } else {
       return;
     }
-
   }
-
 
   render() {
 
