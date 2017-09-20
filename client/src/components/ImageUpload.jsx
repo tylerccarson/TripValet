@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import FormData from 'form-data';
+import Snackbar from 'material-ui/Snackbar';
+import RaisedButton from 'material-ui/RaisedButton';
+import { Form, FormControl, FormGroup, ControlLabel, Carousel} from 'react-bootstrap';
 
 var imgPreview = {
   textAlign: 'center',
@@ -21,9 +24,11 @@ class ImageUpload extends React.Component {
     super(props);
     this.state = {
       file: 'asdf',
-      imagePreviewUrl: '',
-      reader:''
+      open: false,
+      reader: '',
+      imageUrls: []
     };
+    console.log(this.props);
   }
   handleImageChange(e) {
     e.preventDefault();
@@ -37,39 +42,99 @@ class ImageUpload extends React.Component {
       imagePreviewUrl: reader.result,
       reader: reader
     });
+    this.handleRequestClose = this.handleRequestClose.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
+    this.handleTouchTap();
     axios.post('/images/upload', this.state.file)
+      .then((res) => {
+        console.log(res);
+      })
       .catch((error) => {
         console.log('error', error);
       });
   }
 
+  componentDidMount() {
+    axios.get('/images/getAllImages', {
+      params: {
+        trip_Id: this.props.trip.id
+      }
+    })
+      .then((images)=> {
+        let imgUrls = images.data.map( image => {
+          return image.url;
+        } );
+        this.setState({
+          imageUrls: imgUrls
+        });
+      });
+  }
+
+  handleTouchTap() {
+    this.setState({
+      open: true,
+    });
+  }
+
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    });
+  }
+
 
   render() {
-    let {imagePreviewUrl} = this.state;
-    let $imagePreview = null;
-    if (imagePreviewUrl) {
-      $imagePreview = (<img style={image} src={imagePreviewUrl} />);
-    } else {
-      $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
-    }
-
     return (
       <div className="previewComponent">
-        <form onSubmit={(e)=>this._handleSubmit(e)}>
-          <input className="fileInput"
-            type="file"
-            onChange={(e)=>this.handleImageChange(e)} />
-          <button className="submitButton"
+        <Form inline>
+          <FormGroup controlId="formInlineName">
+            <ControlLabel>Title</ControlLabel>
+            {' '}
+            <FormControl
+              type="text"
+              placeholder="Jane Doe"
+            />
+          </FormGroup>
+
+          <FormGroup controlId="image">
+            <ControlLabel>Image</ControlLabel>
+            <input
+              className="fileInput"
+              type="file"
+              onChange={(e)=>this.handleImageChange(e)}
+            />
+          </FormGroup>
+
+          <RaisedButton
+            className="submitButton"
             type="submit"
-            onClick={(e)=>this.handleSubmit(e)}>Upload Image</button>
-        </form>
-        <div style={imgPreview}>
-          {$imagePreview}
-        </div>
+            onClick={(e)=>this.handleSubmit(e)}
+            label="Upload Image"
+          />
+
+          <Snackbar
+            open={this.state.open}
+            message="Image successfully uploaded"
+            autoHideDuration={4000}
+            onRequestClose={this.handleRequestClose}
+          />
+        </Form>
+        <Carousel>
+          {this.state.imageUrls.map((url) => {
+            return (
+              <Carousel.Item>
+                <img width={900} height={500} alt="900x500" src={url}/>
+                <Carousel.Caption>
+                  <h3>First slide label</h3>
+                  <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                </Carousel.Caption>
+              </Carousel.Item>
+            );
+          })}
+        </Carousel>
       </div>
     );
   }
