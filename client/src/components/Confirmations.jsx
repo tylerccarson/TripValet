@@ -105,46 +105,52 @@ class Confirmations extends React.Component {
     };
 
     return (
-      <div style={style.confirmations}>
-        <List style={style.list}>
-          {this.state.confirms.map((invitee, i) => {
-            return <Invitees 
-              key={i} 
-              invitee={invitee} 
-              user={this.props.user} 
-              trip={this.props.trip}
-              socket={this.props.socket}/>;
-          })}
-        </List>
-        <div style={style.invite}>
-          <form>
-            <FormGroup>
-              <ControlLabel>Invite a friend</ControlLabel>
-              <InputGroup>
-                <FormControl
-                  type="text"
-                  name="email"
-                  value={this.state.email}
-                  onChange={this.onChange}
-                  placeholder="Who's coming with?"
-                />
-                <FlatButton
-                  primary={true}
-                  label="Add invite"
-                  fullWidth={true}
-                  key="submit"
-                  onClick={this.inviteNewUser} />
-              </InputGroup>
-            </FormGroup>
-          </form>
-        </div>
-        <div style={style.leave}>
-          <FlatButton 
-            secondary={true}
-            label="Leave Trip" 
-            fullWidth={true}
-            key='submit'
-            onClick={this.leaveTrip} />
+      <div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <div style={style.confirmations}>
+          <List style={style.list}>
+            {this.state.confirms.map((invitee, i) => {
+              return <Invitees 
+                key={i} 
+                invitee={invitee} 
+                user={this.props.user} 
+                trip={this.props.trip}
+                socket={this.props.socket}/>;
+            })}
+          </List>
+          <div style={style.invite}>
+            <form>
+              <FormGroup>
+                <ControlLabel>Invite a friend</ControlLabel>
+                <InputGroup>
+                  <FormControl
+                    type="text"
+                    name="email"
+                    value={this.state.email}
+                    onChange={this.onChange}
+                    placeholder="Who's coming with?"
+                  />
+                  <FlatButton
+                    primary={true}
+                    label="Add invite"
+                    fullWidth={true}
+                    key="submit"
+                    onClick={this.inviteNewUser} />
+                </InputGroup>
+              </FormGroup>
+            </form>
+          </div>
+          <div style={style.leave}>
+            <FlatButton 
+              secondary={true}
+              label="Leave Trip" 
+              fullWidth={true}
+              key='submit'
+              onClick={this.leaveTrip} />
+          </div>
         </div>
       </div>
     );
