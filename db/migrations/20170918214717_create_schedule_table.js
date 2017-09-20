@@ -7,6 +7,7 @@ exports.up = function(knex, Promise) {
       table.integer('day').notNullable();
       table.string('title', 255).notNullable();
       table.text('url').nullable();
+      table.string('fs_id',100).notNullable();
     })
   ]);
 };
