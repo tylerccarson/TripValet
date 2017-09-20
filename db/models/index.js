@@ -5,4 +5,6 @@ module.exports.User = require('./user');
 module.exports.Availability = require('./availability');
 module.exports.Confirmed = require('./confirmed');
 module.exports.Messages = require('./messages');
+module.exports.Schedules = require('./schedules');
 module.exports.Images = require('./images');
+

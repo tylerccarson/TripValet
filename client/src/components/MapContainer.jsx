@@ -45,7 +45,7 @@ export class MapContainer extends React.Component {
     this.findPointsNearBy = this.findPointsNearBy.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.searchHandle = this.searchHandle.bind(this);
-    this.infoClick = this.infoClick.bind(this);
+    this.renderInfo= this.renderInfo.bind(this);
   }
 
   onMarkerClick(props, marker, e) {
@@ -62,15 +62,7 @@ export class MapContainer extends React.Component {
           activeMarker: marker,
           showingInfoWindow: true
         }, ()=>{
-          ReactDOM.render(
-            <Info 
-              place={this.state.selectedPlace} 
-              addressArrayToString={this.addressArrayToString} 
-              infoClick={this.props.addToSchedule}
-              schedule={this.props.schedule}
-            />
-            , document.getElementById('info2')); // DO NOT REVMOVE COMMENT = This is done to fix broken npm map package. See https://github.com/fullstackreact/google-maps-react/issues/70
-
+          this.renderInfo();
         });
       })
       .catch((err)=>{
@@ -85,6 +77,18 @@ export class MapContainer extends React.Component {
         activeMarker: null
       });
     }
+  }
+
+  renderInfo() { // DO NOT REVMOVE COMMENT = This is done to fix broken npm map package. See https://github.com/fullstackreact/google-maps-react/issues/70
+    ReactDOM.render(
+      <Info 
+        place={this.state.selectedPlace} 
+        addressArrayToString={this.addressArrayToString} 
+        infoClick={this.props.addToSchedule}
+        schedule={this.props.schedule}
+      />
+      , document.getElementById('info2')
+    ); 
   }
 
   addressArrayToString(arr) {
@@ -115,19 +119,17 @@ export class MapContainer extends React.Component {
     })
       .then((response)=>{
         this.setState({points: response.data.response.venues});
-
       });
   }
 
   searchHandle(e) {
-    console.log('Hello');
     this.setState({
       'searchbox': e.target.value
     });
   }
 
   handleSubmit(e) {
-    console.log('hello');
+
     if (e.keyCode === 13) {
       this.geocoder = new this.props.google.maps.Geocoder();
       this.geocoder.geocode({address: this.state.searchbox}, (response, status)=>{
@@ -148,11 +150,6 @@ export class MapContainer extends React.Component {
     }
   }
 
-  infoClick(e) {
-    console.log('Clicked from Info: ', e);
-    //this.props.addToSchedule();
-  }
-
   componentDidMount() {
     axios.get('/api/foursquare')
       .then((response)=>{
@@ -164,13 +161,12 @@ export class MapContainer extends React.Component {
       .then(()=>{
         this.findPointsNearBy();
       });
-
   }
 
   render() {
     return (
 
-      <Map id="mapin2"
+      <Map
         google={this.props.google} 
         zoom={13} 
         style = {mapStyleInner} 
@@ -178,8 +174,6 @@ export class MapContainer extends React.Component {
         onDragend={this.moveCenter}
         center={this.state.center}
         clickableIcons={true}
-        ref="mapmap"
-        // data-tap-disabled="true"
       >
         {this.state.points.map((point)=>{
           return <Marker
@@ -197,8 +191,6 @@ export class MapContainer extends React.Component {
           <div id="info2"></div>
             
         </InfoWindow>
-
-
         <FormGroup style={{'zIndex': 300, position: 'relative', left: '113px', 'paddingTop': '8px', 'width': '172px', 'margin': '0px'}}>
           <InputGroup>
             <FormControl

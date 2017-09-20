@@ -7,15 +7,30 @@ import ImageUpload from './ImageUpload.jsx';
 import Schedule from './Schedule.jsx';
 import axios from 'axios';
 import io from 'socket.io-client';
-import Promise from 'bluebird';
-import { FormGroup, InputGroup, FormControl, DropdownButton, Button, ButtonToolbar, MenuItem, ControlLabel } from 'react-bootstrap';
+import { FormGroup, InputGroup, FormControl, DropdownButton, Button, ButtonToolbar, MenuItem, ControlLabel, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import FlatButton from 'material-ui/FlatButton';
-import $ from 'jquery';
-import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 
 let env = window.location.hostname + ':' + window.location.port;
 let socket = io(env);
+const style = {
+  confirms: {
+    textAlign: 'center',
+    marginTop: '500px'
+  },
+  calendar: {
+  },
+  chatroom: {
+  },
+  map: {
 
+  },
+  toggle: {
+    marginTop: '70px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+};
 
 class Trip extends React.Component {
   constructor (props) {
@@ -27,13 +42,17 @@ class Trip extends React.Component {
       usersWithAccount: {},
       email: '',
       toggleValue: 1,
-      schedule: [[], [], [], []]
+      schedule: [],
+      lockedRange: {start: '2017-09-15T09:00:00-07:00', end: '2017-09-20T09:00:00-07:00'}
     };
 
     this.onChange = this.onChange.bind(this);
     this.addToSchedule = this.addToSchedule.bind(this);
     this.getTripData = this.getTripData.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.calculateDays = this.calculateDays.bind(this);
+    this.getSchedules = this.getSchedules.bind(this);
+    this.removeSchedule = this.removeSchedule.bind(this);
   }
 
   componentDidMount() {
@@ -69,19 +88,68 @@ class Trip extends React.Component {
                   usersWithAccount: users.data
                 });
               });
+          })
+          .then(()=>{
+            this.getSchedules();
           });
       })
       .catch((error) => {
         console.log(error);
       });
+  }
 
+  calculateDays(range) {
+
+    var date1 = new Date(range.start);
+    var date2 = new Date(range.end);
+    var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+    return diffDays;
+  }
+
+  removeSchedule(scheduleId) {
+    axios.post('/schedules/remove',{
+        id: scheduleId
+      })
+      .then((response)=>{
+      })
+      .catch((err)=>{
+        console.log("ERROR trying to delete schedule: ", err);
+      });
+  }
+
+  getSchedules() {
+    axios.get('/schedules/get')
+      .then((schedules)=>{
+        var numDays = this.calculateDays(this.state.lockedRange);
+
+        var newSchedule = [];
+        for(var i = 0; i<numDays; i++) {
+          newSchedule.push([]);
+        }
+        var schedulesObj = {};
+        var scheduleState = []; 
+        schedules.data.forEach((schedule)=>{
+          newSchedule[schedule.day].push(schedule);
+        });
+        this.setState({
+          schedule: newSchedule
+        });
+      })
   }
 
   addToSchedule(schedule, day) {
-
-    console.log('CLICKED', schedule);
-    console.log('Day: ', day);
-
+    axios.post('/schedules/add', {
+      schedule: schedule.info,
+      day: day,
+      tripId: this.state.trip.id
+    })
+      .then((response)=>{
+        this.getSchedules();
+      })
+      .catch((err)=>{
+        console.log('ERROR: ', err);
+      })
   }
 
   onChange (e) {
@@ -97,27 +165,8 @@ class Trip extends React.Component {
   }
 
   render( ) {
-    const style = {
-      confirms: {
-        textAlign: 'center'
-      },
-      calendar: {
-      },
-      chatroom: {
-      },
-      map: {
-
-      },
-      toggle: {
-        marginTop: '70px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }
-    };
 
     let view;
-
     if (this.state.toggleValue === 1) {
       view = (
         <div style={style.calendar}>
@@ -132,9 +181,12 @@ class Trip extends React.Component {
       );
     } else {
       view = (
-        <div style={style.map}>
+        <div id="beforemap" style={style.map}>
           <MapContainer id="mapcont" addToSchedule={this.addToSchedule} schedule={this.state.schedule}/>
-          <Schedule list={this.state.schedule} />
+          {this.state.schedule.length>0 
+            ? <Schedule id="schedule" list={this.state.schedule} style={{zIndex:300}} removeSchedule={this.removeSchedule}/> 
+            : <div>loading...</div>
+          }
         </div>
       );
     }
@@ -167,7 +219,7 @@ class Trip extends React.Component {
             socket={socket}/>
             : <div>loading...</div> }
         </div>
-        <div>
+        <div style={{marginTop: '400px'}}>
           {Object.keys(this.state.confirms).length !== 0 ? <Confirmations
             style={style.confirms}
             trip={this.state.trip}
@@ -182,7 +234,6 @@ class Trip extends React.Component {
             user={this.state.currentUser}
             trip={this.state.trip}/>
             : <div>loading...</div> }
-
         </div>
       </div>
     );

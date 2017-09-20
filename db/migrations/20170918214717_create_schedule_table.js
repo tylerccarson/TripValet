@@ -7,12 +7,13 @@ exports.up = function(knex, Promise) {
       table.integer('day').notNullable();
       table.string('title', 255).notNullable();
       table.text('url').nullable();
+      table.string('fs_id',100).notNullable();
     })
   ]);
 };
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('schedules');
+    knex.schema.dropTable('schedules')
   ]);
 };
