@@ -25,11 +25,10 @@ class Trip extends React.Component {
       currentUser: {},
       usersWithAccount: {},
       email: '',
-      schedule: [1,2,3,4],
+      schedule: [1, 2, 3, 4],
       toggleValue: 1
     };
 
-    this.inviteNewUser = this.inviteNewUser.bind(this);
     this.onChange = this.onChange.bind(this);
     this.addToSchedule = this.addToSchedule.bind(this);
     this.getTripData = this.getTripData.bind(this);
@@ -78,7 +77,7 @@ class Trip extends React.Component {
   }
 
   addToSchedule(schedule, day) {
-    console.log("CLICKED");
+    console.log('CLICKED');
     this.state.schedule[1].push(schedule);
     console.log(this.state.schedule);
   }
@@ -93,28 +92,6 @@ class Trip extends React.Component {
     this.setState({
       toggleValue: value
     });
-  }
-
-  inviteNewUser(email) {
-    axios.post('/trips/invite', {
-      invitee: this.state.email,
-      trip: this.state.trip,
-      inviter: this.state.currentUser
-    })
-      .then((invited) => {
-        let confirmations = this.state.confirms;
-        confirmations.push(invited.data);
-        this.setState({
-          confirms: confirmations,
-          email: ''
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({
-          email: ''
-        });
-      });
   }
 
   render( ) {
@@ -198,31 +175,6 @@ class Trip extends React.Component {
             socket={socket}/>
             : <div>loading...</div> }
         </div>
-        <div>
-          <form>
-            <FormGroup>
-              <ControlLabel>Invite a friend</ControlLabel>
-              <InputGroup>
-                <FormControl
-                  type="text"
-                  name="email"
-                  value={this.state.email}
-                  onChange={this.onChange}
-                  placeholder="Who's coming with?"
-                />
-                <FlatButton
-                  primary={true}
-                  label="Add invite"
-                  fullWidth={true}
-                  key="submit"
-                  onClick={this.inviteNewUser} />
-
-              </InputGroup>
-            </FormGroup>
-
-          </form>
-        </div>
-
       </div>
     );
   }

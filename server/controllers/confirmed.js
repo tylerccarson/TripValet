@@ -35,3 +35,15 @@ module.exports.updateUserConfirmationForTrip = (req, res) => {
     });
 
 };
+
+module.exports.deleteUserFromTrip = (req, res) => {
+
+  models.Confirmed.where({'trip_id' : req.body.trip.id, 'user_id': req.body.user.id }).destroy()
+    .then((unconfirmed) => {
+      res.status(200).send(unconfirmed);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(404).send(error);
+    });
+};
