@@ -25,8 +25,8 @@ class Trip extends React.Component {
       currentUser: {},
       usersWithAccount: {},
       email: '',
-      schedule: [1, 2, 3, 4],
-      toggleValue: 1
+      toggleValue: 1,
+      schedule: [[], [], [], []]
     };
 
     this.onChange = this.onChange.bind(this);
@@ -77,9 +77,10 @@ class Trip extends React.Component {
   }
 
   addToSchedule(schedule, day) {
-    console.log('CLICKED');
-    this.state.schedule[1].push(schedule);
-    console.log(this.state.schedule);
+
+    console.log('CLICKED', schedule);
+    console.log('Day: ', day);
+
   }
 
   onChange (e) {
@@ -131,7 +132,7 @@ class Trip extends React.Component {
     } else {
       view = (
         <div style={style.map}>
-          <MapContainer id="mapcont" addToSchedule={this.addToSchedule}/>
+          <MapContainer id="mapcont" addToSchedule={this.addToSchedule} schedule={this.state.schedule}/>
           <Schedule list={this.state.schedule} />
         </div>
       );
@@ -175,6 +176,7 @@ class Trip extends React.Component {
             socket={socket}/>
             : <div>loading...</div> }
         </div>
+
       </div>
     );
   }

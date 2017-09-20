@@ -97,6 +97,7 @@ class TripForm extends React.Component {
   }
 
   addToList (e) {
+
     //if user has already been invited, don't add to list
     let invites = this.state.invited;
     let entry = this.state.email;

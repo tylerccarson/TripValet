@@ -12,7 +12,7 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  kreturn Promise.all([
+  return Promise.all([
     knex.schema.dropTable('schedules');
   ]);
 };
