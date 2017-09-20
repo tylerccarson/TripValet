@@ -12,7 +12,6 @@ class Info extends React.Component { // DO NOT REMOVE THIS COMMENT => This eleme
       <div>{ Object.keys(this.props.place).length !== 0 ? 
         <div>
           <h3>{this.props.place.info.name}</h3>
-          <p>
             {this.props.place.info.location.address ? this.props.addressArrayToString(this.props.place.info.location.formattedAddress) : ''}
             {this.props.place.info.contact.formattedPhone ? <text>{`Contact: ${this.props.place.info.contact.formattedPhone}`}<br/></text> : ''}
             {this.props.place.info.url ? <text><a href={this.props.place.info.url} target="_blank" >Website</a><br/></text> : ''}
@@ -22,7 +21,7 @@ class Info extends React.Component { // DO NOT REMOVE THIS COMMENT => This eleme
                 return (<MenuItem eventKey={index} onClick={()=>{ this.props.infoClick(this.props.place, index); }}>{`Day ${index+1}`}</MenuItem>);
               })}
             </SplitButton>
-          </p>
+          
         </div>
         : <div><h1>loading...</h1></div>
       }
