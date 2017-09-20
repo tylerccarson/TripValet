@@ -164,27 +164,40 @@ class Trip extends React.Component {
       <div id="cont">
         <h1>{this.state.trip.tripname}</h1>
         <h3>Description: {this.state.trip.description}</h3>
-        {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
-          allUsers={this.state.usersWithAccount}
-          currentUser={this.state.currentUser}
-          trip={this.state.trip}
-          socket={socket}/>
-          : <div>Calendar loading...</div>
-        }
-        {Object.keys(this.state.trip).length !== 0 ? <Chatroom
-          tripId={this.state.trip.id}
-          user={this.state.currentUser.display}
-          userId={this.state.currentUser.id}
-          socket={socket}/>
-          : <div>Chatroom loading...</div> }
-        {Object.keys(this.state.confirms).length !== 0 ? <Confirmations
-          style={style.confirms}
-          trip={this.state.trip}
-          user={this.state.currentUser}
-          userId={this.state.currentUser.id}
-          confirms={this.state.confirms}
-          socket={socket}/>
-          : <div>loading...</div> }
+        <div>
+          <div style={style.toggle}>
+            <ButtonToolbar>
+              <ToggleButtonGroup
+                type="radio"
+                name="options"
+                defaultValue={this.state.toggleValue}
+                onChange={this.handleChange}>
+                <ToggleButton value={1}>Calendar View</ToggleButton>
+                <ToggleButton value={2}>Map View</ToggleButton>
+              </ToggleButtonGroup>
+            </ButtonToolbar>
+          </div>
+          {view}
+        </div>
+        <div>
+          {Object.keys(this.state.trip).length !== 0 ? <Chatroom
+            style={style.chatroom}
+            tripId={this.state.trip.id}
+            user={this.state.currentUser.display}
+            userId={this.state.currentUser.id}
+            socket={socket}/>
+            : <div>loading...</div> }
+        </div>
+        <div>
+          {Object.keys(this.state.confirms).length !== 0 ? <Confirmations
+            style={style.confirms}
+            trip={this.state.trip}
+            user={this.state.currentUser}
+            userId={this.state.currentUser.id}
+            confirms={this.state.confirms}
+            socket={socket}/>
+            : <div>loading...</div> }
+        </div>
         <div>
           <form>
             <FormGroup>
