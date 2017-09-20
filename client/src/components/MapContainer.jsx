@@ -69,7 +69,7 @@ export class MapContainer extends React.Component {
               infoClick={this.props.addToSchedule}
               schedule={this.props.schedule}
             />
-          , document.getElementById('info2')) // DO NOT REVMOVE COMMENT = This is done to fix broken npm map package. See https://github.com/fullstackreact/google-maps-react/issues/70
+            , document.getElementById('info2')); // DO NOT REVMOVE COMMENT = This is done to fix broken npm map package. See https://github.com/fullstackreact/google-maps-react/issues/70
 
         });
       })
@@ -127,7 +127,7 @@ export class MapContainer extends React.Component {
   }
 
   handleSubmit(e) {
-    console.log("hello");
+    console.log('hello');
     if (e.keyCode === 13) {
       this.geocoder = new this.props.google.maps.Geocoder();
       this.geocoder.geocode({address: this.state.searchbox}, (response, status)=>{
@@ -149,7 +149,7 @@ export class MapContainer extends React.Component {
   }
 
   infoClick(e) {
-    console.log("Clicked from Info: ", e);
+    console.log('Clicked from Info: ', e);
     //this.props.addToSchedule();
   }
 
@@ -162,7 +162,7 @@ export class MapContainer extends React.Component {
         });
       })
       .then(()=>{
-        this.findPointsNearBy()
+        this.findPointsNearBy();
       });
 
   }
@@ -170,49 +170,49 @@ export class MapContainer extends React.Component {
   render() {
     return (
 
-        <Map id="mapin2"
-          google={this.props.google} 
-          zoom={13} 
-          style = {mapStyleInner} 
-          onClick={this.onMapClicked}
-          onDragend={this.moveCenter}
-          center={this.state.center}
-          clickableIcons={true}
-          ref="mapmap"
-          // data-tap-disabled="true"
+      <Map id="mapin2"
+        google={this.props.google} 
+        zoom={13} 
+        style = {mapStyleInner} 
+        onClick={this.onMapClicked}
+        onDragend={this.moveCenter}
+        center={this.state.center}
+        clickableIcons={true}
+        ref="mapmap"
+        // data-tap-disabled="true"
+      >
+        {this.state.points.map((point)=>{
+          return <Marker
+            key={point.id} 
+            onClick={this.onMarkerClick}
+            name={'Current location'}
+            position={{lat: point.location.lat, lng: point.location.lng}}
+            info={point}           
+          />;
+        })}
+        <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.showingInfoWindow}
         >
-          {this.state.points.map((point)=>{
-            return <Marker
-              key={point.id} 
-              onClick={this.onMarkerClick}
-              name={'Current location'}
-              position={{lat: point.location.lat, lng: point.location.lng}}
-              info={point}           
-            />;
-          })}
-          <InfoWindow
-            marker={this.state.activeMarker}
-            visible={this.state.showingInfoWindow}
-            >
-            <div id="info2"></div>
+          <div id="info2"></div>
             
-          </InfoWindow>
+        </InfoWindow>
 
 
-          <FormGroup style={{'zIndex': 300, position: 'relative', left: '113px', 'paddingTop': '8px', 'width': '172px', 'margin': '0px'}}>
-            <InputGroup>
-              <FormControl
-                type="text"
-                placeholder="Search City"
-                name="searchbox"
-                value={this.state.searchbox}
-                onChange={this.searchHandle}
-                onKeyUp={this.handleSubmit}
-              />
-            </InputGroup>
-          </FormGroup>
+        <FormGroup style={{'zIndex': 300, position: 'relative', left: '113px', 'paddingTop': '8px', 'width': '172px', 'margin': '0px'}}>
+          <InputGroup>
+            <FormControl
+              type="text"
+              placeholder="Search City"
+              name="searchbox"
+              value={this.state.searchbox}
+              onChange={this.searchHandle}
+              onKeyUp={this.handleSubmit}
+            />
+          </InputGroup>
+        </FormGroup>
           
-        </Map>
+      </Map>
 
 
     );
