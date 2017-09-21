@@ -5,23 +5,12 @@ services:
     build: .
     depends_on:
       - 'redis'
-      - 'postgresdb'
+      - 'postgres'
     ports: 
       - '3000:3000'
-    links:
-      - postgresdb
 
   redis:
-    image: 'redis:alpine'
-    volumes: 
-      - 'data-volume:/var/lib/redis/data'
+    image: "redis:alpine"
 
-  postgresdb:
-    image: 'postgres:9.6-alpine'
-    volumes:
-      - 'data-volume:/var/lib/postgresql/data'
-    environment:
-      POSTGRES_DB: tripvalet_devel
-
-volumes:
-  data-volume:
+  postgres:
+    image: "postgres:9.4"
