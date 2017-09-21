@@ -57,9 +57,8 @@ class TripForm extends React.Component {
 
     this.setState({
       rangeEnd: endDatesNextDay
-    });
-
-    // set state is async, so post endDatesNextDay to prevent the post happens 
+    }, () =>{
+    // set state is async, so post endDatesNextDay to prevent the post happens
     // before the set state, sending the old date
 
     axios.post('/trips/create', {
@@ -77,6 +76,8 @@ class TripForm extends React.Component {
       .catch((error) => {
         console.log('error', error);
       });
+
+    });
 
   }
 

@@ -114,18 +114,18 @@ class Trip extends React.Component {
     var date1 = new Date(range.start);
     var date2 = new Date(range.end);
     var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
     return diffDays;
   }
 
   removeSchedule(scheduleId) {
-    axios.post('/schedules/remove',{
-        id: scheduleId
-      })
+    axios.post('/schedules/remove', {
+      id: scheduleId
+    })
       .then((response)=>{
       })
       .catch((err)=>{
-        console.log("ERROR trying to delete schedule: ", err);
+        console.log('ERROR trying to delete schedule: ', err);
       });
   }
 
@@ -135,18 +135,18 @@ class Trip extends React.Component {
         var numDays = this.calculateDays(this.state.lockedRange);
 
         var newSchedule = [];
-        for(var i = 0; i<numDays; i++) {
+        for (var i = 0; i < numDays; i++) {
           newSchedule.push([]);
         }
         var schedulesObj = {};
-        var scheduleState = []; 
+        var scheduleState = [];
         schedules.data.forEach((schedule)=>{
           newSchedule[schedule.day].push(schedule);
         });
         this.setState({
           schedule: newSchedule
         });
-      })
+      });
   }
 
   addToSchedule(schedule, day) {
@@ -160,7 +160,7 @@ class Trip extends React.Component {
       })
       .catch((err)=>{
         console.log('ERROR: ', err);
-      })
+      });
   }
 
   onChange (e) {
@@ -245,13 +245,12 @@ class Trip extends React.Component {
         </div>
         <div id="row6" className="row">
           <div className="col-lg-12">
-            <ImageUpload
-              user={this.state.usersWithAccount}
-              trip={this.state.trip}
-            />
+            {Object.keys(this.state.trip).length !== 0
+              ? <ImageUpload user={this.state.currentUser} trip={this.state.trip}/>
+              : <div>loading...</div> 
+            }
           </div>
         </div>
-
 
       </div>
     );
