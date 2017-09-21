@@ -21,18 +21,17 @@ const style = {
   calendar: {
     paddingLeft: '15px',
     paddingRight: '15px',
-    height: '520px'
+    height: '545px'
   },
   chatroom: {
     paddingLeft: '15px',
     paddingRight: '15px',
-    height: '520px'  
+    height: '545px'
   },
   map: {
-    width: "calc(100%-30px)",
-    height: '520px',
     paddingLeft: '15px',
-    paddingRight: '0px'
+    height: '545px',
+    paddingRight: '15px'
 
   },
   toggle: {
@@ -182,12 +181,12 @@ class Trip extends React.Component {
   render( ) {
 
     return (
-      <div id="cont" className="container" style={{padding: '0px', margin: '0px'}}>
-        <div id="row1" className="row" style={{padding:'0px'}}>
-          <h1 className="col-lg-12" style={{margin: '0px'}}>{this.state.trip.tripname}</h1>
+      <div id="cont" className="container" style={{padding: '15px', margin: '0px'}}>
+        <div id="row1" className="row" style={{paddingLeft:'15px', paddingRight: '15px'}}>
+          <h1 className="col-lg-12 col-md-12" style={{margin: '0px', paddingLeft: '15px'}}>{this.state.trip.tripname}</h1>
         </div>
-        <div id="row2" className="row" style={{padding:'0px'}}>
-          <div style={style.toggle} className="col-lg-12">
+        <div id="row2" className="row" style={{padding:'0px', paddingRight: '15px'}}>
+          <div style={style.toggle} className="col-lg-12 col-md-12">
             <ButtonToolbar>
               <ToggleButtonGroup
                 type="radio"
@@ -200,9 +199,9 @@ class Trip extends React.Component {
             </ButtonToolbar>
           </div>
         </div>
-        <div id="row3" className="row" style={{paddingLeft:'15px', paddingRight: '30px'}}>
+        <div id="row3" className="row" style={{paddingLeft:'0px', paddingRight: '15px'}}>
           { this.state.toggleValue === 1 
-            ? <div style={style.calendar} className="col-lg-8">
+            ? <div style={style.calendar} className="col-lg-8 col-md-12">
               {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
                 allUsers={this.state.usersWithAccount}
                 currentUser={this.state.currentUser}
@@ -211,11 +210,11 @@ class Trip extends React.Component {
                 : <div>loading...</div>
               }
             </div>
-            : <div id="beforemap" style={style.map} className="col-lg-8">
+            : <div id="beforemap" style={style.map} className="col-lg-8 col-md-12">
                 <MapContainer id="mapcont" addToSchedule={this.addToSchedule} schedule={this.state.schedule} style={{paddingRight: '15px'}}/>
               </div>
           }
-          <div className="col-lg-4" style={{height:'525px', paddingRight: '15px'}}>
+          <div className="col-lg-4 col-md-12" style={{height:'525px', paddingRight: '15px'}}>
           {Object.keys(this.state.trip).length !== 0 ? <Chatroom
             style={style.chatroom}
             tripId={this.state.trip.id}
@@ -226,21 +225,21 @@ class Trip extends React.Component {
           </div>
         </div>
         <div id="row4" className="row" style={{paddingLeft:'15px', width: '100%' }}>
-          <div className="col-lg-8">
-            <div className="col-lg-12" style={{padding: '0px'}}>
+          <div className="col-lg-8 col-md-12" style={{ paddingRight: '15px'}}>
+            <div className="col-lg-12 col-md-12" style={{padding: '0px'}}>
               <TripInfo trip={this.state.trip} users={this.state.usersWithAccount} dates={this.state.lockedRange}/>
             </div>
             <div id="schedulerow" className="row" style={{paddingLeft: '15px', paddingRight: '0px'}}>
-              <div className="col-lg-12" style={{padding: '0px'}}>
+              <div className="col-lg-12 col-md-12" style={{padding: '0px'}}>
                 {this.state.schedule.length > 0 
                   ? <Schedule id="schedule" list={this.state.schedule} style={{zIndex:300}} removeSchedule={this.removeSchedule}/> 
                   : <div>loading...</div>
                 }          
               </div>
-              <div className="col-lg-4" ></div>
+              <div className="col-lg-4 col-md-12" ></div>
             </div>
           </div>
-          <div className="col-lg-4" style={{paddingRight: '15px'}}>
+          <div className="col-lg-4 col-md-12" style={{paddingRight: '15px'}}>
             {Object.keys(this.state.confirms).length !== 0 ? <Confirmations
               style={style.confirms}
               trip={this.state.trip}
@@ -251,7 +250,6 @@ class Trip extends React.Component {
               : <div>loading...</div> }
           </div>
         </div>
-        
         <div id="row6" className="row" style={{padding:'0px', marginTop: '20px' }}>
           <div className="col-lg-8" style={{height: '120px'}}>
             {Object.keys(this.state.trip).length !== 0
@@ -261,9 +259,11 @@ class Trip extends React.Component {
           </div>
         </div>
 
+
       </div>
     );
   }
 }
 
 export default Trip;
+

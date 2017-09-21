@@ -16,9 +16,9 @@ class Info extends React.Component { // DO NOT REMOVE THIS COMMENT => This eleme
             {this.props.place.info.contact.formattedPhone ? <text>{`Contact: ${this.props.place.info.contact.formattedPhone}`}<br/></text> : ''}
             {this.props.place.info.url ? <text><a href={this.props.place.info.url} target="_blank" >Website</a><br/></text> : ''}
             <a href={`https://foursquare.com/v/${this.props.place.info.id}`} target="_blank" >more info...</a><br/>
-            <SplitButton id="damnbutton" dropup title="Add to Schedule" >
+            <SplitButton id="damnbutton" dropup title="Add to Schedule" style={{overflow: 'visible'}}>
               {this.props.schedule.map((day, index)=>{
-                return (<MenuItem eventKey={index} onClick={()=>{ this.props.infoClick(this.props.place, index); }}>{`Day ${index+1}`}</MenuItem>);
+                return (<MenuItem eventKey={index} onClick={()=>{ this.props.infoClick(this.props.place, index); }} >{`Day ${index+1}`}</MenuItem>);
               })}
             </SplitButton>
           
