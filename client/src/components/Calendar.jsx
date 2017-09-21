@@ -547,9 +547,6 @@ class Calendar extends React.Component {
 
   syncToGoogleCalendar() {
 
-    // trip overlap date is still buggy, so we still need this to debug in the future
-    console.log('this.state.overlap availabilities: ', this.state.overlapAvailabilities);
-
     var attendees = [];
 
     for (var i = 0; i < this.props.allUsers.length; i++) {
@@ -566,11 +563,11 @@ class Calendar extends React.Component {
       'location': this.state.trip.location,
       'description': this.state.trip.description,
       'start': {
-        'dateTime': '2017-09-18T09:00:00-07:00',
+        'dateTime': this.state.determinedDate.start,
         'timeZone': 'America/Los_Angeles',
       },
       'end': {
-        'dateTime': '2017-09-20T17:00:00-07:00',
+        'dateTime': this.state.determinedDate.end,
         'timeZone': 'America/Los_Angeles',
       },
       'attendees': attendees,
@@ -584,15 +581,15 @@ class Calendar extends React.Component {
     }
 
 
-    // axios.post('/availability/syncToGoogleCalendar', {
-    //   'commonDates': events
-    // })
-    //   .then((res) => {
-    //     window.location = res.data;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axios.post('/availability/syncToGoogleCalendar', {
+      'commonDates': events
+    })
+      .then((res) => {
+        window.location = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
   }
 
@@ -620,6 +617,36 @@ class Calendar extends React.Component {
 
     return (
       <div style={style} {...this.props}>
+
+        <h3>Which dates are we going?</h3>
+          <FormGroup>
+            {
+              this.state.overlapAvailabilities.map((commonDates, index) => {
+                var commonDatesStartObj = new Date(commonDates.start);
+                var commonDatesEndObj = new Date(commonDates.end);
+
+                var commonDatesStartYear = commonDatesStartObj.getFullYear();
+                var commonDatesStartMonth = commonDatesStartObj.getMonth() + 1;
+                var commonDatesStartDate = commonDatesStartObj.getDate();
+
+                var commonDatesEndYear = commonDatesEndObj.getFullYear();
+                var commonDatesEndMonth = commonDatesEndObj.getMonth() + 1;
+                var commonDatesEndDate = commonDatesEndObj.getDate();
+
+                return (
+                  <Radio name="radioGroup" 
+                          inline
+                          onChange={this.setCommonDate}
+                          value={JSON.stringify(commonDates)}
+                  >
+                    {commonDatesStartYear} / {commonDatesStartMonth} / {commonDatesStartDate} ~ {commonDatesEndYear} / {commonDatesEndMonth} / {commonDatesEndDate}
+                  </Radio>
+                );
+              })
+            }
+          </FormGroup>
+        <button style={{zIndex: 3000} }onClick = {this.syncToGoogleCalendar}>Sync To Google Calendar!</button>
+        
         <BigCalendar
           selectable
           popup
@@ -637,42 +664,8 @@ class Calendar extends React.Component {
         />
         <div style={{marginTop: '15px'}}>
 
-          <p>Which date are we going?</p>
-          <FormGroup>
-            {
-              this.state.overlapAvailabilities.map((commonDates, index) => {
-                var commonDatesStartObj = new Date(commonDates.start);
-                var commonDatesEndObj = new Date(commonDates.end);
+          {/*radio buttons and sync to google calender button should go here*/}
 
-                {/* console.log('common date start:', commonDates.start);
-                console.log('common date end:', commonDates.end); */}
-                
-
-                var commonDatesStartYear = commonDatesStartObj.getFullYear();
-                var commonDatesStartMonth = commonDatesStartObj.getMonth() + 1;
-                var commonDatesStartDate = commonDatesStartObj.getDate();
-
-                var commonDatesEndYear = commonDatesEndObj.getFullYear();
-                var commonDatesEndMonth = commonDatesEndObj.getMonth() + 1;
-                var commonDatesEndDate = commonDatesEndObj.getDate();
-
-                {/* console.log('start in num: ',commonDatesStartYear, commonDatesStartMonth, commonDatesStartDate);
-                console.log('end in num: ', commonDatesEndYear, commonDatesEndMonth, commonDatesEndDate); */}
-
-                return (
-                  <Radio name="radioGroup" 
-                          inline
-                          onChange={this.setCommonDate}
-                          value={JSON.stringify(commonDates)}
-                  >
-                    {commonDatesStartYear} / {commonDatesStartMonth} / {commonDatesStartDate} ~ {commonDatesEndYear} / {commonDatesEndMonth} / {commonDatesEndDate}
-                  </Radio>
-                );
-              })
-            }
-          </FormGroup>
-          
-          <button style={{zIndex: 3000} }onClick = {this.syncToGoogleCalendar}>Sync To Google Calendar!</button>
         </div>
 
       </div>
