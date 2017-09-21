@@ -11,7 +11,6 @@ module.exports.add = (req, res) => {
     fs_id: req.body.schedule.id
   }).save()
     .then((schedule)=>{
-      //console.log("Success: ", schedule);
       res.status(201).send(schedule);
     })
     .catch((err)=>{
@@ -31,7 +30,6 @@ module.exports.get = (req, res) =>{
     trip_id: tripId,
   }).orderBy('day', 'ASC').fetchAll()
     .then((schedules)=>{
-      //console.log("Success: ", schedules);
       res.status(200).send(schedules);
     })
     .catch((err)=>{
@@ -43,7 +41,7 @@ module.exports.get = (req, res) =>{
 
 module.exports.remove = (req, res) =>{
 
-  models.Schedules.where({'id': req.body.id}).destroy()
+  models.Schedules.where({'id': req.body.todo.id}).destroy()
     .then((destroyed) => {
       res.status(201).send(destroyed);
     })

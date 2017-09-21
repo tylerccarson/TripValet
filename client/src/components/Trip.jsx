@@ -64,12 +64,15 @@ class Trip extends React.Component {
     this.calculateDays = this.calculateDays.bind(this);
     this.getSchedules = this.getSchedules.bind(this);
     this.removeSchedule = this.removeSchedule.bind(this);
+    this.subscribeToScheduleAdds = this.subscribeToScheduleAdds.bind(this);
+    this.subscribeToScheduleDeletions = this.subscribeToScheduleDeletions.bind(this);
 
   }
 
   componentDidMount() {
     this.getTripData();
-
+    this.subscribeToScheduleAdds();
+    this.subscribeToScheduleDeletions();
   }
 
   getTripData() {
@@ -120,16 +123,6 @@ class Trip extends React.Component {
     return diffDays;
   }
 
-  removeSchedule(scheduleId) {
-    axios.post('/schedules/remove', {
-      id: scheduleId
-    })
-      .then((response)=>{
-      })
-      .catch((err)=>{
-        console.log('ERROR trying to delete schedule: ', err);
-      });
-  }
 
   getSchedules() {
     axios.get('/schedules/get')
@@ -140,8 +133,10 @@ class Trip extends React.Component {
         for (var i = 0; i < numDays; i++) {
           newSchedule.push([]);
         }
+        //are these supposed to be here?
         var schedulesObj = {};
         var scheduleState = [];
+        //
         schedules.data.forEach((schedule)=>{
           newSchedule[schedule.day].push(schedule);
         });
@@ -152,17 +147,57 @@ class Trip extends React.Component {
   }
 
   addToSchedule(schedule, day) {
-    axios.post('/schedules/add', {
+    let item = {
       schedule: schedule.info,
       day: day,
       tripId: this.state.trip.id
-    })
+    };
+    axios.post('/schedules/add', item)
       .then((response)=>{
-        this.getSchedules();
+        socket.emit('clientAddSchedule', response);
       })
       .catch((err)=>{
         console.log('ERROR: ', err);
       });
+  }
+
+  subscribeToScheduleAdds() {
+    socket.on('serverAddSchedule', (data) => {
+      let schedule = this.state.schedule;
+      schedule[data.day].push(data);
+      this.setState({
+        schedule: schedule
+      });
+    });
+  }
+
+  removeSchedule(schedule) {
+    axios.post('/schedules/remove', {
+      todo: schedule
+    })
+      .then((response)=>{
+        socket.emit('clientDeleteSchedule', schedule);
+      })
+      .catch((err)=>{
+        console.log('ERROR trying to delete schedule: ', err);
+      });
+  }
+
+  subscribeToScheduleDeletions() {
+    socket.on('serverDeleteSchedule', (data) => {
+      
+      let schedule = this.state.schedule;
+      let day = schedule[data.day];
+      for (var i = 0; i < day.length; i++) {
+        if (day[i].id === data.id) {
+          day.splice(i, 1);
+        }
+      }
+      schedule[data.day] = day;
+      this.setState({
+        schedule: schedule
+      });
+    });
   }
 
   onChange (e) {
@@ -172,7 +207,7 @@ class Trip extends React.Component {
   }
 
   handleChange(value) {
-    console.log("Change: ", value);
+    console.log('Change: ', value);
     this.setState({
       toggleValue: value
     });
@@ -181,11 +216,11 @@ class Trip extends React.Component {
   render( ) {
 
     return (
-      <div id="cont" className="container" style={{padding: '15px', margin: '0px'}}>
-        <div id="row1" className="row" style={{paddingLeft:'15px', paddingRight: '15px'}}>
-          <h1 className="col-lg-12 col-md-12" style={{margin: '0px', paddingLeft: '15px'}}>{this.state.trip.tripname}</h1>
+      <div id="cont" className="container" style={{ padding: '15px', margin: '0px'}}>
+        <div id="row1" className="row" style={{ paddingLeft:'15px', paddingRight: '15px'}}>
+          <h1 className="col-lg-12 col-md-12" style={{ margin: '0px', paddingLeft: '15px'}}>{this.state.trip.tripname}</h1>
         </div>
-        <div id="row2" className="row" style={{padding:'0px', paddingRight: '15px'}}>
+        <div id="row2" className="row" style={{ padding:'0px', paddingRight: '15px'}}>
           <div style={style.toggle} className="col-lg-12 col-md-12">
             <ButtonToolbar>
               <ToggleButtonGroup
@@ -211,17 +246,17 @@ class Trip extends React.Component {
               }
             </div>
             : <div id="beforemap" style={style.map} className="col-lg-8 col-md-12">
-                <MapContainer id="mapcont" addToSchedule={this.addToSchedule} schedule={this.state.schedule} style={{paddingRight: '15px'}}/>
-              </div>
+              <MapContainer id="mapcont" addToSchedule={this.addToSchedule} schedule={this.state.schedule} style={{paddingRight: '15px'}}/>
+            </div>
           }
           <div className="col-lg-4 col-md-12" style={{height:'525px', paddingRight: '15px'}}>
-          {Object.keys(this.state.trip).length !== 0 ? <Chatroom
-            style={style.chatroom}
-            tripId={this.state.trip.id}
-            user={this.state.currentUser.display}
-            userId={this.state.currentUser.id}
-            socket={socket}/>
-            : <div>loading...</div> }
+            {Object.keys(this.state.trip).length !== 0 ? <Chatroom
+              style={style.chatroom}
+              tripId={this.state.trip.id}
+              user={this.state.currentUser.display}
+              userId={this.state.currentUser.id}
+              socket={socket}/>
+              : <div>loading...</div> }
           </div>
         </div>
         <div id="row4" className="row" style={{paddingLeft:'15px', width: '100%' }}>

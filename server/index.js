@@ -32,4 +32,13 @@ io.on('connection', (socket) => {
     io.sockets.emit('serverConfirmation', data);
   });
 
+  socket.on('clientAddSchedule', (data) => {
+    console.log(data.data);
+    io.sockets.emit('serverAddSchedule', data.data);
+  });
+
+  socket.on('clientDeleteSchedule', (data) => {
+    io.sockets.emit('serverDeleteSchedule', data);
+  });
+
 });
