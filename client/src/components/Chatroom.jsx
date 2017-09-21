@@ -121,7 +121,7 @@ class Chatroom extends React.Component {
     };
 
     return (
-      <div className='chatroom-container col-lg-12' style={styling.chatroom}>
+      <div className='chatroom-container col-lg-12 col-md-12' style={styling.chatroom}>
         <h3 className="row" style={styling.header}>GroupChat</h3>
         <ReactScrollbar className="row" ref='Scrollbar' style={styling.scrollbar}>
           <Messages messages={this.state.messages} currentUser={this.props.user}/>
