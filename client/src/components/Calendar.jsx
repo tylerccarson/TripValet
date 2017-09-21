@@ -628,6 +628,13 @@ class Calendar extends React.Component {
                 var commonDatesEndMonth = commonDatesEndObj.getMonth() + 1;
                 var commonDatesEndDate = commonDatesEndObj.getDate();
 
+                // if we decide to have a trip in multiple dates
+                if (commonDatesEndDate !== commonDatesStartDate) {
+                  // google calendar is inclusive, so we have to decrease by 1
+                  // to have the correct schedule on google calendar
+                  commonDatesEndDate--;
+                }
+
                 return (
                   <Radio name="radioGroup" 
                           inline
