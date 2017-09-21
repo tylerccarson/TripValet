@@ -13,6 +13,10 @@ COPY . /src/app
 
 RUN yarn install
 
+# Entrypoint script
+RUN cp docker-entrypoint.sh /usr/local/bin/ && \
+    chmod +x /usr/local/bin/docker-entrypoint.sh
+
 EXPOSE 3000
 
 # CMD [ "npm", "start" ]
