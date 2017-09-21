@@ -5,7 +5,11 @@
     "start": "nodemon server",
     "build": "webpack --watch",
     "heroku-postbuild": "webpack -p",
-    "test": "NODE_ENV=test grunt test"
+    "test": "NODE_ENV=test grunt test",
+    "db": "grunt pgcreatedb",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "start-docker": "pm2-docker start pm2_configs/config.json"
   },
   "author": "Hack Reactor",
   "license": "MIT",
