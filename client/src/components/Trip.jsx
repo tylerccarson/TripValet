@@ -52,7 +52,7 @@ class Trip extends React.Component {
       currentUser: {},
       usersWithAccount: {},
       email: '',
-      toggleValue: 2,
+      toggleValue: 1,
       schedule: [],
       lockedRange: {start: '2017-09-15T09:00:00-07:00', end: '2017-09-20T09:00:00-07:00'}
     };

@@ -2,6 +2,7 @@ import React from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import axios from 'axios';
+import { FormGroup, Button, Radio } from 'react-bootstrap';
 
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -24,7 +25,11 @@ class Calendar extends React.Component {
         end: this.props.trip.rangeEnd,
       }],
       overlapAvailabilities: [],
-      addingMultipleAvailability: false
+      addingMultipleAvailability: false,
+      determinedDate: {
+        start: '',
+        end: ''
+      }
     };
 
     this.pickDate = this.pickDate.bind(this);
@@ -44,6 +49,7 @@ class Calendar extends React.Component {
     this.getAllAvailability = this.getAllAvailability.bind(this);
     this.subscribeToDeletedAvailability = this.subscribeToDeletedAvailability.bind(this);
     this.subscribeToMultipleAvailabilityDelete = this.subscribeToMultipleAvailabilityDelete.bind(this);
+    this.setCommonDate = this.setCommonDate.bind(this);
   }
 
   getAllAvailability() {
@@ -69,7 +75,9 @@ class Calendar extends React.Component {
         this.setState({
           availability: currentAvailability
         }, () => {
-          this.setState({overlapAvailabilities: this.compareToSelectDates()});
+          this.setState({
+            overlapAvailabilities: this.compareToSelectDates()
+          });
         });        
       })
       .catch((err) => {
@@ -95,7 +103,9 @@ class Calendar extends React.Component {
         } else {
           this.checkForConnectedAvailability();
         }      
-        this.setState({overlapAvailabilities: this.compareToSelectDates()});
+        this.setState({
+          overlapAvailabilities: this.compareToSelectDates()
+        });
 
       });
     });
@@ -113,7 +123,9 @@ class Calendar extends React.Component {
         availability: stateAvailability
       }, ()=>{
         // this state is relying on availability state changes
-        this.setState({overlapAvailabilities: this.compareToSelectDates()}); 
+        this.setState({
+          overlapAvailabilities: this.compareToSelectDates()
+        }); 
       });
     });
   }
@@ -132,7 +144,9 @@ class Calendar extends React.Component {
       this.setState({
         availability: stateAvailability
       }, ()=>{
-        this.setState({overlapAvailabilities: this.compareToSelectDates()}); // this state is relying on availability state changes
+        this.setState({
+          overlapAvailabilities: this.compareToSelectDates()
+        });
       });
 
     });
@@ -352,7 +366,7 @@ class Calendar extends React.Component {
 
   checkForConnectedAvailability() {
     var availabilityObj = this.turnAvailabilityToOjb();
-    console.log('availability obj: ', availabilityObj);
+    // console.log('availability obj: ', availabilityObj);
     var currentUserName = this.state.user.display;
 
     // length - 1 so the next date of i is still in range of the array
@@ -533,9 +547,6 @@ class Calendar extends React.Component {
 
   syncToGoogleCalendar() {
 
-    // trip overlap date is still buggy, so we still need this to debug in the future
-    console.log('this.state.overlap availabilities: ', this.state.overlapAvailabilities);
-
     var attendees = [];
 
     for (var i = 0; i < this.props.allUsers.length; i++) {
@@ -549,11 +560,11 @@ class Calendar extends React.Component {
       'location': this.state.trip.location,
       'description': this.state.trip.description,
       'start': {
-        'dateTime': '2017-09-18T09:00:00-07:00',
+        'dateTime': this.state.determinedDate.start,
         'timeZone': 'America/Los_Angeles',
       },
       'end': {
-        'dateTime': '2017-09-20T17:00:00-07:00',
+        'dateTime': this.state.determinedDate.end,
         'timeZone': 'America/Los_Angeles',
       },
       'attendees': attendees,
@@ -579,6 +590,20 @@ class Calendar extends React.Component {
 
   }
 
+  setCommonDate(e) {
+    var commonDateObj = JSON.parse(e.target.value);
+
+    var startEndDateObj = {
+      start: commonDateObj.start,
+      end: commonDateObj.end
+    }
+
+    this.setState({
+      determinedDate: startEndDateObj
+    });
+
+  }
+
   render() {
     // should give an explicit height based on documentation
     var style = {
@@ -587,23 +612,55 @@ class Calendar extends React.Component {
 
     return (
       <div style={style} {...this.props}>
+
+        <h3>Which dates are we going?</h3>
+          <FormGroup>
+            {
+              this.state.overlapAvailabilities.map((commonDates, index) => {
+                var commonDatesStartObj = new Date(commonDates.start);
+                var commonDatesEndObj = new Date(commonDates.end);
+
+                var commonDatesStartYear = commonDatesStartObj.getFullYear();
+                var commonDatesStartMonth = commonDatesStartObj.getMonth() + 1;
+                var commonDatesStartDate = commonDatesStartObj.getDate();
+
+                var commonDatesEndYear = commonDatesEndObj.getFullYear();
+                var commonDatesEndMonth = commonDatesEndObj.getMonth() + 1;
+                var commonDatesEndDate = commonDatesEndObj.getDate();
+
+                return (
+                  <Radio name="radioGroup" 
+                          inline
+                          onChange={this.setCommonDate}
+                          value={JSON.stringify(commonDates)}
+                  >
+                    {commonDatesStartYear} / {commonDatesStartMonth} / {commonDatesStartDate} ~ {commonDatesEndYear} / {commonDatesEndMonth} / {commonDatesEndDate}
+                  </Radio>
+                );
+              })
+            }
+          </FormGroup>
+        <button style={{zIndex: 3000} }onClick = {this.syncToGoogleCalendar}>Sync To Google Calendar!</button>
+
         <BigCalendar
           selectable
           popup
           events = {this.state.availability}
           defaultDate={ new Date() } // set to current date
           onSelectEvent={ (name) => {
-            // unpick for clicking on name cause it is more intuitive
-            this.pickDate(name);
-          }
+              // unpick for clicking on name cause it is more intuitive
+              this.pickDate(name);
+            }
           }
           onSelectSlot={ (slotInfo) => {
-            this.pickDate(slotInfo);
-          }
+              this.pickDate(slotInfo);
+            }
           }
         />
         <div style={{marginTop: '15px'}}>
-          <button onClick = {this.syncToGoogleCalendar}>Set Common Date!</button>
+
+          {/*radio buttons and sync to google calender button should go here*/}
+
         </div>
 
       </div>
