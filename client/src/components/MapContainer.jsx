@@ -9,8 +9,9 @@ import ReactDOM from 'react-dom';
 
 
 const mapStyleInner = {
-  width: '100%',
-  height: '500px'
+  width: "calc(100%-15px)",
+  height: '500px',
+  paddingRight: '15px'
 
 };
 
@@ -157,7 +158,11 @@ export class MapContainer extends React.Component {
       })
       .then(()=>{
         this.findPointsNearBy();
+        $($('#beforemap').children()[0].childNodes[0]).css({'position': 'relative'});
+      
       });
+
+
 
   }
 

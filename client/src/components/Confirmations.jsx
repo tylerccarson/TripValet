@@ -90,24 +90,45 @@ class Confirmations extends React.Component {
         width: '100%'
       },
       list: {
-        height: '250px',
-        width: '320px',
+        height: '100%',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'scroll'
+        overflow: 'scroll',
+        padding: '0px'
       },
       invite: {
-        width: '100%'
+        width: '100%',
+        paddingRight: '15px'
       },
       leave: {
-
+        width: '100%',
+        margin: '0px',
+        padding: '0px'
       }
     };
 
     return (
       <div style={style.confirmations}>
+        
+        <div id="confirmrow1" className="row">
+          <h2 className="col-lg-12" style={{margin: '0px', width: '100%'}}>Members</h2>
+        </div>
+        <div id="confirmrow2" className="row" style={{paddingLeft: '15px', paddingRight: '15px'}}>
+          <List style={style.list}>
+            {this.state.confirms.filter((invitee)=>{return invitee.email.length>0}).map((invitee, i) => {
+              return <Invitees 
+                key={i} 
+                invitee={invitee} 
+                user={this.props.user} 
+                trip={this.props.trip}
+                socket={this.props.socket}/>;
+            })}
+          </List>
+        </div>
+        
         <div style={style.leave} className="row">
-          <div className="col-lg-12">
+          <div className="col-lg-12" style={{padding: '0px'}}>
             <FlatButton 
             secondary={true}
             label="Leave Trip" 
@@ -117,25 +138,11 @@ class Confirmations extends React.Component {
           </div>
           
         </div>
-        <div id="confirmrow1" className="row">
-          <h2 style={{margin: '0px'}}>Members</h2>
-        </div>
-        <List style={style.list}>
-          {this.state.confirms.filter((invitee)=>{return invitee.email.length>0}).map((invitee, i) => {
-            console.log("CONFIRM: ", invitee);
-            return <Invitees 
-              key={i} 
-              invitee={invitee} 
-              user={this.props.user} 
-              trip={this.props.trip}
-              socket={this.props.socket}/>;
-          })}
-        </List>
         <div style={style.invite}>
           <form>
             <FormGroup>
               <ControlLabel>Invite a friend</ControlLabel>
-              <InputGroup>
+              <InputGroup style={{width: '100%' }}>
                 <FormControl
                   type="text"
                   name="email"

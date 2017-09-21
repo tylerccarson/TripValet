@@ -15,21 +15,24 @@ let env = window.location.hostname + ':' + window.location.port;
 let socket = io(env);
 const style = {
   confirms: {
-    textAlign: 'center'
+    textAlign: 'center',
+    paddingRight: '15px'
   },
   calendar: {
     paddingLeft: '15px',
     paddingRight: '15px',
-    height: '540px'
+    height: '520px'
   },
   chatroom: {
     paddingLeft: '15px',
     paddingRight: '15px',
-    height: '540px'  
+    height: '520px'  
   },
   map: {
-    height: '540px',
-    padding: '0px'
+    width: "calc(100%-30px)",
+    height: '520px',
+    paddingLeft: '15px',
+    paddingRight: '0px'
 
   },
   toggle: {
@@ -179,9 +182,11 @@ class Trip extends React.Component {
   render( ) {
 
     return (
-      <div id="cont" className="container" style={{padding: '0px'}}>
-        <div id="row1" className="row"><h1 className="col-lg-12" style={{margin: '0px'}}>{this.state.trip.tripname}</h1></div>
-        <div id="row2" className="row">
+      <div id="cont" className="container" style={{padding: '0px', margin: '0px'}}>
+        <div id="row1" className="row" style={{padding:'0px'}}>
+          <h1 className="col-lg-12" style={{margin: '0px'}}>{this.state.trip.tripname}</h1>
+        </div>
+        <div id="row2" className="row" style={{padding:'0px'}}>
           <div style={style.toggle} className="col-lg-12">
             <ButtonToolbar>
               <ToggleButtonGroup
@@ -195,7 +200,7 @@ class Trip extends React.Component {
             </ButtonToolbar>
           </div>
         </div>
-        <div id="row3" className="row">
+        <div id="row3" className="row" style={{paddingLeft:'15px', paddingRight: '30px'}}>
           { this.state.toggleValue === 1 
             ? <div style={style.calendar} className="col-lg-8">
               {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
@@ -207,10 +212,10 @@ class Trip extends React.Component {
               }
             </div>
             : <div id="beforemap" style={style.map} className="col-lg-8">
-                <MapContainer id="mapcont" addToSchedule={this.addToSchedule} schedule={this.state.schedule}/>
+                <MapContainer id="mapcont" addToSchedule={this.addToSchedule} schedule={this.state.schedule} style={{paddingRight: '15px'}}/>
               </div>
           }
-          <div className="col-lg-4" style={{height:'540px'}}>
+          <div className="col-lg-4" style={{height:'525px', paddingRight: '15px'}}>
           {Object.keys(this.state.trip).length !== 0 ? <Chatroom
             style={style.chatroom}
             tripId={this.state.trip.id}
@@ -220,11 +225,22 @@ class Trip extends React.Component {
             : <div>loading...</div> }
           </div>
         </div>
-        <div id="row4" className="row">
+        <div id="row4" className="row" style={{paddingLeft:'15px', width: '100%' }}>
           <div className="col-lg-8">
-            <TripInfo trip={this.state.trip} users={this.state.usersWithAccount} dates={this.state.lockedRange}/>
+            <div className="col-lg-12" style={{padding: '0px'}}>
+              <TripInfo trip={this.state.trip} users={this.state.usersWithAccount} dates={this.state.lockedRange}/>
+            </div>
+            <div id="schedulerow" className="row" style={{paddingLeft: '15px', paddingRight: '0px'}}>
+              <div className="col-lg-12" style={{padding: '0px'}}>
+                {this.state.schedule.length > 0 
+                  ? <Schedule id="schedule" list={this.state.schedule} style={{zIndex:300}} removeSchedule={this.removeSchedule}/> 
+                  : <div>loading...</div>
+                }          
+              </div>
+              <div className="col-lg-4" ></div>
+            </div>
           </div>
-          <div className="col-lg-4">
+          <div className="col-lg-4" style={{paddingRight: '15px'}}>
             {Object.keys(this.state.confirms).length !== 0 ? <Confirmations
               style={style.confirms}
               trip={this.state.trip}
@@ -235,16 +251,9 @@ class Trip extends React.Component {
               : <div>loading...</div> }
           </div>
         </div>
-        <div id="row5" className="row">
-          <div className="col-lg-12">
-            {this.state.schedule.length > 0 
-              ? <Schedule id="schedule" list={this.state.schedule} style={{zIndex:300}} removeSchedule={this.removeSchedule}/> 
-              : <div>loading...</div>
-            }          
-          </div>
-        </div>
-        <div id="row6" className="row">
-          <div className="col-lg-12">
+        
+        <div id="row6" className="row" style={{padding:'0px', marginTop: '20px' }}>
+          <div className="col-lg-8" style={{height: '120px'}}>
             {Object.keys(this.state.trip).length !== 0
               ? <ImageUpload user={this.state.currentUser} trip={this.state.trip}/>
               : <div>loading...</div> 
