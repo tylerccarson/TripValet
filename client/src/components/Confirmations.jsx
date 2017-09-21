@@ -112,7 +112,7 @@ class Confirmations extends React.Component {
       <div style={style.confirmations}>
         
         <div id="confirmrow1" className="row">
-          <h2 className="col-lg-12" style={{margin: '0px', width: '100%'}}>Members</h2>
+          <h2 className="col-lg-12 col-md-12" style={{margin: '0px', width: '100%'}}>Members</h2>
         </div>
         <div id="confirmrow2" className="row" style={{paddingLeft: '15px', paddingRight: '15px'}}>
           <List style={style.list}>
@@ -128,7 +128,7 @@ class Confirmations extends React.Component {
         </div>
         
         <div style={style.leave} className="row">
-          <div className="col-lg-12" style={{padding: '0px'}}>
+          <div className="col-lg-12 col-md-12" style={{padding: '0px'}}>
             <FlatButton 
             secondary={true}
             label="Leave Trip" 
