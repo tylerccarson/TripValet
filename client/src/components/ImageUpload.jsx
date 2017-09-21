@@ -28,7 +28,7 @@ class ImageUpload extends React.Component {
       reader: '',
       imageUrls: []
     };
-    console.log(this.props);
+    
   }
   handleImageChange(e) {
     e.preventDefault();

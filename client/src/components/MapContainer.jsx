@@ -159,7 +159,7 @@ export class MapContainer extends React.Component {
       .then(()=>{
         this.findPointsNearBy();
         $($('#beforemap').children()[0].childNodes[0]).css({'position': 'relative'});
-        console.log($($('#beforemap').children()[0].childNodes[0]));
+      
       });
 
 

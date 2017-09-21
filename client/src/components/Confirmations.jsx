@@ -117,7 +117,6 @@ class Confirmations extends React.Component {
         <div id="confirmrow2" className="row" style={{paddingLeft: '15px', paddingRight: '15px'}}>
           <List style={style.list}>
             {this.state.confirms.filter((invitee)=>{return invitee.email.length>0}).map((invitee, i) => {
-              console.log("CONFIRM: ", invitee);
               return <Invitees 
                 key={i} 
                 invitee={invitee} 
