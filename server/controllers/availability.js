@@ -8,8 +8,7 @@ var googleAuth = require('google-auth-library');
 
 var config = require('config')['passport'];
 
-var globalOauth2Client;
-var globalCommenDates;
+var globalOauth2Client, globalCommenDates;
 
 
 module.exports.getAvailabilityByTripId = (req, res) => {
@@ -94,7 +93,7 @@ module.exports.syncToGoogleCalendar = (req, res) => {
   var auth = new googleAuth();
   var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
   var SCOPES = ['https://www.googleapis.com/auth/calendar',
-  'https://www.googleapis.com/auth/plus.me'];
+    'https://www.googleapis.com/auth/plus.me'];
   
   var authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -126,16 +125,16 @@ module.exports.addEventsToGoogleCalendar = (req, res) => {
       return;
     }
 
-  globalOauth2Client.credentials = token;
+    globalOauth2Client.credentials = token;
 
-  addEvents(globalOauth2Client);
+    addEvents(globalOauth2Client);
     
-  })
+  });
 
 };
 
 
-function addEvents(auth) {
+var addEvents = (auth) => {
   var calendar = google.calendar('v3');
 
   calendar.events.insert({
@@ -147,6 +146,6 @@ function addEvents(auth) {
       console.log('There was an error contacting the Calendar service: ' + err);
       return;
     }
-    console.log('Event created: %s', event.htmlLink);
+    //console.log('Event created: %s', event.htmlLink);
   });
-}
+};
