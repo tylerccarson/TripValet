@@ -610,7 +610,7 @@ class Calendar extends React.Component {
   render() {
     // should give an explicit height based on documentation
     var style = {
-      height: '400px'
+      height: '1000px'
     };
 
     return (
