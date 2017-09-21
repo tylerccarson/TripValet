@@ -106,15 +106,17 @@ class Chatroom extends React.Component {
       scrollbar: {
         width: '100%',
         height: '434px',
-        margin: '0px'
+        margin: '0px',
+        paddingRight: '15px'
       },
       textInput: {
-
+        paddingRight: '15px'
       },
       header: {
         textAlign: 'center',
         marginTop: '0px',
-        marginBottom: '0px'
+        marginBottom: '0px',
+        paddingRight: '15px'
       }
     };
 
