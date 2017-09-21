@@ -18,7 +18,7 @@ class Info extends React.Component { // DO NOT REMOVE THIS COMMENT => This eleme
             <a href={`https://foursquare.com/v/${this.props.place.info.id}`} target="_blank" >more info...</a><br/>
             <SplitButton id="damnbutton" dropup title="Add to Schedule" style={{overflow: 'visible'}}>
               {this.props.schedule.map((day, index)=>{
-                return (<MenuItem eventKey={index} onClick={()=>{ this.props.infoClick(this.props.place, index); }} >{`Day ${index+1}`}</MenuItem>);
+                return (<MenuItem eventKey={index} onClick={()=>{ this.props.infoClick(this.props.place, index); }} style={{overflow: 'visible'}} >{`Day ${index+1}`}</MenuItem>);
               })}
             </SplitButton>
           
