@@ -267,6 +267,3 @@ class Trip extends React.Component {
 
 export default Trip;
 
-/*
-
-*/
