@@ -2,7 +2,7 @@ import React from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import axios from 'axios';
-import { FormGroup, InputGroup, FormControl, Button, ButtonToolbar, MenuItem, ControlLabel, Radio } from 'react-bootstrap';
+import { FormGroup, Button, Radio } from 'react-bootstrap';
 
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -555,9 +555,6 @@ class Calendar extends React.Component {
       attendees.push(emailObj);
     }
 
-    console.log('this range is clicked: ', this.state.determinedDate);
-
-
     var events = {
       'summary': this.state.trip.tripname,
       'location': this.state.trip.location,
@@ -594,9 +591,7 @@ class Calendar extends React.Component {
   }
 
   setCommonDate(e) {
-    console.log('e.target.value: ', e.target.value);
     var commonDateObj = JSON.parse(e.target.value);
-    console.log('commonDateObj: ', commonDateObj);
 
     var startEndDateObj = {
       start: commonDateObj.start,
@@ -646,7 +641,7 @@ class Calendar extends React.Component {
             }
           </FormGroup>
         <button style={{zIndex: 3000} }onClick = {this.syncToGoogleCalendar}>Sync To Google Calendar!</button>
-        
+
         <BigCalendar
           selectable
           popup
