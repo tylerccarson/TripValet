@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Route } from 'react-router-dom';
 import { Navbar, NavItem, Nav, NavDropdown} from 'react-bootstrap';
 const Header = (props) => (
-  <header>
+  <header style={{margin: '0px', padding:'0px', width:'100%'}}>
     <nav>
       <Navbar inverse collapseOnSelect>
         <Navbar.Header>
