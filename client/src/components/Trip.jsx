@@ -250,7 +250,14 @@ class Trip extends React.Component {
               : <div>loading...</div> }
           </div>
         </div>
-        
+        <div id="row6" className="row" style={{padding:'0px', marginTop: '20px' }}>
+          <div className="col-lg-8" style={{height: '120px'}}>
+            {Object.keys(this.state.trip).length !== 0
+              ? <ImageUpload user={this.state.currentUser} trip={this.state.trip}/>
+              : <div>loading...</div> 
+            }
+          </div>
+        </div>
 
 
       </div>
@@ -261,12 +268,5 @@ class Trip extends React.Component {
 export default Trip;
 
 /*
-        <div id="row6" className="row" style={{padding:'0px', marginTop: '20px' }}>
-          <div className="col-lg-8" style={{height: '120px'}}>
-            {Object.keys(this.state.trip).length !== 0
-              ? <ImageUpload user={this.state.currentUser} trip={this.state.trip}/>
-              : <div>loading...</div> 
-            }
-          </div>
-        </div>
+
 */
