@@ -98,26 +98,30 @@ class Chatroom extends React.Component {
   render() {
     let styling = {
       chatroom: {
-        width: 400,
-        height: 500,
-        float: 'right'
+        float: 'right',
+        height: '540px',
+        padding: '0px'
+
       },
       scrollbar: {
         width: '100%',
-        height: '100%'
+        height: '434px',
+        margin: '0px'
       },
       textInput: {
 
       },
       header: {
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: '0px',
+        marginBottom: '0px'
       }
     };
 
     return (
-      <div className='chatroom-container' style={styling.chatroom}>
-        <h3 style={styling.header}>GroupChat</h3>
-        <ReactScrollbar ref='Scrollbar' style={styling.scrollbar}>
+      <div className='chatroom-container col-lg-12' style={styling.chatroom}>
+        <h3 className="row" style={styling.header}>GroupChat</h3>
+        <ReactScrollbar className="row" ref='Scrollbar' style={styling.scrollbar}>
           <Messages messages={this.state.messages} currentUser={this.props.user}/>
         </ReactScrollbar>
         <div className='chatinput-container' style={styling.textInput}>
