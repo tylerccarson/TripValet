@@ -163,7 +163,6 @@ class Calendar extends React.Component {
 
 
     // below is to sort multiple availabilities 
-    // sortObject(availsObj);
 
     var list = [];
     var first = true;
@@ -583,7 +582,7 @@ class Calendar extends React.Component {
   render() {
     // should give an explicit height based on documentation
     var style = {
-      height: '400px'
+      height: '500px'
     };
 
     return (
@@ -603,8 +602,7 @@ class Calendar extends React.Component {
           }
           }
         />
-        <div style={{marginTop: '30px'}}>
-          
+        <div style={{marginTop: '15px'}}>
           <button onClick = {this.syncToGoogleCalendar}>Set Common Date!</button>
         </div>
 
