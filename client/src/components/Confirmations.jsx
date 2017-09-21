@@ -122,7 +122,7 @@ class Confirmations extends React.Component {
         </div>
         <List style={style.list}>
           {this.state.confirms.filter((invitee)=>{return invitee.email.length>0}).map((invitee, i) => {
-            console.log("CONFIRM: ", invitee);
+            {/* console.log("CONFIRM: ", invitee); */}
             return <Invitees 
               key={i} 
               invitee={invitee} 
