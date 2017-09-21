@@ -230,7 +230,7 @@ class Trip extends React.Component {
             </ButtonToolbar>
           </div>
         </div>
-        <div id="row3" className="row" style={{position: 'ralative', paddingLeft:'0px', paddingRight: '15px'}}>
+        <div id="row3" className="row" style={{position: 'relative', paddingLeft:'0px', paddingRight: '15px'}}>
           { this.state.toggleValue === 1 
             ? <div style={style.calendar} className="col-lg-8 col-md-12">
               {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
