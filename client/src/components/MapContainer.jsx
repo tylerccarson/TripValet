@@ -11,7 +11,7 @@ import ReactDOM from 'react-dom';
 const mapStyleInner = {
   width: "calc(100%-15px)",
   height: '500px',
-  paddingRight: '15px'
+
 
 };
 

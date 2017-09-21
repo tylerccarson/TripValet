@@ -50,6 +50,7 @@ class Calendar extends React.Component {
     this.subscribeToDeletedAvailability = this.subscribeToDeletedAvailability.bind(this);
     this.subscribeToMultipleAvailabilityDelete = this.subscribeToMultipleAvailabilityDelete.bind(this);
     this.setCommonDate = this.setCommonDate.bind(this);
+    this.setRadioButtons = this.setRadioButtons.bind(this);
   }
 
   getAllAvailability() {
@@ -199,7 +200,6 @@ class Calendar extends React.Component {
     }
     return list;
     
-
   }
 
   compareWithSelectedList(notelist, avail) { // takes notelist(multiple overlaps) and find overlap for current availability passed in as second argument
@@ -604,50 +604,40 @@ class Calendar extends React.Component {
 
   }
 
+  setRadioButtons(component) {
+    return this.state.overlapAvailabilities.map((commonDates, index) => {
+      var commonDatesStartObj = new Date(commonDates.start);
+      var commonDatesEndObj = new Date(commonDates.end);
+
+      var commonDatesStartYear = commonDatesStartObj.getFullYear();
+      var commonDatesStartMonth = commonDatesStartObj.getMonth() + 1;
+      var commonDatesStartDate = commonDatesStartObj.getDate();
+
+      var commonDatesEndYear = commonDatesEndObj.getFullYear();
+      var commonDatesEndMonth = commonDatesEndObj.getMonth() + 1;
+      var commonDatesEndDate = commonDatesEndObj.getDate();
+
+      return (
+        <Radio key={index} name="radioGroup" 
+          inline
+          onChange={this.setCommonDate}
+          value={JSON.stringify(commonDates)}
+        >
+          {commonDatesStartYear} / {commonDatesStartMonth} / {commonDatesStartDate} ~ {commonDatesEndYear} / {commonDatesEndMonth} / {commonDatesEndDate}
+        </Radio>
+      );
+    })
+  }
+
+
   render() {
     // should give an explicit height based on documentation
     var style = {
-      height: '500px'
+      height: '470px'
     };
 
     return (
       <div style={style} {...this.props}>
-
-        <h3>Which dates are we going?</h3>
-          <FormGroup>
-            {
-              this.state.overlapAvailabilities.map((commonDates, index) => {
-                var commonDatesStartObj = new Date(commonDates.start);
-                var commonDatesEndObj = new Date(commonDates.end);
-
-                var commonDatesStartYear = commonDatesStartObj.getFullYear();
-                var commonDatesStartMonth = commonDatesStartObj.getMonth() + 1;
-                var commonDatesStartDate = commonDatesStartObj.getDate();
-
-                var commonDatesEndYear = commonDatesEndObj.getFullYear();
-                var commonDatesEndMonth = commonDatesEndObj.getMonth() + 1;
-                var commonDatesEndDate = commonDatesEndObj.getDate();
-
-                // if we decide to have a trip in multiple dates
-                if (commonDatesEndDate !== commonDatesStartDate) {
-                  // google calendar is inclusive, so we have to decrease by 1
-                  // to have the correct schedule on google calendar
-                  commonDatesEndDate--;
-                }
-
-                return (
-                  <Radio name="radioGroup" 
-                          inline
-                          onChange={this.setCommonDate}
-                          value={JSON.stringify(commonDates)}
-                  >
-                    {commonDatesStartYear} / {commonDatesStartMonth} / {commonDatesStartDate} ~ {commonDatesEndYear} / {commonDatesEndMonth} / {commonDatesEndDate}
-                  </Radio>
-                );
-              })
-            }
-          </FormGroup>
-        <button style={{zIndex: 3000} }onClick = {this.syncToGoogleCalendar}>Sync To Google Calendar!</button>
 
         <BigCalendar
           selectable
@@ -664,9 +654,15 @@ class Calendar extends React.Component {
             }
           }
         />
-        <div style={{marginTop: '15px'}}>
+        <div style={{paddingTop: '5px'}}>
 
-          {/*radio buttons and sync to google calender button should go here*/}
+          <FormGroup className="col-lg-8">
+            <text>Choose Your Dates: </text>
+            {this.setRadioButtons()}
+          </FormGroup>
+        <button className="col-lg-4" style={{zIndex: 3000} } onClick = {this.syncToGoogleCalendar}>Sync To Google Calendar!</button>
+
+          
 
         </div>
 
@@ -676,3 +672,12 @@ class Calendar extends React.Component {
 }
 
 export default Calendar;
+
+/*
+        <h3>Which dates are we going?</h3>
+
+        
+
+*/
+
+

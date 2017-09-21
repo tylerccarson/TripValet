@@ -21,16 +21,16 @@ const style = {
   calendar: {
     paddingLeft: '15px',
     paddingRight: '15px',
-    height: '545px'
+    height: '540px'
   },
   chatroom: {
     paddingLeft: '15px',
     paddingRight: '15px',
-    height: '545px'
+    height: '540px'
   },
   map: {
     paddingLeft: '15px',
-    height: '545px',
+    height: '540px',
     paddingRight: '15px'
 
   },
@@ -133,10 +133,6 @@ class Trip extends React.Component {
         for (var i = 0; i < numDays; i++) {
           newSchedule.push([]);
         }
-        //are these supposed to be here?
-        var schedulesObj = {};
-        var scheduleState = [];
-        //
         schedules.data.forEach((schedule)=>{
           newSchedule[schedule.day].push(schedule);
         });
@@ -234,7 +230,7 @@ class Trip extends React.Component {
             </ButtonToolbar>
           </div>
         </div>
-        <div id="row3" className="row" style={{paddingLeft:'0px', paddingRight: '15px'}}>
+        <div id="row3" className="row" style={{position: 'relative', paddingLeft:'0px', paddingRight: '15px'}}>
           { this.state.toggleValue === 1 
             ? <div style={style.calendar} className="col-lg-8 col-md-12">
               {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
