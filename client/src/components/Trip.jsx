@@ -103,18 +103,18 @@ class Trip extends React.Component {
     var date1 = new Date(range.start);
     var date2 = new Date(range.end);
     var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
     return diffDays;
   }
 
   removeSchedule(scheduleId) {
-    axios.post('/schedules/remove',{
-        id: scheduleId
-      })
+    axios.post('/schedules/remove', {
+      id: scheduleId
+    })
       .then((response)=>{
       })
       .catch((err)=>{
-        console.log("ERROR trying to delete schedule: ", err);
+        console.log('ERROR trying to delete schedule: ', err);
       });
   }
 
@@ -124,18 +124,18 @@ class Trip extends React.Component {
         var numDays = this.calculateDays(this.state.lockedRange);
 
         var newSchedule = [];
-        for(var i = 0; i<numDays; i++) {
+        for (var i = 0; i < numDays; i++) {
           newSchedule.push([]);
         }
         var schedulesObj = {};
-        var scheduleState = []; 
+        var scheduleState = [];
         schedules.data.forEach((schedule)=>{
           newSchedule[schedule.day].push(schedule);
         });
         this.setState({
           schedule: newSchedule
         });
-      })
+      });
   }
 
   addToSchedule(schedule, day) {
@@ -149,7 +149,7 @@ class Trip extends React.Component {
       })
       .catch((err)=>{
         console.log('ERROR: ', err);
-      })
+      });
   }
 
   onChange (e) {
@@ -183,8 +183,8 @@ class Trip extends React.Component {
       view = (
         <div id="beforemap" style={style.map}>
           <MapContainer id="mapcont" addToSchedule={this.addToSchedule} schedule={this.state.schedule}/>
-          {this.state.schedule.length>0 
-            ? <Schedule id="schedule" list={this.state.schedule} style={{zIndex:300}} removeSchedule={this.removeSchedule}/> 
+          {this.state.schedule.length > 0
+            ? <Schedule id="schedule" list={this.state.schedule} style={{zIndex: 300}} removeSchedule={this.removeSchedule}/>
             : <div>loading...</div>
           }
         </div>
