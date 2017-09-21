@@ -19,5 +19,5 @@ RUN cp docker-entrypoint.sh /usr/local/bin/ && \
 
 EXPOSE 3000
 
-# CMD [ "npm", "start" ]
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD [ "npm", "start" ]
+# ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
