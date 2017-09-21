@@ -2,6 +2,7 @@ import React from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import axios from 'axios';
+import { FormGroup, InputGroup, FormControl, Button, ButtonToolbar, MenuItem, ControlLabel, Radio } from 'react-bootstrap';
 
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -44,7 +45,6 @@ class Calendar extends React.Component {
     this.getAllAvailability = this.getAllAvailability.bind(this);
     this.subscribeToDeletedAvailability = this.subscribeToDeletedAvailability.bind(this);
     this.subscribeToMultipleAvailabilityDelete = this.subscribeToMultipleAvailabilityDelete.bind(this);
-    this.renderCommonDates = this.renderCommonDates.bind(this);
     this.setCommonDate = this.setCommonDate.bind(this);
   }
 
@@ -73,8 +73,6 @@ class Calendar extends React.Component {
         }, () => {
           this.setState({
             overlapAvailabilities: this.compareToSelectDates()
-          }, () => {
-            // this.renderCommonDates();            
           });
         });        
       })
@@ -103,8 +101,6 @@ class Calendar extends React.Component {
         }      
         this.setState({
           overlapAvailabilities: this.compareToSelectDates()
-        }, () => {
-          this.renderCommonDates();
         });
 
       });
@@ -125,8 +121,6 @@ class Calendar extends React.Component {
         // this state is relying on availability state changes
         this.setState({
           overlapAvailabilities: this.compareToSelectDates()
-        }, () => {
-          this.renderCommonDates();
         }); 
       });
     });
@@ -148,8 +142,6 @@ class Calendar extends React.Component {
       }, ()=>{
         this.setState({
           overlapAvailabilities: this.compareToSelectDates()
-        }, () => {
-          this.renderCommonDates();
         });
       });
 
@@ -370,7 +362,7 @@ class Calendar extends React.Component {
 
   checkForConnectedAvailability() {
     var availabilityObj = this.turnAvailabilityToOjb();
-    console.log('availability obj: ', availabilityObj);
+    // console.log('availability obj: ', availabilityObj);
     var currentUserName = this.state.user.display;
 
     // length - 1 so the next date of i is still in range of the array
@@ -598,12 +590,7 @@ class Calendar extends React.Component {
   }
 
   setCommonDate(e) {
-    console.log('e.target.value: ', e.target.value);
-  }
-
-  renderCommonDates() {
-    console.log('over lap: ', this.state.overlapAvailabilities);
-
+    console.log('e: ', e);
   }
 
   render() {
@@ -630,6 +617,24 @@ class Calendar extends React.Component {
           }
         />
         <div style={{marginTop: '15px'}}>
+          <FormGroup>
+            {
+              this.state.overlapAvailabilities.map((commonDates, index) => {
+                var commonDatesStartObj = new Date(commonDates.start);
+                var commonDatesEndObj = new Date(commonDates.end);
+
+                var commonDatesStartYear = commonDatesStartObj.getFullYear();
+                var commonDatesStartMonth = commonDatesStartObj.getMonth() + 1;
+                var commonDatesStartDate = commonDatesStartObj.getDate();
+
+                var commonDatesEndYear = commonDatesEndObj.getFullYear();
+                var commonDatesEndMonth = commonDatesEndObj.getMonth() + 1;
+                var commonDatesEndDate = commonDatesEndObj.getDate();
+
+                return <Radio name="radiogroup" inline onChange={this.setCommonDate}> {commonDatesStartYear} / {commonDatesStartMonth} / {commonDatesStartDate} ~ {commonDatesEndYear} / {commonDatesEndMonth} / {commonDatesEndDate} </Radio>
+              })
+            }
+          </FormGroup>
           <button onClick = {this.syncToGoogleCalendar}>Set Common Date!</button>
         </div>
 
