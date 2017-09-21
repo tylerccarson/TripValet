@@ -1,7 +1,8 @@
 {
   "knex": {
     "connection": {
-      "database": "tripvalet_devel"
+      "database": "tripvalet_devel",
+      "host": "postgresdb"
     }
   },
   "passport": {
