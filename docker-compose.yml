@@ -20,6 +20,8 @@ services:
     image: 'postgres:9.6-alpine'
     volumes:
       - 'data-volume:/var/lib/postgresql/data'
+    environment:
+      POSTGRES_DB: tripvalet_devel
 
 volumes:
   data-volume:
