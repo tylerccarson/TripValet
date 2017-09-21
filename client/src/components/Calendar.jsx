@@ -639,7 +639,6 @@ class Calendar extends React.Component {
     return (
       <div style={style} {...this.props}>
 
-
         <BigCalendar
           selectable
           popup

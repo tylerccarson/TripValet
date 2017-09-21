@@ -15,4 +15,4 @@ RUN yarn install
 
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+CMD node_modules/.bin/knex migrate:latest && node_modules/.bin/knex seed:run && npm start
