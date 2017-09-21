@@ -9,14 +9,11 @@ import ReactDOM from 'react-dom';
 
 
 const mapStyleInner = {
-  width: '640px',
-  height: '640px'
+  width: '100%',
+  height: '500px'
+
 };
 
-const mapStyleOuter = {
-  width: '640px',
-  height: '640px'
-};
 
 const initialCenter = !navigator.geolocation ? {lat: 37.773972, lng: -122.431297} : '';
 
@@ -161,12 +158,14 @@ export class MapContainer extends React.Component {
       .then(()=>{
         this.findPointsNearBy();
       });
+
   }
 
   render() {
     return (
 
       <Map
+        id="mapinner"
         google={this.props.google} 
         zoom={13} 
         style = {mapStyleInner} 

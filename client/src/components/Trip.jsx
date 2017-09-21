@@ -4,6 +4,7 @@ import Chatroom from './Chatroom.jsx';
 import MapContainer from './MapContainer.jsx';
 import Confirmations from './Confirmations.jsx';
 import ImageUpload from './ImageUpload.jsx';
+import TripInfo from './TripInfo.jsx';
 import Schedule from './Schedule.jsx';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -14,21 +15,29 @@ let env = window.location.hostname + ':' + window.location.port;
 let socket = io(env);
 const style = {
   confirms: {
-    textAlign: 'center',
-    marginTop: '500px'
+    textAlign: 'center'
   },
   calendar: {
+    paddingLeft: '15px',
+    paddingRight: '15px',
+    height: '540px'
   },
   chatroom: {
+    paddingLeft: '15px',
+    paddingRight: '15px',
+    height: '540px'  
   },
   map: {
+    height: '540px',
+    padding: '0px'
 
   },
   toggle: {
-    marginTop: '70px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: '15px',
+    marginBottom: '15px'
   }
 };
 
@@ -41,7 +50,7 @@ class Trip extends React.Component {
       currentUser: {},
       usersWithAccount: {},
       email: '',
-      toggleValue: 1,
+      toggleValue: 2,
       schedule: [],
       lockedRange: {start: '2017-09-15T09:00:00-07:00', end: '2017-09-20T09:00:00-07:00'}
     };
@@ -53,10 +62,12 @@ class Trip extends React.Component {
     this.calculateDays = this.calculateDays.bind(this);
     this.getSchedules = this.getSchedules.bind(this);
     this.removeSchedule = this.removeSchedule.bind(this);
+
   }
 
   componentDidMount() {
     this.getTripData();
+
   }
 
   getTripData() {
@@ -159,6 +170,7 @@ class Trip extends React.Component {
   }
 
   handleChange(value) {
+    console.log("Change: ", value);
     this.setState({
       toggleValue: value
     });
@@ -166,37 +178,11 @@ class Trip extends React.Component {
 
   render( ) {
 
-    let view;
-    if (this.state.toggleValue === 1) {
-      view = (
-        <div style={style.calendar}>
-          {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
-            allUsers={this.state.usersWithAccount}
-            currentUser={this.state.currentUser}
-            trip={this.state.trip}
-            socket={socket}/>
-            : <div>loading...</div>
-          }
-        </div>
-      );
-    } else {
-      view = (
-        <div id="beforemap" style={style.map}>
-          <MapContainer id="mapcont" addToSchedule={this.addToSchedule} schedule={this.state.schedule}/>
-          {this.state.schedule.length > 0
-            ? <Schedule id="schedule" list={this.state.schedule} style={{zIndex: 300}} removeSchedule={this.removeSchedule}/>
-            : <div>loading...</div>
-          }
-        </div>
-      );
-    }
-
     return (
-      <div id="cont">
-        <h1>{this.state.trip.tripname}</h1>
-        <h3>Description: {this.state.trip.description}</h3>
-        <div>
-          <div style={style.toggle}>
+      <div id="cont" className="container" style={{padding: '0px'}}>
+        <div id="row1" className="row"><h1 className="col-lg-12" style={{margin: '0px'}}>{this.state.trip.tripname}</h1></div>
+        <div id="row2" className="row">
+          <div style={style.toggle} className="col-lg-12">
             <ButtonToolbar>
               <ToggleButtonGroup
                 type="radio"
@@ -208,9 +194,23 @@ class Trip extends React.Component {
               </ToggleButtonGroup>
             </ButtonToolbar>
           </div>
-          {view}
         </div>
-        <div>
+        <div id="row3" className="row">
+          { this.state.toggleValue === 1 
+            ? <div style={style.calendar} className="col-lg-8">
+              {Object.keys(this.state.currentUser).length !== 0 ? <Calendar
+                allUsers={this.state.usersWithAccount}
+                currentUser={this.state.currentUser}
+                trip={this.state.trip}
+                socket={socket}/>
+                : <div>loading...</div>
+              }
+            </div>
+            : <div id="beforemap" style={style.map} className="col-lg-8">
+                <MapContainer id="mapcont" addToSchedule={this.addToSchedule} schedule={this.state.schedule}/>
+              </div>
+          }
+          <div className="col-lg-4" style={{height:'540px'}}>
           {Object.keys(this.state.trip).length !== 0 ? <Chatroom
             style={style.chatroom}
             tripId={this.state.trip.id}
@@ -218,23 +218,40 @@ class Trip extends React.Component {
             userId={this.state.currentUser.id}
             socket={socket}/>
             : <div>loading...</div> }
+          </div>
         </div>
-        <div style={{marginTop: '400px'}}>
-          {Object.keys(this.state.confirms).length !== 0 ? <Confirmations
-            style={style.confirms}
-            trip={this.state.trip}
-            user={this.state.currentUser}
-            userId={this.state.currentUser.id}
-            confirms={this.state.confirms}
-            socket={socket}/>
-            : <div>loading...</div> }
+        <div id="row4" className="row">
+          <div className="col-lg-8">
+            <TripInfo trip={this.state.trip} users={this.state.usersWithAccount} dates={this.state.lockedRange}/>
+          </div>
+          <div className="col-lg-4">
+            {Object.keys(this.state.confirms).length !== 0 ? <Confirmations
+              style={style.confirms}
+              trip={this.state.trip}
+              user={this.state.currentUser}
+              userId={this.state.currentUser.id}
+              confirms={this.state.confirms}
+              socket={socket}/>
+              : <div>loading...</div> }
+          </div>
         </div>
-        <div>
-          {Object.keys(this.state.trip).length !== 0 ? <ImageUpload
-            user={this.state.currentUser}
-            trip={this.state.trip}/>
-            : <div>loading...</div> }
+        <div id="row5" className="row">
+          <div className="col-lg-12">
+            {this.state.schedule.length > 0 
+              ? <Schedule id="schedule" list={this.state.schedule} style={{zIndex:300}} removeSchedule={this.removeSchedule}/> 
+              : <div>loading...</div>
+            }          
+          </div>
         </div>
+        <div id="row6" className="row">
+          <div className="col-lg-12">
+            {Object.keys(this.state.trip).length !== 0
+              ? <ImageUpload user={this.state.currentUser} trip={this.state.trip}/>
+              : <div>loading...</div> 
+            }
+          </div>
+        </div>
+
       </div>
     );
   }

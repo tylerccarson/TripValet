@@ -86,8 +86,8 @@ class Confirmations extends React.Component {
 
     const style = {
       confirmations: {
-        height: '400px',
-        width: '320px'
+        height: '100%',
+        width: '100%'
       },
       list: {
         height: '250px',
@@ -105,53 +105,55 @@ class Confirmations extends React.Component {
     };
 
     return (
-      <div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <div style={style.confirmations}>
-          <List style={style.list}>
-            {this.state.confirms.map((invitee, i) => {
-              return <Invitees 
-                key={i} 
-                invitee={invitee} 
-                user={this.props.user} 
-                trip={this.props.trip}
-                socket={this.props.socket}/>;
-            })}
-          </List>
-          <div style={style.invite}>
-            <form>
-              <FormGroup>
-                <ControlLabel>Invite a friend</ControlLabel>
-                <InputGroup>
-                  <FormControl
-                    type="text"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.onChange}
-                    placeholder="Who's coming with?"
-                  />
-                  <FlatButton
-                    primary={true}
-                    label="Add invite"
-                    fullWidth={true}
-                    key="submit"
-                    onClick={this.inviteNewUser} />
-                </InputGroup>
-              </FormGroup>
-            </form>
-          </div>
-          <div style={style.leave}>
+      <div style={style.confirmations}>
+        <div style={style.leave} className="row">
+          <div className="col-lg-12">
             <FlatButton 
-              secondary={true}
-              label="Leave Trip" 
-              fullWidth={true}
-              key='submit'
-              onClick={this.leaveTrip} />
+            secondary={true}
+            label="Leave Trip" 
+            fullWidth={true}
+            key='submit'
+            onClick={this.leaveTrip} />  
           </div>
+          
         </div>
+        <div id="confirmrow1" className="row">
+          <h2 style={{margin: '0px'}}>Members</h2>
+        </div>
+        <List style={style.list}>
+          {this.state.confirms.filter((invitee)=>{return invitee.email.length>0}).map((invitee, i) => {
+            console.log("CONFIRM: ", invitee);
+            return <Invitees 
+              key={i} 
+              invitee={invitee} 
+              user={this.props.user} 
+              trip={this.props.trip}
+              socket={this.props.socket}/>;
+          })}
+        </List>
+        <div style={style.invite}>
+          <form>
+            <FormGroup>
+              <ControlLabel>Invite a friend</ControlLabel>
+              <InputGroup>
+                <FormControl
+                  type="text"
+                  name="email"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  placeholder="Who's coming with?"
+                />
+                <FlatButton
+                  primary={true}
+                  label="Add invite"
+                  fullWidth={true}
+                  key="submit"
+                  onClick={this.inviteNewUser} />
+              </InputGroup>
+            </FormGroup>
+          </form>
+        </div>
+
       </div>
     );
   }
