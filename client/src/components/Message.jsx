@@ -7,6 +7,8 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import {ListItem} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
+import { Popover } from 'react-bootstrap';
+
 import axios from 'axios';
 import moment from 'moment';
 
@@ -63,6 +65,7 @@ class Message extends React.Component {
     if (this.props.currentUser === this.props.user) {
       //show delete button
       return (
+
         <div className='message-container'>
           <ListItem 
             rightIconButton={rightIconMenu} 
@@ -70,24 +73,52 @@ class Message extends React.Component {
             secondaryText={
               <p style={style.text}>{this.state.secondaryText}</p>
             }>
-            { this.props.user }: {this.props.message}
+            <div style={{ height: 120 }}>
+              <Popover
+                style={{backgroundColor: '#15da1c'}}
+                id="popover-basic"
+                placement="left"
+                positionLeft={550}
+                positionTop={20}
+              >
+                {this.props.message}
+              </Popover>
+            </div>
           </ListItem>
           <Divider/>
         </div>
+        
+
       );
 
     } else { 
       // don't show menu
       return (
+        
         <div className='message-container'>
           <ListItem 
             secondaryText={
               <p style={style.text}>{this.state.secondaryText}</p>
             }>
-            { this.props.user }: {this.props.message}
+
+            <div style={{ height: 120 }}>
+              <Popover
+                id="popover-basic"
+                placement="right"
+                positionLeft={100}
+                positionTop={20}
+                title={this.props.user}
+              >
+                {this.props.message}
+              </Popover>
+            </div>
+
           </ListItem>
           <Divider/>
         </div>
+
+
+        
       );
     }
 
