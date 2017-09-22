@@ -9,7 +9,7 @@
     "Google": {
       "clientID": "188574567487-on1i371i4kdridusdd7npiku6n56211t.apps.googleusercontent.com",
       "clientSecret": "Yx1q3WgV52Z70-kGG1qHSn9L",
-      "callbackURL": "http://localhost:3000/auth/google/callback"
+      "callbackURL": "http://tripvalet-1.tripvalet.3c038b6c.cont.dockerapp.io:3000/auth/google/callback"
     },
     "Facebook": {
       "clientID": "143885946214177",
