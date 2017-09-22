@@ -7,7 +7,6 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import {ListItem} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
-import { Popover } from 'react-bootstrap';
 
 import axios from 'axios';
 import moment from 'moment';
@@ -66,24 +65,15 @@ class Message extends React.Component {
       //show delete button
       return (
 
-        <div className='message-container'>
+        <div className='message-container' style={{backgroundColor: '#f2f2f2'}}>
           <ListItem 
             rightIconButton={rightIconMenu} 
             disabled={this.state.disabled} 
             secondaryText={
               <p style={style.text}>{this.state.secondaryText}</p>
             }>
-            <div style={{ height: 120 }}>
-              <Popover
-                style={{backgroundColor: '#15da1c'}}
-                id="popover-basic"
-                placement="left"
-                positionLeft={550}
-                positionTop={20}
-              >
-                {this.props.message}
-              </Popover>
-            </div>
+            {this.props.user} : {this.props.message}
+
           </ListItem>
           <Divider/>
         </div>
@@ -100,25 +90,12 @@ class Message extends React.Component {
             secondaryText={
               <p style={style.text}>{this.state.secondaryText}</p>
             }>
-
-            <div style={{ height: 120 }}>
-              <Popover
-                id="popover-basic"
-                placement="right"
-                positionLeft={100}
-                positionTop={20}
-                title={this.props.user}
-              >
-                {this.props.message}
-              </Popover>
-            </div>
+            {this.props.user} : {this.props.message}
 
           </ListItem>
           <Divider/>
         </div>
 
-
-        
       );
     }
 
