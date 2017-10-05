@@ -1,16 +1,32 @@
 import React from 'react';
 import { Link, Route } from 'react-router-dom';
-
-const Header = () => (
-  <header>
+import { Navbar, NavItem, Nav, NavDropdown} from 'react-bootstrap';
+const Header = (props) => (
+  <header style={{margin: '0px', padding:'0px', width:'100%'}}>
     <nav>
-      <ul>
-        <li><Link to='/trip'>Trip</Link></li>
-        <li><Link to='/'>Dashboard</Link></li>
-      </ul>
+      <Navbar inverse collapseOnSelect>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <Link to='/'>Trip Valet</Link>
+            <Link to='/*'></Link>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Navbar.Brand pullRight>
+            <Link
+              to='/logout'
+              onClick={props.logout}>
+              |   Logout
+            </Link>
+          </Navbar.Brand>
+        </Navbar.Collapse>
+      </Navbar>
+
     </nav>
   </header>
 );
 
 
 export default Header;
+//

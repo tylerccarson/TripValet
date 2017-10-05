@@ -1,14 +1,16 @@
 import React from 'react';
 import { FormGroup, InputGroup, FormControl, DropdownButton, Button, ButtonToolbar, MenuItem, ControlLabel } from 'react-bootstrap';
 import DatePicker from 'material-ui/DatePicker';
-import Invitees from './Invitees.jsx';
+import Invited from './Invited.jsx';
 import axios from 'axios';
+import FlatButton from 'material-ui/FlatButton';
+import { Route, Switch } from 'react-router-dom';
 
-var inviteListStyle = {
+const inviteListStyle = {
   textDecoration: 'underline'
 };
 
-var buttonAlign = {
+const buttonAlign = {
   textAlign: 'center'
 };
 
@@ -17,6 +19,7 @@ class TripForm extends React.Component {
     super(props);
     this.state = {
       invited: [],
+      email: '',
       tripname: '',
       location: '',
       description: '',
@@ -25,7 +28,6 @@ class TripForm extends React.Component {
     };
     this.onChange = this.onChange.bind(this);
     this.addToList = this.addToList.bind(this);
-    this.sendForm = this.sendForm.bind(this);
     this.setStartDate = this.setStartDate.bind(this);
     this.setEndDate = this.setEndDate.bind(this);
     this.createTrip = this.createTrip.bind(this);
@@ -33,20 +35,52 @@ class TripForm extends React.Component {
   }
 
   createTrip() {
+
+    //only submit if entries have been made
+    if (this.state.invited.length === 0 || this.state.tripname === '' || this.state.location === '' || this.state.description === '' || this.state.rangeStart === null || this.state.rangeEnd === null) {
+      //alert
+      alert("Please fill out all fields before submitting form.\nThanks!");
+      return;
+    }
+
+    // when we select 9/13 ~ 9/14, we expect the event to be till the end of 9/14
+    // which is the start of 9/15, so we add one day to the end date, since it is
+    // currently the start of 9/14
+
+    var oldEndDate = this.state.rangeEnd;
+
+    var nextDaysYear = oldEndDate.getFullYear();
+    var nextDaysMonth = oldEndDate.getMonth();
+    var nextDaysDate = oldEndDate.getDate() + 1;
+
+    var endDatesNextDay = new Date(nextDaysYear, nextDaysMonth, nextDaysDate);
+
+    this.setState({
+      rangeEnd: endDatesNextDay
+    }, () =>{
+    // set state is async, so post endDatesNextDay to prevent the post happens
+    // before the set state, sending the old date
+
     axios.post('/trips/create', {
       tripname: this.state.tripname,
       description: this.state.description,
       location: this.state.location,
       rangeStart: this.state.rangeStart,
-      rangeEnd: this.state.rangeEnd,
+      rangeEnd: endDatesNextDay,
       invited: this.state.invited
     })
       .then((trips)=>{
-        console.log(trips);
-        // setState?
+        this.props.hideModal();
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log('error', error);
       });
 
+    });
+
   }
+
   onChange (e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -64,20 +98,40 @@ class TripForm extends React.Component {
   }
 
   addToList (e) {
-    var joined = this.state.invited.slice();
-    joined.push(this.state.email);
 
-    this.setState({
-      email: '',
-      invited: joined
-    }, function() {
-      console.log('curent invited', this.state.invited);
+    //if user has already been invited, don't add to list
+    let invites = this.state.invited;
+    let entry = this.state.email;
+    if (invites.includes(entry)) {
+      this.setState({
+        email: ''
+      });
+    } else {
+      //post to server to validate email
+      axios.post('/trips/validate', {
+        email: entry
+      })
+        //if valid response
+        .then((validated) => {
+          //add to invited list and set state
+          invites.push(entry);
+          //reset email field to empty string
+          this.setState({
+            invited: invites,
+            email: ''
+          });
+        })
+        //if error
+        .catch((err) => {
+          //reset email field without adding
+          this.setState({
+            email: ''
+          });
+        });
+    }
 
-    });
   }
-  sendForm (e) {
-    console.log(this.state);
-  }
+
   render () {
     return (
       <form>
@@ -105,30 +159,27 @@ class TripForm extends React.Component {
               value={this.state.location}
               onChange={this.onChange}
             />
-            <InputGroup.Addon></InputGroup.Addon>
           </InputGroup>
         </FormGroup>
 
         <FormGroup>
+
           <ControlLabel>Invitees</ControlLabel>
           <InputGroup>
             <FormControl
               type="text"
+              placeholder="Who's coming with?"
               name="email"
               value={this.state.email}
               onChange={this.onChange}
-              placeholder="Who's coming with?"
+            />
+            <FlatButton
+              primary={true}
+              label="Add invite"
+              fullWidth={true}
+              onClick={() => this.addToList()}
             />
 
-            <DropdownButton
-              componentClass={InputGroup.Button}
-              id="input-dropdown-addon"
-              title="Action">
-              <MenuItem
-                key="submit"
-                onClick={this.addToList}>
-               Add to list</MenuItem>
-            </DropdownButton>
           </InputGroup>
         </FormGroup>
 
@@ -161,7 +212,7 @@ class TripForm extends React.Component {
 
         <h3 style={inviteListStyle}>Invitees:</h3>
         {this.state.invited.map((invitee, i) => {
-          return <Invitees
+          return <Invited
             invitee={invitee}
             key={i}/>;
         })

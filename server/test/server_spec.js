@@ -84,7 +84,7 @@ describe('trip route', () => {
       .expect((res)=>{
         expect(res.body).to.be.an('array');
         expect(res.body[0].id).to.equal(1);
-        expect(res.body[0].tripname).to.equal(`Adam's bachelors party`);
+        expect(res.body[0].tripname).to.equal('Adam\'s bachelors party');
         expect(res.body[0].description).to.equal('You know the drill. Anything happens in LV, stays in LV');
         expect(res.body[0].location).to.equal('Las Vegas');
         expect(res.body[0].rangeStart).to.equal('2017/10/01');
@@ -96,11 +96,11 @@ describe('trip route', () => {
   it ('should fetch all trips by useremail', (done) => {
     request(app)
       .get('/trips/byEmail')
-      .send({email:'example@example.com'})
+      .send({email: 'example@example.com'})
       .expect(200)
       .expect((res)=>{
         expect(res.body[0].id).to.equal(1);
-        expect(res.body[0].tripname).to.equal(`Adam's bachelors party`);
+        expect(res.body[0].tripname).to.equal('Adam\'s bachelors party');
         expect(res.body[0].description).to.equal('You know the drill. Anything happens in LV, stays in LV');
         expect(res.body[0].location).to.equal('Las Vegas');
         expect(res.body[0].rangeStart).to.equal('2017/10/01');

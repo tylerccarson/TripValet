@@ -2,11 +2,12 @@ const models = require('../../db/models');
 
 module.exports.getMessagesByTripId = (req, res) => {
   var tripId = req.query.tripId;
-  models.Messages.where('trip_id', tripId).fetchAll()
+  models.Messages.where({'trip_id': tripId}).fetchAll()
     .then((messages) => {
       res.status(200).send(messages);
     })
     .catch((err) => {
+      console.log(err);
       res.status(503).send(err);
     });
 };
@@ -28,7 +29,7 @@ module.exports.createMessage = (req, res) => {
 };
 
 module.exports.deleteMessage = (req, res) => {
-  models.Messages.where('id', req.body.messageId).destroy()
+  models.Messages.where({'id': req.body.messageId}).destroy()
     .then((destroyed) => {
       res.send(destroyed);
     })

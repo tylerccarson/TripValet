@@ -2,11 +2,10 @@ const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 var redisClient;
 
-//connect with Heroku Redis if in production
 if (process.env.NODE_ENV === 'production') {
   redisClient = require('redis').createClient(process.env.REDIS_URL);
 } else {
-  redisClient = require('redis').createClient();
+  redisClient = require('redis').createClient(6379, 'redis');
 }
 
 module.exports.verify = (req, res, next) => {
@@ -19,7 +18,7 @@ module.exports.verify = (req, res, next) => {
 module.exports.session = session({
   store: new RedisStore({
     client: redisClient,
-    host: 'localhost',
+    host: 'redis',
     port: 6379
   }),
   secret: 'more laughter, more love, more life',
