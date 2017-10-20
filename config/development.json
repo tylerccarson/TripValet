@@ -1,15 +1,14 @@
 {
   "knex": {
     "connection": {
-      "database": "tripvalet_devel",
-      "host": "postgresdb"
+      "database": "tripvalet_devel"
     }
   },
   "passport": {
     "Google": {
       "clientID": "188574567487-on1i371i4kdridusdd7npiku6n56211t.apps.googleusercontent.com",
       "clientSecret": "Yx1q3WgV52Z70-kGG1qHSn9L",
-      "callbackURL": "http://tripvalet-1.tripvalet.3c038b6c.cont.dockerapp.io:3000/auth/google/callback"
+      "callbackURL": "http://localhost:3000/auth/google/callback"
     },
     "Facebook": {
       "clientID": "143885946214177",
@@ -32,5 +31,8 @@
       "accessKeyId": "AKIAJIQTIM2S4JSNCR4Q",
       "secretAccessKey": "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"
     }
+  },
+  "mailgun": {
+    "privateKey": "key-edfe2ed1c89f455b3e538d82ad155d4c"
   }
 }

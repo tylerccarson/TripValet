@@ -30,12 +30,6 @@
       "callbackURL": "https://tripvalet.herokuapp.com/auth/twitter/callback"
     }
   },
-  "AWS": {
-    "s3": {
-      "accessKeyId": "AKIAJIQTIM2S4JSNCR4Q",
-      "secretAccessKey": "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"
-    }
-  },
   "map": {
     "clientID": "QGKZKK1B1LRKHIX3FGAPJRBUOGT3GUMJLWNHWR42ARFXAJCN",
     "clientSecret": "PGKKOSSLWS5C4Y0YCTEPPR2WCX4HKHYFMZCK3NVDA45NZWCH",

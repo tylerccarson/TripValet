@@ -1,4 +1,5 @@
-var api_key = 'key-ed15d9b7166f3bbab71cec2127e6b019';
+//var api_key = 'key-ed15d9b7166f3bbab71cec2127e6b019';
+var api_key = require('config')['mailgun'].privateKey;
 var domain = 'mg.tripvalet.me';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 

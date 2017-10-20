@@ -3,8 +3,9 @@ const Promise = require('bluebird');
 const db = require('../../db');
 var sendInviteEmail = require('../helpers/sendInviteEmail').sendInviteEmail;
 //public key
-var api_key = 'pubkey-247c3d16a016d3647cc064709d145b7e';
+//var api_key = 'pubkey-247c3d16a016d3647cc064709d145b7e';
 //private key
+var api_key = require('config')['mailgun'].privateKey;
 //var api_key = 'key-ed15d9b7166f3bbab71cec2127e6b019';
 
 var domain = 'mg.tripvalet.me';
